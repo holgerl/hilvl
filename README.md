@@ -1,18 +1,20 @@
 # The hilvl programming language
 
 ## Example of hilvl
-
+		
+	# new foo = 42
+	# new bar = (2 + 40)
+		
+	#.foo == (#.bar) then
+		# set foo = 0
+		
 	# new myArray = 
 		1, 2, 3
 		
-	# new myValue = 0
-		
 	#.myArray loop
-		# set myValue = (#.myValue + (#.element))
+		# set foo = (#.foo + (#.element))
 		
-	#.myValue
-
-	// The returned value is: 6
+	#.foo // The returned value is: 6
 
 ## How to run hilvl
 
@@ -31,3 +33,45 @@ TODO
 ### Use of intendation
 
 TODO
+
+## Advanced examples of hilvl
+
+#### Scope and higher-order programming
+
+	# new foo = 10 // Variable in outer scope
+
+	# new MyService # 
+		# new myAction :
+			# set foo = 42 // Variable in inner scope
+			# new myFunction = (#.argument)
+			# myFunction null // Invoking the argument as an action
+			
+	# new bar = 
+		MyService myAction (#.foo + 2) // Argument is evaluated before action is invocated
+		MyService myAction // Argument is evaluated on demand by the myAction implementation
+			#.foo + 2
+		MyService myAction 
+			# set foo = 50 // The inner scope is active during on demand evaluation
+			#.foo + 2
+			
+	/*result
+	[12, 44, 52]
+	*/
+	
+#### Fluent programming
+
+	# new Please # 
+		# new add :
+			# new arg1 = (#.argument)
+			#.Please // Returning the service itself
+		# new and :
+			# new arg2 = (#.argument)
+			#.Please // Returning the service itself
+		# new andThen :
+			#.arg1 + (#.arg2) + (#.argument)
+			
+	Please add 42 and 50 andThen 100
+		
+	/*result
+	192
+	*/
