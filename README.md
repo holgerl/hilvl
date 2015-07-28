@@ -12,20 +12,15 @@
 		
 	#.myValue
 
-	/*result
-	6
-	*/
+	// The returned value is: 6
 
 ## How to run hilvl
 
-To run a file with hilvl code:
-	node hl.js myFile.hl
+To run a file with hilvl code: `node hl.js myFile.hl`
 	
-To run all tests:
-	node hl-tests.js
+To run all tests: `node hl-tests.js`
 
-To run HiTTP web framework
-	node HiTTP.js example-webapp.hl
+To run HiTTP web framework: `node HiTTP.js example-webapp.hl`
 	
 ## Structure of the hilvl language
 
