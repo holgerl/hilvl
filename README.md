@@ -8,7 +8,7 @@ There are only six symbols. The rest is system or user defined services and acti
 
 The actions of a service can be directly exposed as a webservice. This means that (virtual and real) web servers are the fundamental building blocks of a hilvl program.
 
-The name hilvl reflects how this a higher level of abstraction than objects and functions.
+The name hilvl reflects how this is a higher level of abstraction than objects and functions.
 
 ## Example of hilvl
 		
