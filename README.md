@@ -34,6 +34,10 @@ TODO
 
 TODO
 
+### Variables and scope
+
+TODO
+
 ## Advanced examples of hilvl
 
 #### Scope and higher-order programming
