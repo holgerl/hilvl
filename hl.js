@@ -178,8 +178,8 @@ hl.searchScope = function(key, newValue) {
 		var scope = scopes[index];
 		var result = scope[key];
 		console.log("index, result =", index, result);
-		if (result) {
-			if (newValue) scope[key] = newValue;
+		if (result !== undefined) {
+			if (newValue !== undefined) scope[key] = newValue;
 			return result;
 		}
 		index = scope.parent;
@@ -313,9 +313,10 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 		} else if (serviceType == "Scope") {
 			var args = hl.evaluate(tree.args, returnLast);
 			if (action == "new") {
-				return {type: "Variable", action: "new", name: args};
+				hl.saveToScope(args, null);
+				return {type: "Variable", name: args};
 			} else if (action == "set") {
-				return {type: "Variable", action: "set", name: args};
+				return {type: "Variable", name: args};
 			} else if (action == ".") {
 				return hl.searchScope(args);
 			} else { // TODO: DRY!
@@ -331,18 +332,17 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 				return result;
 			}
 		} else if (serviceType == "Variable") {
-			var saveFunction = service.action == "new" ? hl.saveToScope : hl.changeInScope;
 			if (action == "=") {
 				var args = hl.evaluate(tree.args, false);
-				saveFunction(service.name, args);
+				hl.changeInScope(service.name, args);
 				return args;
 			} else if (action == ":") {
 				var newScopeIndex = hl.pushScope(true);
-				saveFunction(service.name, {code: tree.args, scope: newScopeIndex});
+				hl.changeInScope(service.name, {code: tree.args, scope: newScopeIndex});
 			} else if (action == "#") {
 				var nextScopeIndex = scopes.length+1;
 				var args = hl.evaluate(tree.args, false, true);
-				saveFunction(service.name, {type: "ScopeReference", scope: nextScopeIndex});
+				hl.changeInScope(service.name, {type: "ScopeReference", scope: nextScopeIndex});
 			} else fail();
 		} else if (serviceType == "Service") { // TODO: DRY!
 			var oldScopeIndex = scopeIndex;
