@@ -2,9 +2,9 @@
 
 Hilvl is a programming language that is versatile but with a very small syntax.
 
-There are only four reserved keywords. The rest is user or system defined services and actions.
+There are only five reserved keywords. The rest is user or system defined services and actions.
 
-`#` `whitespace` `(` `)` 
+`#` `whitespace` `(` `)` `//`
 
 ## Example of hilvl
 		
