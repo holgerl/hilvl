@@ -111,7 +111,7 @@ This means that the `.` is an action name even though there is no space around i
 
 	/*
 	This is
-	a blcok
+	a block
 	comment
 	*/
 
