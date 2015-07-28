@@ -5,12 +5,14 @@
 	# set foo = 0
 	
 # new myArray = 
-	1, 2, 3
+	1
+	2
+	3
 	
 #.myArray loop
 	# set foo = (#.foo + (#.element))
 	
-#.foo
+#.foo // The returned value is: 6
 
 /*result
 6

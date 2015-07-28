@@ -1,5 +1,11 @@
 # The hilvl programming language
 
+Hilvl is a programming language that is versatile but with a very small syntax.
+
+There are only four reserved keywords. The rest is user or system defined services and actions.
+
+`#` `whitespace` `(` `)` 
+
 ## Example of hilvl
 		
 	# new foo = 42
@@ -9,7 +15,9 @@
 		# set foo = 0
 		
 	# new myArray = 
-		1, 2, 3
+		1
+		2
+		3
 		
 	#.myArray loop
 		# set foo = (#.foo + (#.element))
@@ -30,7 +38,7 @@ To run HiTTP web framework: `node HiTTP.js example-webapp.hl`
 
 TODO
 
-### Use of intendation
+### Intendation, arrays and evaluation
 
 TODO
 
