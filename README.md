@@ -2,9 +2,13 @@
 
 Hilvl is a programming language that is versatile but with a very small syntax.
 
-There are only five reserved keywords. The rest is user or system defined services and actions.
+There are only five reserved keywords. The rest is system or user defined services and actions.
 
 `#` `whitespace` `(` `)` `//`
+
+The actions of a service can be directly exposed as a webservice. This means that (virtual and real) web servers are the fundamental building blocks of a hilvl program.
+
+The name hilvl reflects how this a higher level of abstraction than objects and functions.
 
 ## Example of hilvl
 		
