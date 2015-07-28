@@ -150,7 +150,7 @@ function testScope() {
         testEquals("testScope3", results3, [50, 123, 100]);
         testEquals("testScope4", results4, [50, 123, 55]);
         testEquals("testScope5", results5, [50, 33, 55]);
-        //testEquals("testScope6", wasException, true);
+        testEquals("testScope6", wasException, true);
     } catch (err) {
         console.log("\t\t" + " ___TEST ERROR___ testScope " + err);
         throw err;
@@ -196,3 +196,4 @@ testFile("tests/test-conversion1.hl");
 testFile("tests/test-service1.hl");
 testFile("tests/test-service2.hl");
 testFile("tests/test-service3.hl");
+testFile("tests/test-example1.hl");
