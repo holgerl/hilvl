@@ -1,0 +1,19 @@
+# new foo = 10 // Variable in outer scope
+
+# new MyService # 
+	# new myAction :
+		# set foo = 42 // Variable in inner scope
+		# new myFunction = (#.argument)
+		# myFunction null // Invoking the argument as an action
+		
+# new bar = 
+	MyService myAction (#.foo + 2) // Argument is evaluated before action is invocated
+	MyService myAction // Argument is evaluated on demand by the myAction implementation
+		#.foo + 2
+	MyService myAction 
+		# set foo = 50 // The inner scope is active during on demand evaluation
+		#.foo + 2
+		
+/*result
+[12, 44, 52]
+*/

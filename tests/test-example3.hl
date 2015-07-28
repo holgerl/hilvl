@@ -1,0 +1,15 @@
+# new Please # 
+	# new add :
+		# new arg1 = (#.argument)
+		#.Please // Returning the service itself
+	# new and :
+		# new arg2 = (#.argument)
+		#.Please // Returning the service itself
+	# new andThen :
+		#.arg1 + (#.arg2) + (#.argument)
+		
+Please add 42 and 50 andThen 100
+	
+/*result
+192
+*/
