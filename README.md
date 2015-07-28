@@ -11,7 +11,7 @@ There are only four reserved keywords. The rest is user or system defined servic
 	# new foo = 42
 	# new bar = (2 + 40)
 		
-	#.foo == (#.bar) then
+	# . foo == (# . bar) then
 		# set foo = 0
 		
 	# new myArray = 
@@ -19,10 +19,10 @@ There are only four reserved keywords. The rest is user or system defined servic
 		2
 		3
 		
-	#.myArray loop
-		# set foo = (#.foo + (#.element))
+	# . myArray loop
+		# set foo = (# . foo + (# . element))
 		
-	#.foo // The returned value is: 6
+	# . foo // The returned value is: 6
 
 ## How to run hilvl
 
