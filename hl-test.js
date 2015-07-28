@@ -204,3 +204,6 @@ testFile("tests/test-service3.hl");
 testFile("tests/test-example1.hl");
 testFile("tests/test-example2.hl");
 testFile("tests/test-example3.hl");
+testFile("tests/test-example4.hl");
+testFile("tests/test-example5.hl");
+testFile("tests/test-example6.hl");

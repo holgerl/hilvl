@@ -1,0 +1,14 @@
+# new myVar1 = 1
+# new myVar2 = 2
+
+# new variableWithScope # 
+	# new myVar1 = 10
+	# set myVar2 = 20
+	
+# new myArray = 
+	#.myVar1
+	#.myVar2
+
+/*result
+[1, 20]
+*/

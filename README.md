@@ -110,16 +110,14 @@ This means that the `.` is an action name even though there is no space around i
 **Block comment**
 
 	/*
-	This is
-	a block
-	comment
+	This is a
+	block comment
 	*/
 
 is the same as
 
-	// This is
-	// a block
-	// comment
+	// This is a
+	// block comment
 	
 **Comma arrays**
 
@@ -137,7 +135,67 @@ This is to make literal arrays of numbers and strings more consise.
 
 ### Variables, scope and evaluation
 
-TODO (This is where the real magic happens)
+The `Service action argument` structure and indentation based arrays are combined with the scope system for great flexibility for the programmer.
+
+Variables are created, changed and read by referring to the scope service `#`:
+
+	# new myVar // variable "myVar" is declared
+
+	# set myVar = 42 // myVar is given a value
+
+	# new myOtherVar = 10 // the variable creation service also has the = action for more consise code
+
+	# . myVar + (#.myOtherVar) // the values of myVar and myOtherVar are read
+
+	/*result
+	52
+	*/
+
+All variables are saved in the same scope. But to add a new nested scope, there is an action named `#` on the variable service:
+
+	# new myVar1 = 1
+	# new myVar2 = 2
+
+	# new variableWithScope # 
+		# new myVar1 = 10
+		# set myVar2 = 20
+		
+	# new myArray = 
+		#.myVar1
+		#.myVar2
+
+	/*result
+	[1, 20]
+	*/
+
+Notice how `myVar1` kept its value because the change to `10` was done on a new variable with the same name in the inner scope. `myVar2` on the other hand, was not redeclared in the inner scope, and its value was thus changed to `20`. The scopes are nested, which means that if a variable is used, its value will be searched for upwards in all parent scopes.
+
+After adding a new scope, the `#` action acts exactly like the `=` action, and evalates the argument array. This means that any statements in the argument gets executed. And in the example above, this meant that the variables where changed.
+
+But it is possible to set a value to a variable *without* evaluating the arguments. This is useful when we want to execute a block of code at a later time, or many times over. This is also the key mechanism to structuring code as services and actions.
+
+This is done with the action `:`:
+
+	# new bar = 1
+		
+	# new foo :
+		# set bar = 2
+		
+	# new barBefore = (#.bar)
+		
+	# foo null // Invoking the foo action (argument is not used)
+
+	# new barAfter = (#.bar)
+
+	# new results =
+		#.barBefore
+		#.barAfter
+
+	/*result
+	[1, 2]
+	*/
+
+If an array of statements is executed, the value of the *last* statement is returned from the action. All hilvl code are arrays of statements, so this is why the last value is always the result in the examples. 
 
 ## Advanced examples of hilvl
 

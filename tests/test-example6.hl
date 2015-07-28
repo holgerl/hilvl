@@ -1,0 +1,18 @@
+# new bar = 1
+	
+# new foo :
+	# set bar = 2
+	
+# new barBefore = (#.bar)
+	
+# foo null // Invoking the foo action (argument is not used)
+
+# new barAfter = (#.bar)
+
+# new results =
+	#.barBefore
+	#.barAfter
+
+/*result
+[1, 2]
+*/
