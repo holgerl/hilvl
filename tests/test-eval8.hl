@@ -1,0 +1,62 @@
+# new foo = 0
+
+true then
+	# set foo = 4
+	
+false then
+	# set foo = 5
+	
+#.foo
+	
+/*parsed
+[
+    {
+        "service": {
+            "service": "#",
+            "action": "new",
+            "args": "foo"
+        },
+        "action": "=",
+        "args": "0"
+    },
+    {
+        "service": "true",
+        "action": "then",
+        "args": [
+            {
+                "service": {
+                    "service": "#",
+                    "action": "set",
+                    "args": "foo"
+                },
+                "action": "=",
+                "args": "4"
+            }
+        ]
+    },
+    {
+        "service": "false",
+        "action": "then",
+        "args": [
+            {
+                "service": {
+                    "service": "#",
+                    "action": "set",
+                    "args": "foo"
+                },
+                "action": "=",
+                "args": "5"
+            }
+        ]
+    },
+    {
+        "service": "#",
+        "action": ".",
+        "args": "foo"
+    }
+]
+*/
+
+/*result
+4
+*/

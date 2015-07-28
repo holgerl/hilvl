@@ -1,0 +1,10 @@
+# new foo = 
+	42 as string
+	"number is " + (123 as string) + " today"
+	
+/*result
+[
+	"\"42\"",
+	"\"number is 123 today\""
+]
+*/

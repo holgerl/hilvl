@@ -1,0 +1,83 @@
+service methodName argument
+
+service methodName
+	argument1
+	argument2
+	argument3
+	
+service methodName argument1, argument2, argument3
+
+service methodName1 argument methodName2 argument // (service methodName1 argument) methodName2 argument
+
+//---
+
+FooService setValue 42
+#.now = 
+	Date new none // ((# get now) set (Date new none))
+BarService save (#.person.name)
+"<em>" + now + "</em>" // (((String new "<em>") + #.now) + (String new "</em>"))
+
+#.array = 
+	1,2,3
+#.value = 
+	#.array.0 == 1 // # get value set (# get array get 0 equals 1)
+
+#.myValue == true then
+	Console log "foobar"
+
+#.isFinished do
+	Console log element
+
+#.myMap map
+	"name": "John"
+	"address": "Wilkerstreet 12"
+	"telephone": "80045223"
+
+#.myFunction : // Colon does not evaluate argument expressions, equals does
+	Console.log "hello"
+	Arguments.x + 
+		Arguments.y
+
+Global.MyService =
+	#.incValue :
+		#.myValue = 
+			Integer new 42 // (# get inc) set (Integer new 42)
+		argument + #.myValue // last value is return value
+	#.updateState :
+		#.incrementedValue = 
+			MyService incValue 4
+		State.value add 
+			#.incrementedValue
+
+Global.ServiceChild inherit MyService =
+	#.incValue :
+		argument + 12
+
+//---
+
+Global.MyWebapp =
+	#.main :
+		MyService updateState none
+		#.now = 
+			Date new none
+		"<em>" + 
+			#.now + 
+				"</em>" // "<em>" add (#.now) add "</em>"
+		
+//---
+    
+// hl file.hl
+// >> MyService new "192,168.0.1", "192.168.0.2"
+// >> MyWebapp new "192,168.0.1", "192.168.0.2"
+
+// >> MyWebapp main none
+// -> "<strong>31.10.2014</strong>"
+
+// GET http://localhost/MyWebapp/main/
+// "<strong>31.10.2014</strong>"
+
+// POST http://localhost/MyService/incValue/ body:12
+// "200 OK body:54"
+
+// GET http://localhost/Integer#4323/
+// "54"

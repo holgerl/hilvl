@@ -1,0 +1,115 @@
+Global.MyService = 
+	#.incValue :
+		#.myValue = 42
+		argument + (#.myValue)
+	#.updateState :
+		#.incrementedValue = 4
+		State.value add (#.incrementedValue)
+
+Global.ServiceChild inherit MyService =
+	#.incValue :
+		argument + 12
+
+/*parsed
+[
+    {
+        "service": {
+            "service": "Global",
+            "action": ".",
+            "args": "MyService"
+        },
+        "action": "=",
+        "args": [
+            {
+                "service": {
+                    "service": "#",
+                    "action": ".",
+                    "args": "incValue"
+                },
+                "action": ":",
+                "args": [
+                    {
+                        "service": {
+                            "service": "#",
+                            "action": ".",
+                            "args": "myValue"
+                        },
+                        "action": "=",
+                        "args": "42"
+                    },
+                    {
+                        "service": "argument",
+                        "action": "+",
+                        "args": {
+                            "service": "#",
+                            "action": ".",
+                            "args": "myValue"
+                        }
+                    }
+                ]
+            },
+            {
+                "service": {
+                    "service": "#",
+                    "action": ".",
+                    "args": "updateState"
+                },
+                "action": ":",
+                "args": [
+                    {
+                        "service": {
+                            "service": "#",
+                            "action": ".",
+                            "args": "incrementedValue"
+                        },
+                        "action": "=",
+                        "args": "4"
+                    },
+                    {
+                        "service": {
+                            "service": "State",
+                            "action": ".",
+                            "args": "value"
+                        },
+                        "action": "add",
+                        "args": {
+                            "service": "#",
+                            "action": ".",
+                            "args": "incrementedValue"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "service": {
+            "service": {
+                "service": "Global",
+                "action": ".",
+                "args": "ServiceChild"
+            },
+            "action": "inherit",
+            "args": "MyService"
+        },
+        "action": "=",
+        "args": [
+            {
+                "service": {
+                    "service": "#",
+                    "action": ".",
+                    "args": "incValue"
+                },
+                "action": ":",
+                "args": [
+                    {
+                        "service": "argument",
+                        "action": "+",
+                        "args": "12"
+                    }
+                ]
+            }
+        ]
+    }
+]
+*/

@@ -1,0 +1,14 @@
+# set ServiceB # 
+	# set actionB :
+		#.argument
+
+
+# set ServiceA # 
+	# set actionA :
+		ServiceB actionB (#.argument)
+		
+ServiceA actionA 42
+
+/*result
+42
+*/

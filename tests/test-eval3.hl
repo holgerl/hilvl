@@ -1,0 +1,19 @@
+"Hello" + " " + "World!"
+
+/*parsed
+[
+    {
+        "service": {
+            "service": "\"Hello\"",
+            "action": "+",
+            "args": "\" \""
+        },
+        "action": "+",
+        "args": "\"World!\""
+    }
+]
+*/
+
+/*result
+"\"Hello World!\""
+*/

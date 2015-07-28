@@ -1,0 +1,19 @@
+# new MyService # 
+	# new myValue = 42
+	# new myAction1 :
+		# set myValue = 50
+	# new getMyValue :
+		#.myValue
+		
+# new foo =
+	MyService getMyValue null
+	MyService myAction1 null
+	MyService getMyValue null
+	
+/*result
+[
+	42,
+	50,
+	50
+]
+*/

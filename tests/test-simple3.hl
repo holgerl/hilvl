@@ -1,0 +1,33 @@
+obj1 action1 arg1 action1b
+	obj2 action2 arg2 action2b 
+		obj3 action3 arg3
+		
+/*parsed
+[
+    {
+        "service": {
+            "service": "obj1",
+            "action": "action1",
+            "args": "arg1"
+        },
+        "action": "action1b",
+        "args": [
+            {
+                "service": {
+                    "service": "obj2",
+                    "action": "action2",
+                    "args": "arg2"
+                },
+                "action": "action2b",
+                "args": [
+                    {
+                        "service": "obj3",
+                        "action": "action3",
+                        "args": "arg3"
+                    }
+                ]
+            }
+        ]
+    }
+]
+*/

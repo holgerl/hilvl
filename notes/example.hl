@@ -1,0 +1,60 @@
+package no.foo.service
+
+FooService
+    incValue stateful
+        #.inc = Integer new 2 // (# inc get) set (Integer new 2)
+        State.value add inc
+        return State.value
+    setValue stateful
+		State.value = arg
+    parseValue
+        return Integer parse arg
+
+BarService
+    doit stateful
+        FooService setValue 42
+        State.valueNow = (FooService incValue none)
+        State.valueStr = (Integer toString valueNow)
+        BarService process FooService parseValue valueStr
+        BarService save {name: "Chan"}
+    getService
+        return FooService
+        
+---
+
+package no.myapp.domain
+
+import no.foo.service
+
+MyWebapp
+    main
+        #.now = (Date new none)
+        #.array = [1,2,3]
+        For #.array
+            #.sum add element
+        if #.array.0 == 1 // if (# array 0) equals 1
+            Console log "foobar"
+        return "<em>" + now + "</em>" // return "<em>" add now add "</em>"
+    doSomething
+        #.service = (BarService getService none)
+        return service incValue none
+        
+---
+    
+// hs no.foo.service.* new none ["localhost", "192.168.0.1"]
+// hs no.myapp.domain.* new none ["localhost", "192.168.0.1"]
+
+// hs no.foo.service.MyWebapp main none
+// -> "<strong>31.10.2014</strong>"
+
+// GET http://localhost/no.myapp.domain.MyWebapp/main/
+// "<strong>31.10.2014</strong>"
+
+// POST http://localhost/no.foo.service.FooService/setValue/ body:42
+// "200 OK"
+
+// GET http://localhost/no.foo.service.FooService/incValue/
+// "44"
+
+// GET http://localhost/Integer#4323/
+// "2"

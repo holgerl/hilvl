@@ -1,0 +1,23 @@
+# new foo = 10
+
+# new MyService # 
+	# new myAction :
+		# set foo = 42
+		# new myFunction = (#.argument)
+		# myFunction null
+		
+# new bar = 
+	MyService myAction (#.foo + 2)
+	MyService myAction 
+		#.foo + 2
+	MyService myAction 
+		# set foo = 50
+		#.foo + 2
+	
+/*result
+[
+	12,
+	44,
+	52
+]
+*/

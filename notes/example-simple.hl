@@ -1,0 +1,20 @@
+{} foo
+	42
+
+{} foo 42 // comment
+
+{} bar
+	"hey"
+	"di"
+	"ho"
+
+{} baz
+	{} print 
+		"Hello"
+	{} print 
+		foo bar "World!"
+
+{} inner 12 outer 24
+
+#.array = 
+	1,2,3

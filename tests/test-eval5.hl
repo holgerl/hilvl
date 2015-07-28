@@ -1,0 +1,19 @@
+3 == 4 == false
+	
+/*parsed
+[
+    {
+        "service": {
+            "service": "3",
+            "action": "==",
+            "args": "4"
+        },
+        "action": "==",
+        "args": "false"
+    }
+]
+*/
+
+/*result
+true
+*/

@@ -1,0 +1,92 @@
+# new foo = 3
+# new bar = 3
+	
+#.foo == (#.bar) then
+	# set foo = 42
+	
+#.foo == 5 then
+	# set foo = 45
+	
+#.foo
+	
+/*parsed
+[
+    {
+        "service": {
+            "service": "#",
+            "action": "new",
+            "args": "foo"
+        },
+        "action": "=",
+        "args": "3"
+    },
+    {
+        "service": {
+            "service": "#",
+            "action": "new",
+            "args": "bar"
+        },
+        "action": "=",
+        "args": "3"
+    },
+    {
+        "service": {
+            "service": {
+                "service": "#",
+                "action": ".",
+                "args": "foo"
+            },
+            "action": "==",
+            "args": {
+                "service": "#",
+                "action": ".",
+                "args": "bar"
+            }
+        },
+        "action": "then",
+        "args": [
+            {
+                "service": {
+                    "service": "#",
+                    "action": "set",
+                    "args": "foo"
+                },
+                "action": "=",
+                "args": "42"
+            }
+        ]
+    },
+    {
+        "service": {
+            "service": {
+                "service": "#",
+                "action": ".",
+                "args": "foo"
+            },
+            "action": "==",
+            "args": "5"
+        },
+        "action": "then",
+        "args": [
+            {
+                "service": {
+                    "service": "#",
+                    "action": "set",
+                    "args": "foo"
+                },
+                "action": "=",
+                "args": "45"
+            }
+        ]
+    },
+    {
+        "service": "#",
+        "action": ".",
+        "args": "foo"
+    }
+]
+*/
+
+/*result
+42
+*/

@@ -1,0 +1,26 @@
+1 + 2
+
+3 + 4 - 2
+
+/*parsed
+[
+    {
+        "service": "1",
+        "action": "+",
+        "args": "2"
+    },
+    {
+        "service": {
+            "service": "3",
+            "action": "+",
+            "args": "4"
+        },
+        "action": "-",
+        "args": "2"
+    }
+]
+*/
+
+/*result
+5
+*/

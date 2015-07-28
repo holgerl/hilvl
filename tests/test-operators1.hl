@@ -1,0 +1,46 @@
+# new foo = 
+	3 + 2
+	3 - 5
+	5 < 2
+	5 < 10
+	5 > 2
+	5 > 10
+	4 == 4
+	4 == 2
+	"a" + "b"
+	"a" == "a"
+	"a" == "b"
+	"a" != "b"
+	"a" != "a"
+	true == true
+	true == false
+	false == false
+	true != true
+	true != false
+	false != false
+	(5 > 10) == (4 == 2)
+	
+/*result
+[
+	5,
+	-2,
+	false,
+	true,
+	true,
+	false,
+	true,
+	false,
+	"\"ab\"",
+	true,
+	false,
+	true,
+	false,
+	true,
+	false,
+	true,
+	false,
+	true,
+	false,
+	true
+]
+*/

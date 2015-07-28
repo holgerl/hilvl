@@ -1,0 +1,38 @@
+#.foo = 
+	Array new 
+		1,2,3
+	Array new 
+		42,43,44
+	
+/*parsed
+[
+    {
+        "service": {
+            "service": "#",
+            "action": ".",
+            "args": "foo"
+        },
+        "action": "=",
+        "args": [
+            {
+                "service": "Array",
+                "action": "new",
+                "args": [
+                    "1",
+                    "2",
+                    "3"
+                ]
+            },
+            {
+                "service": "Array",
+                "action": "new",
+                "args": [
+                    "42",
+                    "43",
+                    "44"
+                ]
+            }
+        ]
+    }
+]
+*/

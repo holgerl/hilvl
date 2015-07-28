@@ -1,0 +1,15 @@
+3 == 4
+	
+/*parsed
+[
+    {
+        "service": "3",
+        "action": "==",
+        "args": "4"
+    }
+]
+*/
+
+/*result
+false
+*/

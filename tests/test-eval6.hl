@@ -1,0 +1,19 @@
+10 - (4 - 2)
+
+/*parsed
+[
+    {
+        "service": "10",
+        "action": "-",
+        "args": {
+            "service": "4",
+            "action": "-",
+            "args": "2"
+        }
+    }
+]
+*/
+
+/*result
+8
+*/

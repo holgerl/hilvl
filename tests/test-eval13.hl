@@ -1,0 +1,11 @@
+# new bar = 0
+	
+# new foo :
+	# set bar = (#.argument)
+	#.bar
+	
+# foo 42
+
+/*result
+42
+*/

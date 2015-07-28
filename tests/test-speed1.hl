@@ -1,0 +1,13 @@
+/*noDebug*/
+
+# new bar = 0
+	
+10000 until
+	# set bar = (#.bar + 1)
+	#.bar
+
+#.bar
+
+/*result
+10000
+*/

@@ -1,0 +1,16 @@
+# new bar = 1
+	
+# new foo :
+	# new bar = 2
+	#.bar
+	
+# new baz =
+	# foo null
+	#.bar
+	
+/*result
+[
+	2,
+	1
+]
+*/

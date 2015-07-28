@@ -1,0 +1,22 @@
+#.now = 
+	Date new none
+
+/*parsed
+[
+    {
+        "service": {
+            "service": "#",
+            "action": ".",
+            "args": "now"
+        },
+        "action": "=",
+        "args": [
+            {
+                "service": "Date",
+                "action": "new",
+                "args": "none"
+            }
+        ]
+    }
+]
+*/

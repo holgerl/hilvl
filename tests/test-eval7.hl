@@ -1,0 +1,29 @@
+# new foo = (3 + 2)
+#.foo
+	
+/*parsed
+[
+    {
+        "service": {
+            "service": "#",
+            "action": "new",
+            "args": "foo"
+        },
+        "action": "=",
+        "args": {
+            "service": "3",
+            "action": "+",
+            "args": "2"
+        }
+    },
+    {
+        "service": "#",
+        "action": ".",
+        "args": "foo"
+    }
+]
+*/
+
+/*result
+5
+*/

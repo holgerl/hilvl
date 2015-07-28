@@ -1,0 +1,23 @@
+# new OuterService # 
+	# new outerVar = 42
+	# new InnerService # 
+		# new innerVar = 30
+		# new innerAction :
+			# set outerVar = (#.innerVar)
+	# new outerAction :
+		InnerService innerAction null
+	# new getOuterVar :
+		#.outerVar
+		
+# new foo =
+	OuterService getOuterVar null
+	OuterService outerAction null
+	OuterService getOuterVar null
+	
+/*result
+[
+	42,
+	30,
+	30
+]
+*/

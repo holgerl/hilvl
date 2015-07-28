@@ -1,0 +1,40 @@
+{} baz
+	{} print 
+		foo bar "World!"
+		
+
+/*
+block comment
+*/
+
+Foo bar 12 // comment
+	// comment
+
+// comment comment comment
+
+/*parsed
+[
+    {
+        "service": "{}",
+        "action": "baz",
+        "args": [
+            {
+                "service": "{}",
+                "action": "print",
+                "args": [
+                    {
+                        "service": "foo",
+                        "action": "bar",
+                        "args": "\"World!\""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "service": "Foo",
+        "action": "bar",
+        "args": "12"
+    }
+]
+*/

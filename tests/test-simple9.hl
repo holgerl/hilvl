@@ -1,0 +1,70 @@
+myValue == true then
+	Console log "foobar"
+	
+#.array for
+	Console log element
+
+#.myMap map
+	"name": "John"
+	"address": "Wilkerstreet 12"
+	"telephone": "80045223"
+
+/*parsed
+[
+    {
+        "service": {
+            "service": "myValue",
+            "action": "==",
+            "args": "true"
+        },
+        "action": "then",
+        "args": [
+            {
+                "service": "Console",
+                "action": "log",
+                "args": "\"foobar\""
+            }
+        ]
+    },
+    {
+        "service": {
+            "service": "#",
+            "action": ".",
+            "args": "array"
+        },
+        "action": "for",
+        "args": [
+            {
+                "service": "Console",
+                "action": "log",
+                "args": "element"
+            }
+        ]
+    },
+    {
+        "service": {
+            "service": "#",
+            "action": ".",
+            "args": "myMap"
+        },
+        "action": "map",
+        "args": [
+            {
+                "service": "\"name\"",
+                "action": ":",
+                "args": "\"John\""
+            },
+            {
+                "service": "\"address\"",
+                "action": ":",
+                "args": "\"Wilkerstreet 12\""
+            },
+            {
+                "service": "\"telephone\"",
+                "action": ":",
+                "args": "\"80045223\""
+            }
+        ]
+    }
+]
+*/

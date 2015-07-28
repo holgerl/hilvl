@@ -1,0 +1,13 @@
+# new globalVar = 0
+	
+# new recurFun :
+	#.globalVar < 5 then
+		# set globalVar = (#.globalVar + 1)
+		# recurFun null
+	#.globalVar
+	
+# recurFun null
+
+/*result
+5
+*/

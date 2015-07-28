@@ -1,0 +1,19 @@
+# new MyWebApp # 
+	# new myValue = 0
+	# new incrementValue :
+		# set myValue = (#.myValue + (#.argument))
+	# new handleRequest :
+		# incrementValue 1
+		"My value is now " + (#.myValue as string)
+	# new myPage # 
+		# new pageVariable = 42
+		# new handleRequest :
+			"The magic number is " + (#.pageVariable as string)
+
+# new MyWebApp2 # 
+	# new handleRequest :
+		"The other webapp"
+		
+// http://localhost:8080/MyWebApp
+// http://localhost:8080/MyWebApp2
+// http://localhost:8080/MyWebApp/myPage

@@ -1,0 +1,15 @@
+1 + 2
+
+/*parsed
+[
+    {
+        "service": "1",
+        "action": "+",
+        "args": "2"
+    }
+]
+*/
+
+/*result
+3
+*/
