@@ -91,7 +91,7 @@ There is no precedence in hilvl. This means that parantheses may be necessary to
 # set myVar = 2 + 40     // This fails during runtime!
 ```
 
-This is wrong because the action named `=` will take `2` as its argument, but the resulting service will not have a method named `+`. The correct way is to group `2 + 40` to a single argument to the `=` action:
+This is wrong because the action named `=` will take `2` as its argument, but the resulting service will not have an action named `+`. The correct way is to group `2 + 40` to a single argument for the `=` action:
 
 ```javascript
 # set myVar = (2 + 40)
