@@ -67,7 +67,7 @@ Services can of course be arguments to other actions:
 Chooser makeChoice (StrategyMaker mustBeLargerThan 10)
 ```
 
-Everything is a service in hilvl, even string and numbers. And action names can be anything. This means that even this is an ordinary action invocation:
+Everything is a service in hilvl, even strings and numbers. And action names can be anything. This means that even this is an ordinary action invocation:
 
 ```javascript
 2 + 40
