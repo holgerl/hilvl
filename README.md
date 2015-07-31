@@ -2,7 +2,7 @@
 
 Hilvl is a programming language that is versatile but with a very small syntax.
 
-There are only six symbols. The rest is system or user defined services and actions.
+There are only six reserved symbols. The rest is system or user defined services and actions.
 
 `#` `"` `whitespace` `(` `)` `//`
 
@@ -73,7 +73,7 @@ Everything is a service in hilvl, even strings and numbers. And action names can
 2 + 40
 ```
 
-Here, `2` is the service, `+` is the action and `40` is the argument
+Here, `2` is the service, `+` is the action and `40` is the argument. This action returns a new service `42`
 
 Here is another example:
 
@@ -113,49 +113,22 @@ Here, the argument is the array `[4,2,9,3]`.
 
 Why use whitespace for this you ask? The point is that if you make an array of *statements*, then you have a block of code. All code in hilvl are arrays of statements that can be passed around and invoked by other code.
 
+Here is an example:
+
+```javascript
+KeyboardService onEvent
+	Player move "up"
+	Time increase 1
+	CollisionControl doCheck null
+```
+
 ### Syntactic sugar
 
-To make code more readable, some shortcuts are supported in the syntax:
-
-**Dot**
+To make the code more readable, a special shortcut is supported in the syntax:
 
 `foo.bar` is the same as  `foo . bar`
 
-This means that the `.` is an action name even though there is no space around it.
-
-**Block comment**
-
-```javascript
-/*
-This is a
-block comment
-*/
-```
-
-is the same as
-
-```javascript
-// This is a
-// block comment
-```
-	
-**Comma arrays**
-
-```javascript
-Foo bar
-	1, 2, 3
-```
-
-is the same as
-
-```javascript
-Foo bar
-	1
-	2
-	3
-```
-		
-This is to make literal arrays of numbers and strings more consise.
+This means that the `.` is an action name even though there is no space around it. This is only for the `.` action. All other services, actions and arguments must have spaces between them. This is because they can be called anything except the reserved symbols, and this in turn is why hilvl is very versatile and can used for implementing domain specific languages.
 
 ### Variables, scope and evaluation
 
