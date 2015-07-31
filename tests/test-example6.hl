@@ -1,11 +1,11 @@
 # new bar = 1
 	
-# new foo :
+# new foo : // the statement in the argument is not evaluated yet
 	# set bar = 2
 	
 # new barBefore = (#.bar)
 	
-# foo null // Invoking the foo action (argument is not used)
+# foo null // this invokes the foo action, and the code is evaluated (null means no argument)
 
 # new barAfter = (#.bar)
 

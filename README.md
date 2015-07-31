@@ -153,7 +153,7 @@ All variables are saved in the same scope. But to add a new nested scope, there 
 # new myVar1 = 1
 # new myVar2 = 2
 
-# new variableWithScope # // the argument is now evaluated in a new scope
+# new variableWithScope # // the statements in the argument is now evaluated in a new scope
 	# new myVar1 = 10
 	# set myVar2 = 20
 	
@@ -167,23 +167,25 @@ All variables are saved in the same scope. But to add a new nested scope, there 
 */
 ```
 
-Notice how `myVar1` kept its value because the change to `10` was done on a new variable with the same name in the inner scope. `myVar2` on the other hand, was not redeclared in the inner scope, and its value was thus changed to `20`. The scopes are nested, which means that if a variable is used, its value will be searched for upwards in all parent scopes.
+Notice how `myVar1` kept its value because the change to `10` was done on a new variable with the same name in the inner scope. `myVar2` on the other hand, was not redeclared in the inner scope, and its value was thus changed to `20`. 
+
+The scopes are nested, which means that if a variable is used, its value will be searched for upwards in all parent scopes.
 
 After adding a new scope, the `#` action acts exactly like the `=` action, and evalates the argument array. This means that any statements in the argument gets executed. And in the example above, this meant that the variables where changed.
 
-But it is possible to set a value to a variable *without* evaluating the arguments. This is useful when we want to execute a block of code at a later time, or many times over. This is also the key mechanism to structuring code as services and actions.
+But it is possible to set a value to a variable *without* evaluating the arguments. This is useful when we want to execute a block of code at a later time, or many times over. This is also the key mechanism for structuring code as services and actions. 
 
-This is done with the action `:`:
+It is done with the action `:`:
 
 ```javascript
 # new bar = 1
 	
-# new foo :
+# new foo : // the statement in the argument is not evaluated yet
 	# set bar = 2
 	
 # new barBefore = (#.bar)
 	
-# foo null // Invoking the foo action (argument is not used)
+# foo null // this invokes the foo action, and the code is evaluated
 
 # new barAfter = (#.bar)
 
@@ -195,6 +197,8 @@ This is done with the action `:`:
 [1, 2]
 */
 ```
+
+Notice how `null` is used as argument for `foo`. This is because `foo` does not use its argument. So any argument would be ignored anyway. 
 
 If an array of statements is executed, the value of the *last* statement is returned from the action. All hilvl code are arrays of statements, so this is why the last value is always the result in the examples. 
 
