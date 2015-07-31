@@ -1,9 +1,6 @@
 # new myVar // variable "myVar" is declared
-
 # set myVar = 42 // myVar is given a value
-
 # new myOtherVar = 10 // the variable creation service also has the = action for more consise code
-
 # . myVar + (#.myOtherVar) // the values of myVar and myOtherVar are read
 
 /*result

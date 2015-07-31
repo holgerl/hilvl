@@ -138,11 +138,8 @@ Variables are created, changed and read by using the scope service `#`:
 
 ```javascript
 # new myVar // variable "myVar" is declared
-
 # set myVar = 42 // myVar is given a value
-
 # new myOtherVar = 10 // the variable creation service also has the = action for more consise code
-
 # . myVar + (#.myOtherVar) // the values of myVar and myOtherVar are read
 
 /*result
@@ -156,11 +153,12 @@ All variables are saved in the same scope. But to add a new nested scope, there 
 # new myVar1 = 1
 # new myVar2 = 2
 
-# new variableWithScope # 
+# new variableWithScope # // the argument is now evaluated in a new scope
 	# new myVar1 = 10
 	# set myVar2 = 20
 	
-# new myArray = 
+// we place the variables in an array that is returned as the result:
+# new myArray =
 	#.myVar1
 	#.myVar2
 
