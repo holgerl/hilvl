@@ -1,7 +1,7 @@
 # new myVar1 = 1
 # new myVar2 = 2
 
-# new variableWithScope # // the argument is now evaluated in a new scope
+# new myScope # // the two statements in the argument are now evaluated in a new scope:
 	# new myVar1 = 10
 	# set myVar2 = 20
 	

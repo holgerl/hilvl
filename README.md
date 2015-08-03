@@ -8,7 +8,7 @@ The name hilvl reflects how this is a higher level of abstraction than objects a
 
 ### Example of hilvl
 
-*(If you don't get this, skip to the chapters below.)*
+*(If you don't get this, skip to [the chapters below](https://github.com/holgerl/hilvl#structure-of-the-hilvl-language).)*
 
 ```javascript		
 # new foo = 42
@@ -147,8 +147,8 @@ Variables are created, changed and read by using the scope service `#`:
 ```javascript
 # new myVar // variable "myVar" is declared
 # set myVar = 42 // myVar is given a value
-# new myOtherVar = 10 // the variable creation service also has the = action for more consise code
-# . myVar + (#.myOtherVar) // the values of myVar and myOtherVar are read
+# new myOtherVar = 10 // the variable service also has an = action for more consise code
+#.myVar + (#.myOtherVar) // the values of myVar and myOtherVar are read and added together
 
 /*result
 52
@@ -161,7 +161,7 @@ All variables are saved in the same scope. But to add a new nested scope, there 
 # new myVar1 = 1
 # new myVar2 = 2
 
-# new variableWithScope # // the statements in the argument is now evaluated in a new scope
+# new myScope # // the two statements in the argument are now evaluated in a new scope:
 	# new myVar1 = 10
 	# set myVar2 = 20
 	
