@@ -2,7 +2,7 @@
 
 Hilvl is a programming language that is versatile but with a very small syntax. All code in hilvl are single-argument invocations of actions that belong to services.
 
-Services can be directly exposed as webservices. This means that (virtual and real) web services are the fundamental building blocks of a hilvl program.
+Services can be directly exposed as web services. This means that (virtual and real) web services are the fundamental building blocks of a hilvl program.
 
 The name hilvl reflects how this is a higher level of abstraction than objects and functions.
 
@@ -38,10 +38,6 @@ To run HiTTP web framework: `node HiTTP.js example-webapp.hl`
 	
 ## Structure of the hilvl language
 
-<!---
-Perhaps an illustration here that shows the abstract syntax tree from the example code above?
--->
-
 ### Service, action and argument
 
 All statements in hilvl are invocations of single argument actions that are part of some service:
@@ -60,14 +56,18 @@ ScoreKeeper add 10
 The magic happens when an action returns another service that can be called in a chain:
 
 ```javascript
-SandwichMaker makeNewSandwhich "cheese" addSome "tomato"
+SandwichMaker makeNewSandwich "cheese" addSome "tomato"
 ```
+
+![hilvl syntax tree](https://github.com/holgerl/hilvl/blob/master/notes/hilvl-example-1.png)
 
 Services can of course be arguments to other actions:
 
 ```javascript
 Chooser makeChoice (StrategyMaker mustBeLargerThan 10)
 ```
+
+![hilvl syntax tree](https://github.com/holgerl/hilvl/blob/master/notes/hilvl-example-2.png)
 
 Everything is a service in hilvl, even strings and numbers. And action names can be anything. This means that even this is an ordinary action invocation:
 
