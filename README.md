@@ -1,16 +1,14 @@
 # The hilvl programming language
 
-Hilvl is a programming language that is versatile but with a very small syntax.
+Hilvl is a programming language that is versatile but with a very small syntax. All code in hilvl are single-argument invocations of actions that belong to services.
 
-There are only six reserved symbols. The rest is system or user defined services and actions.
-
-`#` `"` `whitespace` `(` `)` `//`
-
-The actions of a service can be directly exposed as a webservice. This means that (virtual and real) web servers are the fundamental building blocks of a hilvl program.
+Services can be directly exposed as webservices. This means that (virtual and real) web services are the fundamental building blocks of a hilvl program.
 
 The name hilvl reflects how this is a higher level of abstraction than objects and functions.
 
 ## Example of hilvl
+
+*(If you don't get this, skip to the chapters below.)*
 
 ```javascript		
 # new foo = 42
@@ -39,6 +37,10 @@ To run all tests: `node hl-tests.js`
 To run HiTTP web framework: `node HiTTP.js example-webapp.hl`
 	
 ## Structure of the hilvl language
+
+<!---
+Perhaps an illustration here that shows the abstract syntax tree from the example code above?
+-->
 
 ### Service, action and argument
 
@@ -75,7 +77,13 @@ Everything is a service in hilvl, even strings and numbers. And action names can
 
 Here, `2` is the service, `+` is the action and `40` is the argument. This action returns a new service `42`
 
-Here is another example:
+There are only 5 reserved symbols:
+
+`"` `whitespace` `(` `)` `//`
+
+The rest is system or user defined services and actions. This means that all other characters can be used when defining an API. 
+
+Here is an example that uses unusal action and service names:
 
 ```javascript
 # set myVariableName = 42
