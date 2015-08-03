@@ -6,7 +6,7 @@ Services can be directly exposed as web services. This means that (virtual and r
 
 The name hilvl reflects how this is a higher level of abstraction than objects and functions.
 
-## Example of hilvl
+### Example of hilvl
 
 *(If you don't get this, skip to the chapters below.)*
 
@@ -28,7 +28,7 @@ The name hilvl reflects how this is a higher level of abstraction than objects a
 # . foo // The returned value is: 6
 ```
 
-## How to run hilvl
+### How to run hilvl
 
 To run a file with hilvl code: `node hl.js myFile.hl`
 	
@@ -59,7 +59,7 @@ The magic happens when an action returns another service that can be called in a
 SandwichMaker makeNewSandwich "cheese" addSome "tomato"
 ```
 
-![hilvl syntax tree](https://github.com/holgerl/hilvl/blob/master/notes/hilvl-example-1.png)
+<img src="https://github.com/holgerl/hilvl/raw/master/notes/hilvl-example-1.png" alt="hilvl syntax tree" width="600">
 
 Services can of course be arguments to other actions:
 
@@ -67,7 +67,7 @@ Services can of course be arguments to other actions:
 Chooser makeChoice (StrategyMaker mustBeLargerThan 10)
 ```
 
-![hilvl syntax tree](https://github.com/holgerl/hilvl/blob/master/notes/hilvl-example-2.png)
+<img src="https://github.com/holgerl/hilvl/raw/master/notes/hilvl-example-2.png" alt="hilvl syntax tree" width="600">
 
 Everything is a service in hilvl, even strings and numbers. And action names can be anything. This means that even this is an ordinary action invocation:
 
