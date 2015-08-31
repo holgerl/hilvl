@@ -18,9 +18,9 @@ hl.tokenize = function(script) {
 	script = script.replace(/\/\/.*/g, ""); // Line comment
 	script = script.replace(/\/\*[^*]*\*\//g, " "); // Block comment
 	script = script.replace(/(\t*)(.+,.+)+/g, function(match, group1, group2){
-		return group1 + group2.split(",").join("\r\n" + group1);
+		return group1 + group2.split(",").join("\n" + group1);
 	});
-	var lines = script.split(/(\r\n)+/);
+	var lines = script.split(/(\n)+/);
 	var tokenLists = [];
 	var inComment = false;
 	for (var i in lines) {
