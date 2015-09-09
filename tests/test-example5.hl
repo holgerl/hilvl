@@ -10,6 +10,4 @@
 	#.myVar1
 	#.myVar2
 
-/*result
-[1, 20]
-*/
+//result: [1, 20]

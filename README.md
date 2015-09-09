@@ -1,6 +1,6 @@
 # The hilvl programming language
 
-Hilvl is a programming language that is versatile but with a very small syntax. All code in hilvl are single-argument invocations of actions that belong to services.
+Hilvl is a programming language that is versatile but with a very small syntax. All code in hilvl are **single-argument** invocations of **actions** that belong to **services**.
 
 Services are the fundamental building blocks of a hilvl program. And the name hilvl reflects how this is a higher level of abstraction than objects and functions.
 
@@ -8,7 +8,10 @@ Services are the fundamental building blocks of a hilvl program. And the name hi
 
 *(If you don't get this, skip to [the chapters below](https://github.com/holgerl/hilvl#structure-of-the-hilvl-language).)*
 
+<!-- test-example1.hl -->
 ```javascript
+// Note: # is the name of a system defined service
+
 # new foo = 42
 # new bar = (2 + 40)
 	
@@ -77,7 +80,7 @@ There are only 5 reserved symbols:
 
 `"` `whitespace` `(` `)` `//`
 
-The rest is system or user defined services and actions. This means that all other characters can be used when defining an API. 
+The rest are services and actions defined by either the user or the system. This means that all other characters can be used when defining an API. (Allthough, you probably don't want to use the same name as a system service.) 
 
 Here is an example that uses unusal action and service names:
 
@@ -85,12 +88,13 @@ Here is an example that uses unusal action and service names:
 # set myVariableName = 42
 ```
 
-Here, `#` is the service, `set` is the action and `myVariableName` is the argument. This returns a new service which has an action `=` that is called with `42` as an argument.
+Here, `#` is the service, `set` is the action and `myVariableName` is the argument. This returns a new service which has an action `=` that is called with `42` as an argument. `#` is actually a system service for handling scope. There is more about that later.
 
 #### Creating a service
 
 Since everything is a service. It is easy to make your own. The last statement of an action is the return value:
 
+<!-- test-example7.hl -->
 ```javascript
 // Creating a new service with an action:
 # new MyService # 
@@ -158,6 +162,7 @@ The `Service action argument` structure and indentation based arrays are combine
 
 Variables are created, changed and read by using the scope service `#`:
 
+<!-- test-example4.hl -->
 ```javascript
 # new myVar // variable "myVar" is declared
 # set myVar = 42 // myVar is given a value
@@ -169,6 +174,7 @@ Variables are created, changed and read by using the scope service `#`:
 
 All variables are saved in the same scope. But to add a new nested scope, there is an action named `#` on the variable service:
 
+<!-- test-example5.hl -->
 ```javascript
 # new myVar1 = 1
 # new myVar2 = 2
@@ -182,9 +188,7 @@ All variables are saved in the same scope. But to add a new nested scope, there 
 	#.myVar1
 	#.myVar2
 
-/*result
-[1, 20]
-*/
+//result: [1, 20]
 ```
 
 Notice how `myVar1` kept its value because the change to `10` was done on a new variable with the same name in the inner scope. `myVar2` on the other hand, was not redeclared in the inner scope, and its value was thus changed to `20`. 
@@ -197,6 +201,7 @@ But it is possible to set a value to a variable *without* evaluating the argumen
 
 It is done with the action `:`:
 
+<!-- test-example6.hl -->
 ```javascript
 # new bar = 1
 	
@@ -213,9 +218,7 @@ It is done with the action `:`:
 	#.barBefore
 	#.barAfter
 
-/*result
-[1, 2]
-*/
+//result: [1, 2]
 ```
 
 Notice how `null` is used as argument for `foo`. This is because `foo` does not use its argument. So any argument would be ignored anyway. 
@@ -226,6 +229,7 @@ If an array of statements is executed, the value of the *last* statement is retu
 
 #### Scope and higher-order programming
 
+<!-- test-example2.hl -->
 ```javascript
 # new foo = 10 // Variable in outer scope
 
@@ -252,6 +256,7 @@ If an array of statements is executed, the value of the *last* statement is retu
 
 #### Fluent programming
 
+<!-- test-example3.hl -->
 ```javascript
 # new Please # 
 	# new add :
@@ -275,3 +280,5 @@ To run a file with hilvl code: `node hl.js myFile.hl`
 To run all tests: `node hl-tests.js`
 
 To run HiTTP web framework: `node HiTTP.js example-webapp.hl`
+
+<!-- TODO: Explain HiTTP -->
