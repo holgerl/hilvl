@@ -2,15 +2,13 @@
 
 Hilvl is a programming language that is versatile but with a very small syntax. All code in hilvl are single-argument invocations of actions that belong to services.
 
-Services can be directly exposed as web services. This means that (virtual and real) web services are the fundamental building blocks of a hilvl program.
-
-The name hilvl reflects how this is a higher level of abstraction than objects and functions.
+Services are the fundamental building blocks of a hilvl program. And the name hilvl reflects how this is a higher level of abstraction than objects and functions.
 
 ### Example of hilvl
 
 *(If you don't get this, skip to [the chapters below](https://github.com/holgerl/hilvl#structure-of-the-hilvl-language).)*
 
-```javascript		
+```javascript
 # new foo = 42
 # new bar = (2 + 40)
 	
@@ -24,17 +22,13 @@ The name hilvl reflects how this is a higher level of abstraction than objects a
 	
 # . myArray loop
 	# set foo = (# . foo + (# . element))
-	
-# . foo // The returned value is: 6
+
+# new MyService # 
+	# new myAction :
+		# . argument + 10
+		
+MyService myAction (# . foo) // foo is now 6, and this returns 16
 ```
-
-### How to run hilvl
-
-To run a file with hilvl code: `node hl.js myFile.hl`
-	
-To run all tests: `node hl-tests.js`
-
-To run HiTTP web framework: `node HiTTP.js example-webapp.hl`
 	
 ## Structure of the hilvl language
 
@@ -69,6 +63,8 @@ Chooser makeChoice (StrategyMaker mustBeLargerThan 10)
 
 <img src="https://github.com/holgerl/hilvl/raw/master/notes/hilvl-example-2.png" alt="hilvl syntax tree" width="600">
 
+### It is all services
+
 Everything is a service in hilvl, even strings and numbers. And action names can be anything. This means that even this is an ordinary action invocation:
 
 ```javascript
@@ -90,6 +86,22 @@ Here is an example that uses unusal action and service names:
 ```
 
 Here, `#` is the service, `set` is the action and `myVariableName` is the argument. This returns a new service which has an action `=` that is called with `42` as an argument.
+
+#### Creating a service
+
+Since everything is a service. It is easy to make your own. The last statement of an action is the return value:
+
+```javascript
+// Creating a new service with an action:
+# new MyService # 
+	# new myAction :
+		# new myVariable = (42 + (#.argument))
+		#.myVariable // This is the return value
+		
+MyService myAction 1 // Using the service
+
+//result: 43
+```
 
 #### Importance of parantheses
 
@@ -130,6 +142,8 @@ KeyboardService onEvent
 	CollisionControl doCheck null
 ```
 
+Here, the implementation of `onEvent` may decide itself when to evaluate the statements in the argument.
+
 ### Syntactic sugar
 
 To make the code more readable, a special shortcut is supported in the syntax:
@@ -150,9 +164,7 @@ Variables are created, changed and read by using the scope service `#`:
 # new myOtherVar = 10 // the variable service also has an = action for more consise code
 #.myVar + (#.myOtherVar) // the values of myVar and myOtherVar are read and added together
 
-/*result
-52
-*/
+//result: 52
 ```
 
 All variables are saved in the same scope. But to add a new nested scope, there is an action named `#` on the variable service:
@@ -236,6 +248,8 @@ If an array of statements is executed, the value of the *last* statement is retu
 */
 ```
 	
+<!-- TODO: Should have one example focused on scope, and another focused on higher order programming -->
+
 #### Fluent programming
 
 ```javascript
@@ -251,7 +265,13 @@ If an array of statements is executed, the value of the *last* statement is retu
 		
 Please add 42 and 50 andThen 100
 	
-/*result
-192
-*/
+//result: 192
 ```
+
+### How to run hilvl
+
+To run a file with hilvl code: `node hl.js myFile.hl`
+	
+To run all tests: `node hl-tests.js`
+
+To run HiTTP web framework: `node HiTTP.js example-webapp.hl`
