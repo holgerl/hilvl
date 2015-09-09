@@ -10,6 +10,4 @@
 		
 Please add 42 and 50 andThen 100
 	
-/*result
-192
-*/
+//result: 192

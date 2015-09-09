@@ -11,9 +11,11 @@
 	
 # . myArray loop
 	# set foo = (# . foo + (# . element))
-	
-# . foo // The returned value is: 6
 
-/*result
-6
-*/
+# new MyService # 
+	# new myAction :
+		# . argument + 10
+		
+MyService myAction (# . foo) // foo is now 6, and this returns 16
+
+//result: 16

@@ -3,6 +3,4 @@
 # new myOtherVar = 10 // the variable service also has an = action for more consise code
 #.myVar + (#.myOtherVar) // the values of myVar and myOtherVar are read and added together
 
-/*result
-52
-*/
+//result: 52

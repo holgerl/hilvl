@@ -3,6 +3,8 @@
 var fs = require("fs");
 var hl = require("./hl");
 
+var totalFilesTested = 0;
+
 function equal(x, y) {	
 	if (typeof x === "string" || y === "string")
 		return x.toString() === y.toString();
@@ -73,16 +75,28 @@ function testFile(fileName) {
             var resultEvaluated = hl.evaluate(resultParsed);
             testEquals(fileName, resultEvaluated, expectedEvaluated);
         }
+
+        totalFilesTested++;
+
     } catch (err) {
+        hl.setDebug(true);
         console.log("\t\t" + " ___TEST ERROR___ " + fileName + " " + err);
         throw err;
     }
+    
+    hl.setDebug(true);
 }
  
 function getExpected(fileContents, type) {
-    var regex = new RegExp("\\/\\*"+type+"([^*]*)\\*\\/", "g");
-    var match = regex.exec(fileContents);
-    if (!match) return null;
+    var regex1 = new RegExp("\\/\\*"+type+"([^*]*)\\*\\/", "g");
+    var match = regex1.exec(fileContents);
+    
+    if (!match) {
+        var regex2 = new RegExp("\\/\\/"+type+": (.*)", "g");
+        match = regex2.exec(fileContents);
+        if (!match) return null;
+    }
+
     if (match[1]) {
         var blockComment = match[1];
         return eval(blockComment);
@@ -163,47 +177,9 @@ function testScope() {
 }
  
 testScope();
-testFile("tests/test-simple1.hl");
-testFile("tests/test-simple2.hl");
-testFile("tests/test-simple3.hl");
-testFile("tests/test-simple4.hl");
-testFile("tests/test-simple5.hl");
-testFile("tests/test-simple6.hl");
-testFile("tests/test-simple7.hl");
-testFile("tests/test-simple8.hl");
-testFile("tests/test-simple9.hl");
-testFile("tests/test-simple10.hl");
-testFile("tests/test-eval.hl");
-testFile("tests/test-eval2.hl");
-testFile("tests/test-eval3.hl");
-testFile("tests/test-eval4.hl");
-testFile("tests/test-eval5.hl");
-testFile("tests/test-eval6.hl");
-testFile("tests/test-eval7.hl");
-testFile("tests/test-eval8.hl");
-testFile("tests/test-eval9.hl");
-testFile("tests/test-eval10.hl");
-testFile("tests/test-eval11.hl");
-testFile("tests/test-eval12.hl");
-testFile("tests/test-eval13.hl");
-testFile("tests/test-eval14.hl");
-testFile("tests/test-eval15.hl");
-testFile("tests/test-eval16.hl");
-testFile("tests/test-eval17.hl");
-testFile("tests/test-eval18.hl");
-testFile("tests/test-speed1.hl");
-testFile("tests/test-scope1.hl");
-testFile("tests/test-scope2.hl");
-testFile("tests/test-recursive1.hl");
-testFile("tests/test-recursive2.hl");
-testFile("tests/test-operators1.hl");
-testFile("tests/test-conversion1.hl");
-testFile("tests/test-service1.hl");
-testFile("tests/test-service2.hl");
-testFile("tests/test-service3.hl");
-testFile("tests/test-example1.hl");
-testFile("tests/test-example2.hl");
-testFile("tests/test-example3.hl");
-testFile("tests/test-example4.hl");
-testFile("tests/test-example5.hl");
-testFile("tests/test-example6.hl");
+
+fs.readdir('tests', function(err, files) {
+    files.filter(function(file) {return file.substr(-3) === '.hl';}).forEach(function(file) {testFile("tests/" + file);});
+
+    console.log("\n" + totalFilesTested + " TESTS COMPLETED");
+});

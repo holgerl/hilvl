@@ -1,10 +1,10 @@
-# set ServiceB # 
-	# set actionB :
+# new ServiceB # 
+	# new actionB :
 		#.argument
 
 
-# set ServiceA # 
-	# set actionA :
+# new ServiceA # 
+	# new actionA :
 		ServiceB actionB (#.argument)
 		
 ServiceA actionA 42
