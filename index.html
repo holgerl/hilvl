@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="lib/showdown.min.js"> </script>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+	<script src="hl.js"> </script>
+
+	<style type="text/css">
+		#evaluateForm {
+		}
+		#evaluateCode {
+			tab-size : 4;
+			font-family: monospace;
+			font-size: 12px;
+			background-color: #fafafa;
+			height: 20em;
+		}
+		#output {
+			tab-size : 4;
+			font-size: 12px;
+			padding: 0.5em;
+		    background-color: #f0f0f0;
+			height: 20em;
+			white-space: pre;
+			font-family: monospace;
+		}
+		#evaluate {
+			margin-top: 0.5em;
+		}
+	</style>
+
+	<script type="text/javascript">
+		var main = function() {
+			document.getElementById("evaluateForm").addEventListener("submit", submitHandler);
+
+			document.getElementById("evaluateCode").addEventListener("keydown", handleKey);
+
+			appendReadme();
+		}
+
+		var submitHandler = function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			var code = document.getElementById("evaluateCode").value;
+
+			try {
+				var result = hl.execute(code);
+			} catch (exception) {
+				console.log(exception);
+				var result = exception.toString();
+			}
+
+			document.getElementById("output").innerText = JSON.stringify(result);
+		}
+
+		var handleKey = function(event) {
+			if (event.keyCode === 9) { // tab key
+				event.preventDefault();
+
+				var start = this.selectionStart;
+				var end = this.selectionEnd;
+
+				var value = this.value;
+
+				this.value = value.substring(0, start) + "\t" + value.substring(end);
+				this.selectionStart = this.selectionEnd = start + 1;
+			}
+		}
+
+		var appendReadme = function() {
+			var xmlhttp = new XMLHttpRequest();
+			var url = "https://raw.githubusercontent.com/holgerl/hilvl/master/README.md";
+
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var converter = new showdown.Converter();
+					var html = converter.makeHtml(xmlhttp.responseText);
+					document.getElementById("readme").innerHTML += html;
+				}
+			}
+			xmlhttp.open("GET", url, true);
+			xmlhttp.send();
+		}
+	</script>
+</head>
+<body onload="main();">
+	<div class="col-xs-12">
+		<h1>The hilvl programming language</h1>
+		<p><em>Check it out on <a href="https://github.com/holgerl/hilvl">GitHub</a></em></p>
+	</div>
+
+	<div class="col-xs-8">
+		<h4>Code:</h4>
+		<form id="evaluateForm">
+			<textarea class="form-control" id="evaluateCode">
+// Edit this code!
+
+# new foo = 
+	1, 2, 3
+
+# new bar = 0
+
+#.foo loop
+	# set bar = (#.bar + (#.element))
+
+#.bar
+</textarea>
+			<input class="btn btn-primary" id="evaluate" type="submit" value="Evaluate"/>
+		</form>
+	</div>
+
+	<div class="col-xs-4">
+		<h4>Output:</h4>			
+		<div id="output"> </div>
+	</div>
+
+	<div id="readme" class="col-xs-12"> </div>
+</body>
+</html>
