@@ -35,7 +35,7 @@ hl.tokenize = function(script) {
 		line = escapeSpacesInStrings(line);
 		if (/^\s*$/.test(line)) continue;
 		
-		line = line.replace(/\t/g, " tab ");
+		line = line.replace(/\t|    /g, " tab ");
 		line = line.replace(/[\.:()]/g, " $& ");
 		var tokens = line.trim().split(/\s+/);
 		
