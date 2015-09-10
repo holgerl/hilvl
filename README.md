@@ -4,6 +4,8 @@ Hilvl is a programming language that is versatile but with a very small syntax. 
 
 Services are the fundamental building blocks of a hilvl program. And the name hilvl reflects how this is a higher level of abstraction than objects and functions.
 
+Try the [online evaluator](http://holgerl.github.io/hilvl/)
+
 ### Example of hilvl
 
 *(If you don't get this, skip to [the chapters below](https://github.com/holgerl/hilvl#structure-of-the-hilvl-language).)*
