@@ -1,5 +1,11 @@
 'use strict';
 
+// Makes the code run on both node.js and in a browser:
+if (typeof(global) == 'undefined') {window.global = window;}
+global.require = global.require || function() {};
+global.process = global.process || {argv: []};
+global.module = global.module || {};
+
 var fs = require("fs");
 
 var hl = {};
@@ -410,8 +416,10 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 }
 
 hl.execute = function(script) {
+	script = script.trim();
 	var tokens = hl.tokenize(script);
 	var trees = hl.parse(tokens);
+	console.log(JSON.stringify(trees, null, 4));
 	var result = hl.evaluate(trees);
 	return result;
 }
