@@ -265,6 +265,7 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 			throw new Error(action + " is not a valid action on " + serviceType);
 		}
 		
+		// Simple system services:
 		if (serviceType == "Array") {
 			if (action == "loop") {
 				for (var i in service) {
@@ -324,6 +325,9 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 			} else if (action == "then") {
 				if (service === true || service === "true") hl.evaluate(args, returnLast);
 			} else fail();
+
+
+		// Scope related services:
 		} else if (serviceType == "Scope") {
 			var args = hl.evaluate(tree.args, returnLast);
 			if (action == "new") {
