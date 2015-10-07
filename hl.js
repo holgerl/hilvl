@@ -21,33 +21,41 @@ hl.tokenize = function(script) {
 		return string.replace(/%%s%%/g, " ");
 	}
 
-	script = script.replace(/\/\/.*/g, ""); // Line comment
-	script = script.replace(/\/\*[^*]*\*\//g, " "); // Block comment
-	script = script.replace(/(\t*)(.+,.+)+/g, function(match, group1, group2){
-		return group1 + group2.split(",").join("\n" + group1);
-	});
-	var lines = script.split(/(\n)+/);
-	var tokenLists = [];
-	var inComment = false;
-	for (var i in lines) {
-		var line = lines[i];
-		
+	function removeLineComments(string) {
+		return string.replace(/\/\/.*/g, "");
+	}
+
+	function removeBlockComments(string) {
+		return script.replace(/\/\*[^*]*\*\//g, " ");
+	}
+
+	function convertCommaSeparatedArray(string) {
+		return script.replace(/(\t*)(.+,.+)+/g, function(match, group1, group2) {
+			return group1 + group2.split(",").join("\n" + group1);
+		});
+	}
+
+	function lineIsNotEmpty(line) {
+		return !/^\s*$/.test(line);
+	}
+
+	function tokenizeLine(line) {
 		line = escapeSpacesInStrings(line);
-		if (/^\s*$/.test(line)) continue;
-		
 		line = line.replace(/\t|    /g, " tab ");
 		line = line.replace(/[\.:()]/g, " $& ");
-		var tokens = line.trim().split(/\s+/);
 		
-		var tokenList = [];
-		for (var i in tokens) {
-			tokenList.push(unescapeSpacesInStrings(tokens[i]));
-		}
-		
-		tokenLists.push(tokenList);
+		return line.trim().split(/\s+/).map(unescapeSpacesInStrings);
 	}
+
+	script = removeLineComments(script);
+	script = removeBlockComments(script);
+	script = convertCommaSeparatedArray(script);
+
+	var tokenLists = script.split(/\r?\n|\r/)
+		.filter(lineIsNotEmpty)
+		.map(tokenizeLine);
+
 	tokenLists.push(["EOF"]);
-	//consoleconsole.log(tokenLists);
 	return tokenLists;
 }
 
