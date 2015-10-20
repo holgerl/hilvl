@@ -1,0 +1,70 @@
+# new foo = 100
+	
+#.foo == 100 then
+    # new localVar = 12
+	# set foo = (#.localVar + 30)
+
+#.foo
+	
+/*parsed
+[
+    {
+        "service": {
+            "service": "#",
+            "action": "new",
+            "args": "foo"
+        },
+        "action": "=",
+        "args": "100"
+    },
+    {
+        "service": {
+            "service": {
+                "service": "#",
+                "action": ".",
+                "args": "foo"
+            },
+            "action": "==",
+            "args": "100"
+        },
+        "action": "then",
+        "args": [
+            {
+                "service": {
+                    "service": "#",
+                    "action": "new",
+                    "args": "localVar"
+                },
+                "action": "=",
+                "args": "12"
+            },
+            {
+                "service": {
+                    "service": "#",
+                    "action": "set",
+                    "args": "foo"
+                },
+                "action": "=",
+                "args": {
+                    "service": {
+                        "service": "#",
+                        "action": ".",
+                        "args": "localVar"
+                    },
+                    "action": "+",
+                    "args": "30"
+                }
+            }
+        ]
+    },
+    {
+        "service": "#",
+        "action": ".",
+        "args": "foo"
+    }
+]
+*/
+
+/*result
+42
+*/
