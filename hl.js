@@ -233,7 +233,7 @@ hl.getServiceType = function(service) {
 	
 	if (service instanceof Array)
 		return "Array";
-	else if (service[0] == "\"")
+	else if (service[0] == "\"" || service.type == "String")
 		return "String";
 	else if (!isNaN(parseInt(service)))
 		return "Number";
@@ -275,14 +275,21 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 			} else fail();
 		} else if (serviceType == "String") {
 			var args = hl.evaluate(tree.args, returnLast);
-			var a = service.substring(1, service.length-1);
-			var b = args.substring(1, args.length-1);
+			var value = service.value || service;
+			var a = value.substring(1, value.length-1);
+			var b = args[0] == "\"" ? args.substring(1, args.length-1) : null;
 			if (action == "+") {
 				return "\"" + a + b + "\"";
 			} else if (action == "==") {
 				return a === b;
 			} else if (action == "!=") {
 				return a !== b;
+			} else if (action == "at") {
+				return {type: "String", atIndex: args, value: service};
+			} else if (action == "length") {
+				return a.length;
+			} else if (action == "substringTo") {
+				return "\"" + a.substring(service.atIndex, args) + "\"";
 			} else fail();
 		} else if (serviceType == "Number") {
 			var a = parseInt(service);
