@@ -178,8 +178,13 @@ function testScope() {
  
 testScope();
 
-fs.readdir('tests', function(err, files) {
-    files.filter(function(file) {return file.substr(-3) === '.hl';}).forEach(function(file) {testFile("tests/" + file);});
+if (process.argv[2]) {
+    var file = process.argv[2]
+    testFile(file);
+} else {
+    fs.readdir('tests', function(err, files) {
+        files.filter(function(file) {return file.substr(-3) === '.hl';}).forEach(function(file) {testFile("tests/" + file);});
 
-    console.log("\n" + totalFilesTested + " TESTS COMPLETED");
-});
+        console.log("\n" + totalFilesTested + " TESTS COMPLETED");
+    });
+}

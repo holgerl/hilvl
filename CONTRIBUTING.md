@@ -8,7 +8,9 @@ To run the code and tests, you need [node.js](https://nodejs.org).
 
 ## Running tests
 
-Hilvl has an extensive test suite that should cover all the features in the language. To run them, simply execute `node hl-tests.js`
+Hilvl has an extensive test suite that should cover all the features in the language. To run them, simply run `node tests\run-tests.js`
+
+To run a single test, you can run `node tests\run-tests.js [FILENAME]`
 
 ## Important principles
 
