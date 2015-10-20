@@ -71,7 +71,7 @@ hl.parse = function(tokenLists) {
 		return numberOfTabs;
 	}
 	
-	function evalLine(tokens, indent) {
+	function parseLine(tokens, indent) {
 		if (indent == tokens.length-1) return tokens[indent];
 		
 		var stack = [{service: null, action: null, args: null}];
@@ -103,7 +103,7 @@ hl.parse = function(tokenLists) {
 			}
 		}
 		
-		//console.log("evalLine: ", root, "---", stack);
+		//console.log("parseLine: ", root, "---", stack);
 		
 		return root;
 	}
@@ -118,10 +118,10 @@ hl.parse = function(tokenLists) {
 		//console.log("->", tokens, indent, JSON.stringify(stack));
 		
 		if (nofTabs == indent) {
-			head.args.push(evalLine(tokens, indent));
+			head.args.push(parseLine(tokens, indent));
 		} else if (nofTabs > indent) {
 			indent++;
-			stack.push({args: [evalLine(tokens, indent)]});
+			stack.push({args: [parseLine(tokens, indent)]});
 		} else {
 			for (var t = 0; t < indent - nofTabs; t++) {
 				var popped = stack.pop();
@@ -129,7 +129,7 @@ hl.parse = function(tokenLists) {
 				head.args[head.args.length-1].args = popped.args;
 			}
 			indent = nofTabs;
-			head.args.push(evalLine(tokens, indent));
+			head.args.push(parseLine(tokens, indent));
 		}
 	}
 	
