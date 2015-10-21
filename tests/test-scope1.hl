@@ -5,9 +5,9 @@
 	# new innerFun :
 		# new innerVar = 12
 		#.innerVar + (#.outerVar) + (#.globalVar)
-	# innerFun null
+	# innerFun _
 	
-# outerFun null
+# outerFun _
 
 /*result
 20

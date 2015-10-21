@@ -6,9 +6,9 @@
 		#.myValue
 		
 # new foo =
-	MyService getMyValue null
-	MyService myAction1 null
-	MyService getMyValue null
+	MyService getMyValue _
+	MyService myAction1 _
+	MyService getMyValue _
 	
 /*result
 [

@@ -5,14 +5,14 @@
 		# new innerAction :
 			# set outerVar = (#.innerVar)
 	# new outerAction :
-		InnerService innerAction null
+		InnerService innerAction _
 	# new getOuterVar :
 		#.outerVar
 		
 # new foo =
-	OuterService getOuterVar null
-	OuterService outerAction null
-	OuterService getOuterVar null
+	OuterService getOuterVar _
+	OuterService outerAction _
+	OuterService getOuterVar _
 	
 /*result
 [

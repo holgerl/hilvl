@@ -4,7 +4,7 @@
 	# new myAction :
 		# set foo = 42
 		# new myFunction = (#.argument)
-		# myFunction null
+		# myFunction _
 		
 # new bar = 
 	MyService myAction (#.foo + 2)

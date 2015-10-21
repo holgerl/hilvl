@@ -4,7 +4,7 @@
 	# new myAction :
 		# set foo = 42 // Variable in inner scope
 		# new myFunction = (#.argument)
-		# myFunction null // Invoking the argument as an action
+		# myFunction _ // Invoking the argument as an action
 		
 # new bar = 
 	MyService myAction (#.foo + 2) // Argument is evaluated before action is invocated

@@ -5,7 +5,7 @@
 	
 # new barBefore = (#.bar)
 	
-# foo null // this invokes the foo action, and the code is evaluated (null means no argument)
+# foo _ // this invokes the foo action, and the code is evaluated (_ means no argument)
 
 # new barAfter = (#.bar)
 

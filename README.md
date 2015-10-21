@@ -145,7 +145,7 @@ Here is an example:
 KeyboardService onEvent
 	Player move "up"
 	Time increase 1
-	CollisionControl doCheck null
+	CollisionControl doCheck _
 ```
 
 Here, the implementation of `onEvent` may decide itself when to evaluate the statements in the argument.
@@ -212,7 +212,7 @@ It is done with the action `:`:
 	
 # new barBefore = (#.bar)
 	
-# foo null // this invokes the foo action, and the code is evaluated
+# foo _ // this invokes the foo action, and the code is evaluated
 
 # new barAfter = (#.bar)
 
@@ -223,7 +223,7 @@ It is done with the action `:`:
 //result: [1, 2]
 ```
 
-Notice how `null` is used as argument for `foo`. This is because `foo` does not use its argument. So any argument would be ignored anyway. 
+Notice how `_` is used as argument for `foo`. This is because `foo` does not use its argument. So any argument would be ignored anyway. 
 
 If an array of statements is executed, the value of the *last* statement is returned from the action. All hilvl code are arrays of statements, so this is why the last value is always the result in the examples. 
 
@@ -239,7 +239,7 @@ If an array of statements is executed, the value of the *last* statement is retu
 	# new myAction :
 		# set foo = 42 // Variable in inner scope
 		# new myFunction = (#.argument)
-		# myFunction null // Invoking the argument as an action
+		# myFunction _ // Invoking the argument as an action
 		
 # new bar = 
 	MyService myAction (#.foo + 2) // Argument is evaluated before action is invocated

@@ -5,7 +5,7 @@
 	#.bar
 	
 # new baz =
-	# foo null
+	# foo _
 	#.bar
 	
 /*result

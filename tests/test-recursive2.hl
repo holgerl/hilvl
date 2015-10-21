@@ -5,10 +5,10 @@
 # new recurFun :
 	#.globalVar < 1000 then
 		# set globalVar = (#.globalVar + 1)
-		# recurFun null
+		# recurFun _
 	#.globalVar
 	
-# recurFun null
+# recurFun _
 
 /*result
 1000
