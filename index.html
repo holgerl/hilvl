@@ -47,7 +47,12 @@
 			var code = document.getElementById("evaluateCode").value;
 
 			try {
+				var log = console.log;
+				console.log = function() {}; // Logging is so slow!
+
 				var result = hl.execute(code);
+
+				console.log = log;
 			} catch (exception) {
 				console.log(exception);
 				var result = exception.toString();
