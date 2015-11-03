@@ -1,0 +1,26 @@
+@ new foo = 10
+
+@ . foo + 2
+
+// Do it 10 times
+//	 @ set foo = (@ . foo + 1)
+
+@ new Do @
+	@ new it :
+		@ new nof = (@ . argument)
+		@ . Do
+	@ new times :
+		@ new body = (@ . argument)
+		0 until
+			@ body _
+			@ set nof = (@ . nof - 1)
+			@ . nof
+
+Do it 10 times
+	@ set foo = (@ . foo + 1)
+
+@ . foo
+
+/*result
+20
+*/
