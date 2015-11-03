@@ -1,18 +1,18 @@
-# new foo = 0
+@ new foo = 0
 
 true then
-	# set foo = 4
+	@ set foo = 4
 	
 false then
-	# set foo = 5
+	@ set foo = 5
 	
-#.foo
+@.foo
 	
 /*parsed
 [
     {
         "service": {
-            "service": "#",
+            "service": "@",
             "action": "new",
             "args": "foo"
         },
@@ -25,7 +25,7 @@ false then
         "args": [
             {
                 "service": {
-                    "service": "#",
+                    "service": "@",
                     "action": "set",
                     "args": "foo"
                 },
@@ -40,7 +40,7 @@ false then
         "args": [
             {
                 "service": {
-                    "service": "#",
+                    "service": "@",
                     "action": "set",
                     "args": "foo"
                 },
@@ -50,7 +50,7 @@ false then
         ]
     },
     {
-        "service": "#",
+        "service": "@",
         "action": ".",
         "args": "foo"
     }

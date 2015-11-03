@@ -1,11 +1,11 @@
-#.now = 
+@.now = 
 	Date new none
 
 /*parsed
 [
     {
         "service": {
-            "service": "#",
+            "service": "@",
             "action": ".",
             "args": "now"
         },

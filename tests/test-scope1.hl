@@ -1,13 +1,13 @@
-# new globalVar = 3
+@ new globalVar = 3
 	
-# new outerFun :
-	# new outerVar = 5
-	# new innerFun :
-		# new innerVar = 12
-		#.innerVar + (#.outerVar) + (#.globalVar)
-	# innerFun _
+@ new outerFun :
+	@ new outerVar = 5
+	@ new innerFun :
+		@ new innerVar = 12
+		@.innerVar + (@.outerVar) + (@.globalVar)
+	@ innerFun _
 	
-# outerFun _
+@ outerFun _
 
 /*result
 20

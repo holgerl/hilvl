@@ -1,16 +1,16 @@
-# new bar = 1
+@ new bar = 1
 	
-# new foo : // the statement in the argument is not evaluated yet
-	# set bar = 2
+@ new foo : // the statement in the argument is not evaluated yet
+	@ set bar = 2
 	
-# new barBefore = (#.bar)
+@ new barBefore = (@.bar)
 	
-# foo _ // this invokes the foo action, and the code is evaluated (_ means no argument)
+@ foo _ // this invokes the foo action, and the code is evaluated (_ means no argument)
 
-# new barAfter = (#.bar)
+@ new barAfter = (@.bar)
 
-# new results =
-	#.barBefore
-	#.barAfter
+@ new results =
+	@.barBefore
+	@.barAfter
 
 //result: [1, 2]

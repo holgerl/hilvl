@@ -1,8 +1,8 @@
 // Creating a new service with an action:
-# new MyService # 
-	# new myAction :
-		# new myVariable = (42 + (#.argument))
-		#.myVariable // This is the return value
+@ new MyService @ 
+	@ new myAction :
+		@ new myVariable = (42 + (@.argument))
+		@.myVariable // This is the return value
 		
 MyService myAction 1 // Using the service
 

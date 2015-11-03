@@ -1,19 +1,19 @@
-# new foo = 3
-# new bar = 3
+@ new foo = 3
+@ new bar = 3
 	
-#.foo == (#.bar) then
-	# set foo = 42
+@.foo == (@.bar) then
+	@ set foo = 42
 	
-#.foo == 5 then
-	# set foo = 45
+@.foo == 5 then
+	@ set foo = 45
 	
-#.foo
+@.foo
 	
 /*parsed
 [
     {
         "service": {
-            "service": "#",
+            "service": "@",
             "action": "new",
             "args": "foo"
         },
@@ -22,7 +22,7 @@
     },
     {
         "service": {
-            "service": "#",
+            "service": "@",
             "action": "new",
             "args": "bar"
         },
@@ -32,13 +32,13 @@
     {
         "service": {
             "service": {
-                "service": "#",
+                "service": "@",
                 "action": ".",
                 "args": "foo"
             },
             "action": "==",
             "args": {
-                "service": "#",
+                "service": "@",
                 "action": ".",
                 "args": "bar"
             }
@@ -47,7 +47,7 @@
         "args": [
             {
                 "service": {
-                    "service": "#",
+                    "service": "@",
                     "action": "set",
                     "args": "foo"
                 },
@@ -59,7 +59,7 @@
     {
         "service": {
             "service": {
-                "service": "#",
+                "service": "@",
                 "action": ".",
                 "args": "foo"
             },
@@ -70,7 +70,7 @@
         "args": [
             {
                 "service": {
-                    "service": "#",
+                    "service": "@",
                     "action": "set",
                     "args": "foo"
                 },
@@ -80,7 +80,7 @@
         ]
     },
     {
-        "service": "#",
+        "service": "@",
         "action": ".",
         "args": "foo"
     }

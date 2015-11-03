@@ -1,14 +1,14 @@
-# new foo = 
+@ new foo = 
 	1
 	2
 	3
 	4
 	5
 	
-# new bar = 
+@ new bar = 
 	1, 2, 3
 	
-#.foo
+@.foo
 
 /*result
 [1, 2, 3, 4, 5]

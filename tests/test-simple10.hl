@@ -1,13 +1,13 @@
 Global.MyService = 
-	#.incValue :
-		#.myValue = 42
-		argument + (#.myValue)
-	#.updateState :
-		#.incrementedValue = 4
-		State.value add (#.incrementedValue)
+	@.incValue :
+		@.myValue = 42
+		argument + (@.myValue)
+	@.updateState :
+		@.incrementedValue = 4
+		State.value add (@.incrementedValue)
 
 Global.ServiceChild inherit MyService =
-	#.incValue :
+	@.incValue :
 		argument + 12
 
 /*parsed
@@ -22,7 +22,7 @@ Global.ServiceChild inherit MyService =
         "args": [
             {
                 "service": {
-                    "service": "#",
+                    "service": "@",
                     "action": ".",
                     "args": "incValue"
                 },
@@ -30,7 +30,7 @@ Global.ServiceChild inherit MyService =
                 "args": [
                     {
                         "service": {
-                            "service": "#",
+                            "service": "@",
                             "action": ".",
                             "args": "myValue"
                         },
@@ -41,7 +41,7 @@ Global.ServiceChild inherit MyService =
                         "service": "argument",
                         "action": "+",
                         "args": {
-                            "service": "#",
+                            "service": "@",
                             "action": ".",
                             "args": "myValue"
                         }
@@ -50,7 +50,7 @@ Global.ServiceChild inherit MyService =
             },
             {
                 "service": {
-                    "service": "#",
+                    "service": "@",
                     "action": ".",
                     "args": "updateState"
                 },
@@ -58,7 +58,7 @@ Global.ServiceChild inherit MyService =
                 "args": [
                     {
                         "service": {
-                            "service": "#",
+                            "service": "@",
                             "action": ".",
                             "args": "incrementedValue"
                         },
@@ -73,7 +73,7 @@ Global.ServiceChild inherit MyService =
                         },
                         "action": "add",
                         "args": {
-                            "service": "#",
+                            "service": "@",
                             "action": ".",
                             "args": "incrementedValue"
                         }
@@ -96,7 +96,7 @@ Global.ServiceChild inherit MyService =
         "args": [
             {
                 "service": {
-                    "service": "#",
+                    "service": "@",
                     "action": ".",
                     "args": "incValue"
                 },

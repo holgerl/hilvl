@@ -1,12 +1,12 @@
-# new foo = 
+@ new foo = 
 	1, 2, 3
 	
-# new bar = 0
+@ new bar = 0
 	
-#.foo loop
-	# set bar = (#.bar + (#.element))
+@.foo loop
+	@ set bar = (@.bar + (@.element))
 	
-#.bar
+@.bar
 
 /*result
 6

@@ -1,20 +1,20 @@
-# new Util # 
-	# new on :
-		# new arg1 = (#.argument)
-		#.Util
-	# new at :
-		# new arg2 = (#.argument)
-		#.Util
-	# new insert :
-		# new first = (#.arg1 at 0 substringTo (#.arg2))
-		# new last = (#.arg1 at (#.arg2) substringTo (#.arg1 length _))
-		#.first + (#.argument) + (#.last)
-	# new removeTo :
-		# new first = (#.arg1 at 0 substringTo (#.arg2))
-		# new last = (#.arg1 at (#.argument) substringTo (#.arg1 length _))
-		#.first + (#.last)
+@ new Util @ 
+	@ new on :
+		@ new arg1 = (@.argument)
+		@.Util
+	@ new at :
+		@ new arg2 = (@.argument)
+		@.Util
+	@ new insert :
+		@ new first = (@.arg1 at 0 substringTo (@.arg2))
+		@ new last = (@.arg1 at (@.arg2) substringTo (@.arg1 length _))
+		@.first + (@.argument) + (@.last)
+	@ new removeTo :
+		@ new first = (@.arg1 at 0 substringTo (@.arg2))
+		@ new last = (@.arg1 at (@.argument) substringTo (@.arg1 length _))
+		@.first + (@.last)
 
-# new _ = 
+@ new _ = 
 	"Hello!" length _,
 	"Hello!" at 1 substringTo 4
 	Util on "Hello!" at 4 insert " n"

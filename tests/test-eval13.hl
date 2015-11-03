@@ -1,10 +1,10 @@
-# new bar = 0
+@ new bar = 0
 	
-# new foo :
-	# set bar = (#.argument)
-	#.bar
+@ new foo :
+	@ set bar = (@.argument)
+	@.bar
 	
-# foo 42
+@ foo 42
 
 /*result
 42

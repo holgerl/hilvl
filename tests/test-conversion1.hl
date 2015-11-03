@@ -1,4 +1,4 @@
-# new foo = 
+@ new foo = 
 	42 as string
 	"number is " + (123 as string) + " today"
 	

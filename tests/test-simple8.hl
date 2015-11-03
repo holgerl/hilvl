@@ -1,4 +1,4 @@
-#.foo = 
+@.foo = 
 	Array new 
 		1,2,3
 	Array new 
@@ -8,7 +8,7 @@
 [
     {
         "service": {
-            "service": "#",
+            "service": "@",
             "action": ".",
             "args": "foo"
         },

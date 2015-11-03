@@ -1,15 +1,15 @@
-# new OuterService # 
-	# new outerVar = 42
-	# new InnerService # 
-		# new innerVar = 30
-		# new innerAction :
-			# set outerVar = (#.innerVar)
-	# new outerAction :
+@ new OuterService @ 
+	@ new outerVar = 42
+	@ new InnerService @ 
+		@ new innerVar = 30
+		@ new innerAction :
+			@ set outerVar = (@.innerVar)
+	@ new outerAction :
 		InnerService innerAction _
-	# new getOuterVar :
-		#.outerVar
+	@ new getOuterVar :
+		@.outerVar
 		
-# new foo =
+@ new foo =
 	OuterService getOuterVar _
 	OuterService outerAction _
 	OuterService getOuterVar _

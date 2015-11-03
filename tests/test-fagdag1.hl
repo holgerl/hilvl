@@ -1,16 +1,16 @@
-# new foo = 100
+@ new foo = 100
 	
-#.foo == 100 then
-    # new localVar = 12
-	# set foo = (#.localVar + 30)
+@.foo == 100 then
+    @ new localVar = 12
+	@ set foo = (@.localVar + 30)
 
-#.foo
+@.foo
 	
 /*parsed
 [
     {
         "service": {
-            "service": "#",
+            "service": "@",
             "action": "new",
             "args": "foo"
         },
@@ -20,7 +20,7 @@
     {
         "service": {
             "service": {
-                "service": "#",
+                "service": "@",
                 "action": ".",
                 "args": "foo"
             },
@@ -31,7 +31,7 @@
         "args": [
             {
                 "service": {
-                    "service": "#",
+                    "service": "@",
                     "action": "new",
                     "args": "localVar"
                 },
@@ -40,14 +40,14 @@
             },
             {
                 "service": {
-                    "service": "#",
+                    "service": "@",
                     "action": "set",
                     "args": "foo"
                 },
                 "action": "=",
                 "args": {
                     "service": {
-                        "service": "#",
+                        "service": "@",
                         "action": ".",
                         "args": "localVar"
                     },
@@ -58,7 +58,7 @@
         ]
     },
     {
-        "service": "#",
+        "service": "@",
         "action": ".",
         "args": "foo"
     }

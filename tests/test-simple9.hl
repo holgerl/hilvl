@@ -1,10 +1,10 @@
 myValue == true then
 	Console log "foobar"
 	
-#.array for
+@.array for
 	Console log element
 
-#.myMap map
+@.myMap map
 	"name": "John"
 	"address": "Wilkerstreet 12"
 	"telephone": "80045223"
@@ -28,7 +28,7 @@ myValue == true then
     },
     {
         "service": {
-            "service": "#",
+            "service": "@",
             "action": ".",
             "args": "array"
         },
@@ -43,7 +43,7 @@ myValue == true then
     },
     {
         "service": {
-            "service": "#",
+            "service": "@",
             "action": ".",
             "args": "myMap"
         },

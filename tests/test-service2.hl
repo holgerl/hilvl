@@ -1,23 +1,23 @@
-# new InnerInnerService # 
-	# new setArg1 :
-		# new arg1 = (#.argument)
-	# new setArg2 :
-		# new arg2 = (#.argument)
-	# new innerInnerAction :
-		#.arg1 + (#.arg2) + (#.argument)
+@ new InnerInnerService @ 
+	@ new setArg1 :
+		@ new arg1 = (@.argument)
+	@ new setArg2 :
+		@ new arg2 = (@.argument)
+	@ new innerInnerAction :
+		@.arg1 + (@.arg2) + (@.argument)
 
-# new InnerService # 
-	# new setArg1 :
-		# new arg1 = (#.argument)
-	# new innerAction :
-		InnerInnerService setArg1 (#.arg1)
-		InnerInnerService setArg2 (#.argument)
-		#.InnerInnerService
+@ new InnerService @ 
+	@ new setArg1 :
+		@ new arg1 = (@.argument)
+	@ new innerAction :
+		InnerInnerService setArg1 (@.arg1)
+		InnerInnerService setArg2 (@.argument)
+		@.InnerInnerService
 
-# new OuterService # 
-	# new outerAction :
-		InnerService setArg1 (#.argument)
-		#.InnerService
+@ new OuterService @ 
+	@ new outerAction :
+		InnerService setArg1 (@.argument)
+		@.InnerService
 		
 OuterService outerAction 42 innerAction 50 innerInnerAction 100
 	

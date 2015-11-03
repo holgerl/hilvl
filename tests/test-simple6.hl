@@ -1,4 +1,4 @@
-#.now = (Date new none)
+@.now = (Date new none)
 
 object action (object2 action2 arg2) action3 arg3
 
@@ -8,7 +8,7 @@ object action (object2 action2 (object3 action3 arg3))
 [
     {
         "service": {
-            "service": "#",
+            "service": "@",
             "action": ".",
             "args": "now"
         },

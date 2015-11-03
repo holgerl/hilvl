@@ -1,14 +1,14 @@
 /*noDebug*/
 
-# new globalVar = 0
+@ new globalVar = 0
 	
-# new recurFun :
-	#.globalVar < 1000 then
-		# set globalVar = (#.globalVar + 1)
-		# recurFun _
-	#.globalVar
+@ new recurFun :
+	@.globalVar < 1000 then
+		@ set globalVar = (@.globalVar + 1)
+		@ recurFun _
+	@.globalVar
 	
-# recurFun _
+@ recurFun _
 
 /*result
 1000

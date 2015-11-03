@@ -1,11 +1,11 @@
-# new MyService # 
-	# new myAction1 :
-		# new myValue = 42
-		#.argument + (#.myValue)
-	# new myAction2 :
-		#.argument + 10
+@ new MyService @ 
+	@ new myAction1 :
+		@ new myValue = 42
+		@.argument + (@.myValue)
+	@ new myAction2 :
+		@.argument + 10
 		
-# new foo =
+@ new foo =
 	MyService myAction1 8
 	MyService myAction2 10
 	

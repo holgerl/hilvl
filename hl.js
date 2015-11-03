@@ -239,7 +239,7 @@ hl.getServiceType = function(service) {
 		return "Number";
 	else if (service === true || service === "true" || service === false || service === "false")
 		return "Boolean"
-	else if (service == "#")
+	else if (service == "@")
 		return "Scope";
 	else if (service.type == "ScopeReference")
 		return "ScopeReference";
@@ -364,7 +364,7 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 			} else if (action == ":") {
 				var newScopeIndex = hl.pushScope(true);
 				hl.changeInScope(service.name, {code: tree.args, scope: newScopeIndex});
-			} else if (action == "#") {
+			} else if (action == "@") {
 				var nextScopeIndex = scopes.length+1;
 				var args = hl.evaluate(tree.args, false, true);
 				hl.changeInScope(service.name, {type: "ScopeReference", scope: nextScopeIndex});
@@ -415,7 +415,7 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 		if (tree != null && tree.service) {
 			var evaluatedService = hl.evaluate(tree.service, returnLast);
 			var args = tree.args;
-			if (!(tree.args instanceof Array)) var args = hl.evaluate(tree.args, returnLast); // If argument is array, it should be possible for the action implementation to choose to evaluate or not. If the argument is not array, we must evaluate it NOW before the scope is changed. Or else #.argument and other values that only exist in THIS scope can not be used as args in function calls.
+			if (!(tree.args instanceof Array)) var args = hl.evaluate(tree.args, returnLast); // If argument is array, it should be possible for the action implementation to choose to evaluate or not. If the argument is not array, we must evaluate it NOW before the scope is changed. Or else @.argument and other values that only exist in THIS scope can not be used as args in function calls.
 			result.push(doAction(evaluatedService, tree.action, args));
 		} else {
 			result.push(tree);

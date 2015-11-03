@@ -12,27 +12,27 @@ Try the [online evaluator](http://holgerl.github.io/hilvl/)
 
 <!-- test-example1.hl -->
 ```javascript
-// Note: # is the name of a system defined service
+// Note: @ is the name of a system defined service
 
-# new foo = 42
-# new bar = (2 + 40)
+@ new foo = 42
+@ new bar = (2 + 40)
 	
-# . foo == (# . bar) then
-	# set foo = 0
+@ . foo == (@ . bar) then
+	@ set foo = 0
 	
-# new myArray = 
+@ new myArray = 
 	1
 	2
 	3
 	
-# . myArray loop
-	# set foo = (# . foo + (# . element))
+@ . myArray loop
+	@ set foo = (@ . foo + (@ . element))
 
-# new MyService # 
-	# new myAction :
-		# . argument + 10
+@ new MyService @ 
+	@ new myAction :
+		@ . argument + 10
 		
-MyService myAction (# . foo) // foo is now 6, and this returns 16
+MyService myAction (@ . foo) // foo is now 6, and this returns 16
 ```
 	
 ## Structure of the hilvl language
@@ -87,10 +87,10 @@ The rest are services and actions defined by either the user or the system. This
 Here is an example that uses unusal action and service names:
 
 ```javascript
-# set myVariableName = 42
+@ set myVariableName = 42
 ```
 
-Here, `#` is the service, `set` is the action and `myVariableName` is the argument. This returns a new service which has an action `=` that is called with `42` as an argument. `#` is actually a system service for handling scope. There is more about that later.
+Here, `@` is the service, `set` is the action and `myVariableName` is the argument. This returns a new service which has an action `=` that is called with `42` as an argument. `@` is actually a system service for handling scope. There is more about that later.
 
 #### Creating a service
 
@@ -99,10 +99,10 @@ Since everything is a service. It is easy to make your own. The last statement o
 <!-- test-example7.hl -->
 ```javascript
 // Creating a new service with an action:
-# new MyService # 
-	# new myAction :
-		# new myVariable = (42 + (#.argument))
-		#.myVariable // This is the return value
+@ new MyService @ 
+	@ new myAction :
+		@ new myVariable = (42 + (@.argument))
+		@.myVariable // This is the return value
 		
 MyService myAction 1 // Using the service
 
@@ -114,13 +114,13 @@ MyService myAction 1 // Using the service
 There is no precedence in hilvl. This means that parantheses may be necessary to group arguments correctly:
 
 ```javascript
-# set myVar = 2 + 40     // This fails during runtime!
+@ set myVar = 2 + 40     // This fails during runtime!
 ```
 
 This is wrong because the action named `=` will take `2` as its argument, but the resulting service will not have an action named `+`. The correct way is to group `2 + 40` to a single argument for the `=` action:
 
 ```javascript
-# set myVar = (2 + 40)
+@ set myVar = (2 + 40)
 ```
 
 #### Intendation and arrays
@@ -162,33 +162,33 @@ This means that the `.` is an action name even though there is no space around i
 
 The `Service action argument` structure and indentation based arrays are combined with the scope system for great flexibility for the programmer.
 
-Variables are created, changed and read by using the scope service `#`:
+Variables are created, changed and read by using the scope service `@`:
 
 <!-- test-example4.hl -->
 ```javascript
-# new myVar // variable "myVar" is declared
-# set myVar = 42 // myVar is given a value
-# new myOtherVar = 10 // the variable service also has an = action for more consise code
-#.myVar + (#.myOtherVar) // the values of myVar and myOtherVar are read and added together
+@ new myVar // variable "myVar" is declared
+@ set myVar = 42 // myVar is given a value
+@ new myOtherVar = 10 // the variable service also has an = action for more consise code
+@.myVar + (@.myOtherVar) // the values of myVar and myOtherVar are read and added together
 
 //result: 52
 ```
 
-All variables are saved in the same scope. But to add a new nested scope, there is an action named `#` on the variable service:
+All variables are saved in the same scope. But to add a new nested scope, there is an action named `@` on the variable service:
 
 <!-- test-example5.hl -->
 ```javascript
-# new myVar1 = 1
-# new myVar2 = 2
+@ new myVar1 = 1
+@ new myVar2 = 2
 
-# new myScope # // the two statements in the argument are now evaluated in a new scope:
-	# new myVar1 = 10
-	# set myVar2 = 20
+@ new myScope @ // the two statements in the argument are now evaluated in a new scope:
+	@ new myVar1 = 10
+	@ set myVar2 = 20
 	
 // we place the variables in an array that is returned as the result:
-# new myArray =
-	#.myVar1
-	#.myVar2
+@ new myArray =
+	@.myVar1
+	@.myVar2
 
 //result: [1, 20]
 ```
@@ -197,7 +197,7 @@ Notice how `myVar1` kept its value because the change to `10` was done on a new 
 
 The scopes are nested, which means that if a variable is used, its value will be searched for upwards in all parent scopes.
 
-After adding a new scope, the `#` action acts exactly like the `=` action, and evalates the argument array. This means that any statements in the argument gets executed. And in the example above, this meant that the variables where changed.
+After adding a new scope, the `@` action acts exactly like the `=` action, and evalates the argument array. This means that any statements in the argument gets executed. And in the example above, this meant that the variables where changed.
 
 But it is possible to set a value to a variable *without* evaluating the arguments. This is useful when we want to execute a block of code at a later time, or many times over. This is also the key mechanism for structuring code as services and actions. 
 
@@ -205,20 +205,20 @@ It is done with the action `:`:
 
 <!-- test-example6.hl -->
 ```javascript
-# new bar = 1
+@ new bar = 1
 	
-# new foo : // the statement in the argument is not evaluated yet
-	# set bar = 2
+@ new foo : // the statement in the argument is not evaluated yet
+	@ set bar = 2
 	
-# new barBefore = (#.bar)
+@ new barBefore = (@.bar)
 	
-# foo _ // this invokes the foo action, and the code is evaluated
+@ foo _ // this invokes the foo action, and the code is evaluated
 
-# new barAfter = (#.bar)
+@ new barAfter = (@.bar)
 
-# new results =
-	#.barBefore
-	#.barAfter
+@ new results =
+	@.barBefore
+	@.barAfter
 
 //result: [1, 2]
 ```
@@ -233,21 +233,21 @@ If an array of statements is executed, the value of the *last* statement is retu
 
 <!-- test-example2.hl -->
 ```javascript
-# new foo = 10 // Variable in outer scope
+@ new foo = 10 // Variable in outer scope
 
-# new MyService # 
-	# new myAction :
-		# set foo = 42 // Variable in inner scope
-		# new myFunction = (#.argument)
-		# myFunction _ // Invoking the argument as an action
+@ new MyService @ 
+	@ new myAction :
+		@ set foo = 42 // Variable in inner scope
+		@ new myFunction = (@.argument)
+		@ myFunction _ // Invoking the argument as an action
 		
-# new bar = 
-	MyService myAction (#.foo + 2) // Argument is evaluated before action is invocated
+@ new bar = 
+	MyService myAction (@.foo + 2) // Argument is evaluated before action is invocated
 	MyService myAction // Argument is evaluated on demand by the myAction implementation
-		#.foo + 2
+		@.foo + 2
 	MyService myAction 
-		# set foo = 50 // The inner scope is active during on demand evaluation
-		#.foo + 2
+		@ set foo = 50 // The inner scope is active during on demand evaluation
+		@.foo + 2
 		
 /*result
 [12, 44, 52]
@@ -260,15 +260,15 @@ If an array of statements is executed, the value of the *last* statement is retu
 
 <!-- test-example3.hl -->
 ```javascript
-# new Please # 
-	# new add :
-		# new arg1 = (#.argument)
-		#.Please // Returning the service itself
-	# new and :
-		# new arg2 = (#.argument)
-		#.Please // Returning the service itself
-	# new andThen :
-		#.arg1 + (#.arg2) + (#.argument)
+@ new Please @ 
+	@ new add :
+		@ new arg1 = (@.argument)
+		@.Please // Returning the service itself
+	@ new and :
+		@ new arg2 = (@.argument)
+		@.Please // Returning the service itself
+	@ new andThen :
+		@.arg1 + (@.arg2) + (@.argument)
 		
 Please add 42 and 50 andThen 100
 	

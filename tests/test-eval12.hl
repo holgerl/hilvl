@@ -1,13 +1,13 @@
-# new foo = 
+@ new foo = 
 	1, 2, 3
 	
-# new bar = 0
+@ new bar = 0
 	
-#.foo loop
-	# set bar = (#.bar + 1)
-	# set bar = (#.bar + 2)
+@.foo loop
+	@ set bar = (@.bar + 1)
+	@ set bar = (@.bar + 2)
 	
-#.bar
+@.bar
 
 /*result
 9

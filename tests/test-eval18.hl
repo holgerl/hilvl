@@ -1,24 +1,24 @@
-# new bar = 123
+@ new bar = 123
 
-# new foo = (#.bar)
+@ new foo = (@.bar)
 	
-# new baz :
-	#.argument + 10
+@ new baz :
+	@.argument + 10
 
-# new barr :
-	# baz (#.argument)
+@ new barr :
+	@ baz (@.argument)
 	
-# new foobar = (# baz 15)
+@ new foobar = (@ baz 15)
 
-# new foobaz = ((# baz 10) + (#.bar))
+@ new foobaz = ((@ baz 10) + (@.bar))
 
-# new foofoo = (# barr 5)
+@ new foofoo = (@ barr 5)
 
-# new fooz =
-	#.foo
-	#.foobar
-	#.foobaz
-	#.foofoo
+@ new fooz =
+	@.foo
+	@.foobar
+	@.foobaz
+	@.foofoo
 
 /*result
 [

@@ -1,11 +1,11 @@
-# new ServiceB # 
-	# new actionB :
-		#.argument
+@ new ServiceB @ 
+	@ new actionB :
+		@.argument
 
 
-# new ServiceA # 
-	# new actionA :
-		ServiceB actionB (#.argument)
+@ new ServiceA @ 
+	@ new actionA :
+		ServiceB actionB (@.argument)
 		
 ServiceA actionA 42
 

@@ -12,7 +12,7 @@
 	{} print 
 		foo bar "World!"
 
-#.array = 
+@.array = 
 	1,2,3
 	
 /*parsed
@@ -59,7 +59,7 @@
     },
     {
         "service": {
-            "service": "#",
+            "service": "@",
             "action": ".",
             "args": "array"
         },

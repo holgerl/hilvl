@@ -1,11 +1,11 @@
-# new foo = (3 + 2)
-#.foo
+@ new foo = (3 + 2)
+@.foo
 	
 /*parsed
 [
     {
         "service": {
-            "service": "#",
+            "service": "@",
             "action": "new",
             "args": "foo"
         },
@@ -17,7 +17,7 @@
         }
     },
     {
-        "service": "#",
+        "service": "@",
         "action": ".",
         "args": "foo"
     }
