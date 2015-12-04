@@ -198,7 +198,7 @@ hl.searchScope = function(key, newValue) {
 		}
 		index = scope.parent;
 	}
-	throw new Error("Not found in scope: " + key);
+	throw new Error("Not found in scope: " + JSON.stringify(key));
 }
 
 hl.printScopes = function() {
@@ -245,6 +245,8 @@ hl.getServiceType = function(service) {
 		return "ScopeReference";
 	else  if (service.type == "Variable")
 		return "Variable";
+	else if (service == "System" || service.type == "System")
+		return "System";
 	else
 		return "Service";
 }
@@ -264,6 +266,22 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 		function fail() {
 			throw new Error(action + " is not a valid action on " + serviceType);
 		}
+
+		// Standard library services
+		if (standardLibraries[serviceType] && standardLibraries[serviceType][action]) {
+			var library = standardLibraries[serviceType][action];
+			 // TODO: DRY!
+			var oldScopeIndex = scopeIndex;
+			
+			scopeIndex = library.scope;
+			var code = library.code;
+			
+			hl.saveToScope("argument", args);
+			hl.saveToScope("this", service);
+			var result = hl.evaluate(code, true);
+			scopeIndex = oldScopeIndex;
+			return result;
+		}
 		
 		// Simple system services:
 		if (serviceType == "Array") {
@@ -275,7 +293,10 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 			} else fail();
 		} else if (serviceType == "String") {
 			var args = hl.evaluate(tree.args, returnLast);
+
 			var value = service.value || service;
+			var value = value.value || value;
+
 			var a = value.substring(1, value.length-1);
 			var b = args[0] == "\"" ? args.substring(1, args.length-1) : null;
 			if (action == "+") {
@@ -290,6 +311,8 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 				return a.length;
 			} else if (action == "substringTo") {
 				return "\"" + a.substring(service.atIndex, args) + "\"";
+			} else if (action == ".") {
+				return service[args];
 			} else fail();
 		} else if (serviceType == "Number") {
 			var a = parseInt(service);
@@ -341,7 +364,8 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 				hl.saveToScope(args, null);
 				return {type: "Variable", name: args};
 			} else if (action == "set") {
-				return {type: "Variable", name: args};
+				var value = hl.searchScope(args);
+				return {type: "Variable", name: args, value: value};
 			} else if (action == ".") {
 				return hl.searchScope(args);
 			} else { // TODO: DRY!
@@ -368,6 +392,8 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 				var nextScopeIndex = scopes.length+1;
 				var args = hl.evaluate(tree.args, false, true);
 				hl.changeInScope(service.name, {type: "ScopeReference", scope: nextScopeIndex});
+			} else if (action == ".") {
+				return service[args];
 			} else fail();
 		} else if (serviceType == "Service") { // TODO: DRY!
 			var oldScopeIndex = scopeIndex;
@@ -389,6 +415,21 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 			var result = hl.evaluate(code, true);
 			scopeIndex = oldScopeIndex;
 			return result;
+
+		// System service
+		} else if (serviceType == "System") {
+			if (action == "extend") {
+				return {type: "System", serviceName: args};
+			} else if (action == "with") {
+				return {type: "System", serviceName: service.serviceName, extensionName: args};
+			} else if (action == "as") {
+				var serviceName = service.serviceName;
+				var extensionName = service.extensionName;
+
+				var newScopeIndex = hl.pushScope(true);
+				standardLibraries[serviceName] = standardLibraries[serviceName] || {};
+				standardLibraries[serviceName][extensionName] = {code: tree.args, scope: newScopeIndex};
+			} else fail();
 		}
 		
 		return null;
@@ -434,6 +475,8 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 		return result;
 }
 
+var standardLibraries = {};
+
 hl.execute = function(script) {
 	script = script.trim();
 	var tokens = hl.tokenize(script);
@@ -443,10 +486,22 @@ hl.execute = function(script) {
 	return result;
 }
 
+hl.loadStandardLibraries = function() {
+	var libraries = ["stdlib/Variable.hl", "stdlib/String.hl"];
+	for (var i in libraries) {
+		var fileName = libraries[i];
+		var fileContents = fs.readFileSync(fileName, "utf8");
+		var result = hl.execute(fileContents);
+	}
+}
+
+hl.loadStandardLibraries();
+
 if (process.argv[2]) {
 	var fileName = process.argv[2];
 	var fileContents = fs.readFileSync(fileName, "utf8");
-	hl.setDebug(false);
+	//hl.setDebug(false);
+	hl.setDebug(true);
 	var result = hl.execute(fileContents);
 	
 	process.stdout.write(JSON.stringify(result));

@@ -1,0 +1,15 @@
+@ new bar = 42
+@ set bar += 2
+
+@ new foo =
+	@.bar
+	"Hello!" at 4 insert " n"
+
+@.foo
+
+/*result
+[
+	44, 
+	"\"Hell no!\""
+]
+*/

@@ -72,6 +72,7 @@ function testFile(fileName) {
          
         var expectedEvaluated = getExpected(fileContents, "result");
         if (expectedEvaluated != null) {
+            hl.loadStandardLibraries();
             var resultEvaluated = hl.evaluate(resultParsed);
             testEquals(fileName, resultEvaluated, expectedEvaluated);
         }
