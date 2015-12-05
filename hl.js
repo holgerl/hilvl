@@ -168,6 +168,7 @@ hl.saveToScope = function(key, value) {
 }
 
 hl.changeInScope = function(key, value) {
+	console.log("changeInScope", key, value);
 	var result = hl.searchScope(key, value);
 }
 
@@ -245,192 +246,194 @@ hl.getServiceType = function(service) {
 		return service
 }
 
-hl.evaluate = function(trees, returnLast, makeNewScope) {
+hl.doAction = function(service, action, args, returnLast) {
+	var serviceType = hl.getServiceType(service);
 	
-	function doAction(service, action, args) {
-		var serviceType = hl.getServiceType(service);
-		
-		console.log("");
-		console.log("--- doAction:", service, action, args, "(returnLast=" + returnLast + ", scopeIndex="+scopeIndex+")");
-		console.log("->" + serviceType);
-		hl.printScopes();
-		
-		if (serviceType == null) return null;
-		
-		function fail() {
-			throw new Error(action + " is not a valid action on " + serviceType);
-		}
+	console.log("");
+	console.log("--- doAction:", service, action, args, "(returnLast=" + returnLast + ", scopeIndex="+scopeIndex+")");
+	console.log("->" + serviceType);
+	hl.printScopes();
+	
+	if (serviceType == null) return null;
+	
+	function fail() {
+		throw new Error(action + " is not a valid action on " + serviceType);
+	}
 
-		// Standard library services
-		if (standardLibraries[serviceType] && standardLibraries[serviceType][action]) {
-			var library = standardLibraries[serviceType][action];
-			 // TODO: DRY!
-			var oldScopeIndex = scopeIndex;
-			
-			scopeIndex = library.scope;
-			var code = library.code;
-			
-			hl.saveToScope("argument", args);
-			hl.saveToScope("this", service);
-			var result = hl.evaluate(code, true);
-			scopeIndex = oldScopeIndex;
-			return result;
-		}
+	// Standard library services
+	if (standardLibraries[serviceType] && standardLibraries[serviceType][action]) {
+		var library = standardLibraries[serviceType][action];
+		 // TODO: DRY!
+		var oldScopeIndex = scopeIndex;
 		
-		// Simple system services:
-		if (serviceType == "Array") {
-			if (action == "loop") {
-				for (var i in service) {
-					hl.saveToScope("element", service[i]);
-					var args = hl.evaluate(tree.args, returnLast);
-				}
-			} else fail();
-		} else if (serviceType == "String") {
-			var args = hl.evaluate(tree.args, returnLast);
-
-			var value = service.value || service;
-			var value = value.value || value;
-
-			var a = value.substring(1, value.length-1);
-			var b = args[0] == "\"" ? args.substring(1, args.length-1) : null;
-			if (action == "+") {
-				return "\"" + a + b + "\"";
-			} else if (action == "==") {
-				return a === b;
-			} else if (action == "!=") {
-				return a !== b;
-			} else if (action == "at") {
-				return {type: "String", atIndex: args, value: service};
-			} else if (action == "length") {
-				return a.length;
-			} else if (action == "substringTo") {
-				return "\"" + a.substring(service.atIndex, args) + "\"";
-			} else if (action == ".") {
-				return service[args];
-			} else fail();
-		} else if (serviceType == "Number") {
-			var a = parseInt(service);
-			
-			if (action == "until") {
-				var result = undefined;
-				while(result != a) {
-					var result = hl.evaluate(tree.args, returnLast);
-				}
-				return null;
-			} else if (action == "as") {
-				if (args == "string")
-					return "\"" + a + "\"";
-				else 
-					throw new Error("Can not convert " + serviceType + " to " + args);
+		scopeIndex = library.scope;
+		var code = library.code;
+		
+		hl.saveToScope("argument", args);
+		hl.saveToScope("this", service);
+		var result = hl.evaluate(code, true);
+		scopeIndex = oldScopeIndex;
+		return result;
+	}
+	
+	// Simple system services:
+	if (serviceType == "Array") {
+		if (action == "loop") {
+			for (var i in service) {
+				hl.saveToScope("element", service[i]);
+				hl.evaluate(args, returnLast);
 			}
-			
-			var args = hl.evaluate(tree.args, returnLast);
-			
-			var b = parseInt(args);
-			
-			if (action == "+") {
-				return a + b;
-			} else if (action == "-") {
-				return a - b;
-			} else if (action == "==") {
-				return a === b;
-			} else if (action == "<") {
-				return a < b;
-			} else if (action == ">") {
-				return a > b;
-			} else fail();
-		} else if (serviceType == "Boolean") {
-			if (action == "==") {
-				var args = hl.evaluate(tree.args, returnLast);
-				return (service == "true") === (args == "true");
-			} else if (action == "!=") {
-				var args = hl.evaluate(tree.args, returnLast);
-				return (service == "true") !== (args == "true");
-			} else if (action == "then") {
-				if (service === true || service === "true") hl.evaluate(args, returnLast);
-			} else fail();
+		} else fail();
+	} else if (serviceType == "String") {
+		var args = hl.evaluate(args, returnLast);
 
+		var value = service.value || service;
+		var value = value.value || value;
 
-		// Scope related services:
-		} else if (serviceType == "@") {
-			var args = hl.evaluate(tree.args, returnLast);
-			if (action == "new") {
-				hl.saveToScope(args, null);
-				return {type: "Variable", name: args};
-			} else if (action == "set") {
-				var currentValue = hl.searchScope(args);
-				return {type: "Variable", name: args, currentValue: currentValue};
-			} else if (action == ".") {
-				return hl.searchScope(args);
-			} else { // TODO: DRY!
-				var oldScopeIndex = scopeIndex;
-				
-				var codeHolder = hl.searchScope(action);
-				var code = codeHolder.code ? codeHolder.code : codeHolder;
-				scopeIndex = codeHolder.scope ? codeHolder.scope : scopeIndex;
-				
-				hl.saveToScope("argument", args);
-				var result = hl.evaluate(code, true);
-				scopeIndex = oldScopeIndex;
-				return result;
-			}
-		} else if (serviceType == "Variable") {
-			if (action == "=") {
-				var args = hl.evaluate(tree.args, false);
-				hl.changeInScope(service.name, args);
-				return args;
-			} else if (action == ":") {
-				var newScopeIndex = hl.pushScope(true);
-				hl.changeInScope(service.name, {code: tree.args, scope: newScopeIndex});
-			} else if (action == "@") {
-				var nextScopeIndex = scopes.length+1;
-				var args = hl.evaluate(tree.args, false, true);
-				hl.changeInScope(service.name, {type: "ScopeReference", scope: nextScopeIndex});
-			} else if (action == ".") {
-				return service[args];
-			} else fail();
-		} else if (serviceType == "ScopeReference") { // TODO: DRY!
-			var oldScopeIndex = scopeIndex;
-			
-			scopeIndex = service.scope;
-			var code = hl.searchScope(action)["code"];
-			
-			hl.saveToScope("argument", args);
-			var result = hl.evaluate(code, true);
-			scopeIndex = oldScopeIndex;
-			return result;
-
-		// System service
-		} else if (serviceType == "System") {
-			if (action == "extend") {
-				return {type: "System", serviceName: args};
-			} else if (action == "with") {
-				return {type: "System", serviceName: service.serviceName, extensionName: args};
-			} else if (action == "as") {
-				var serviceName = service.serviceName;
-				var extensionName = service.extensionName;
-
-				var newScopeIndex = hl.pushScope(true);
-				standardLibraries[serviceName] = standardLibraries[serviceName] || {};
-				standardLibraries[serviceName][extensionName] = {code: tree.args, scope: newScopeIndex};
-			} else fail();
+		var a = value.substring(1, value.length-1);
+		var b = args[0] == "\"" ? args.substring(1, args.length-1) : null;
+		if (action == "+") {
+			return "\"" + a + b + "\"";
+		} else if (action == "==") {
+			return a === b;
+		} else if (action == "!=") {
+			return a !== b;
+		} else if (action == "at") {
+			return {type: "String", atIndex: args, value: service};
+		} else if (action == "length") {
+			return a.length;
+		} else if (action == "substringTo") {
+			return "\"" + a.substring(service.atIndex, args) + "\"";
+		} else if (action == ".") {
+			return service[args];
+		} else fail();
+	} else if (serviceType == "Number") {
+		var a = parseInt(service);
 		
-		// Custom service
+		if (action == "until") {
+			var result = undefined;
+			while(result != a) {
+				var result = hl.evaluate(args, returnLast);
+			}
+			return null;
+		} else if (action == "as") {
+			if (args == "string")
+				return "\"" + a + "\"";
+			else 
+				throw new Error("Can not convert " + serviceType + " to " + args);
+		}
+		
+		var args = hl.evaluate(args, returnLast);
+		
+		var b = parseInt(args);
+		
+		if (action == "+") {
+			return a + b;
+		} else if (action == "-") {
+			return a - b;
+		} else if (action == "==") {
+			return a === b;
+		} else if (action == "<") {
+			return a < b;
+		} else if (action == ">") {
+			return a > b;
+		} else fail();
+	} else if (serviceType == "Boolean") {
+		if (action == "==") {
+			var args = hl.evaluate(args, returnLast);
+			return (service == "true") === (args == "true");
+		} else if (action == "!=") {
+			var args = hl.evaluate(args, returnLast);
+			return (service == "true") !== (args == "true");
+		} else if (action == "then") {
+			if (service === true || service === "true") hl.evaluate(args, returnLast);
+		} else fail();
+
+
+	// Scope related services:
+	} else if (serviceType == "@") {
+		var args = hl.evaluate(args, returnLast);
+		if (action == "new") {
+			hl.saveToScope(args, null);
+			return {type: "Variable", name: args};
+		} else if (action == "set") {
+			var currentValue = hl.searchScope(args);
+			return {type: "Variable", name: args, currentValue: currentValue};
+		} else if (action == ".") {
+			return hl.searchScope(args);
 		} else { // TODO: DRY!
 			var oldScopeIndex = scopeIndex;
 			
-			scopeIndex = hl.searchScope(service)["scope"];
-			var code = hl.searchScope(action)["code"];
+			var codeHolder = hl.searchScope(action);
+			var code = codeHolder.code ? codeHolder.code : codeHolder;
+			scopeIndex = codeHolder.scope ? codeHolder.scope : scopeIndex;
 			
 			hl.saveToScope("argument", args);
 			var result = hl.evaluate(code, true);
 			scopeIndex = oldScopeIndex;
 			return result;
 		}
+	} else if (serviceType == "Variable") {
+		if (action == "=") {
+			console.log("********* HEEEERE", service, action, args);
+			if (args instanceof Array) {
+				var args = hl.evaluate(args, false);
+			}
+			hl.changeInScope(service.name, args);
+			return args;
+		} else if (action == ":") { // TODO: Should have an action like this for assigning without evaluating argument, but without making a new scope for the future evaluation. It could be named =>. This way, @ new foo => ($.argument) will not make a new scope when evaluating $.argument (which can be a code block, so we can't use =)
+			var newScopeIndex = hl.pushScope(true);
+			hl.changeInScope(service.name, {code: args, scope: newScopeIndex});
+		} else if (action == "@") {
+			var nextScopeIndex = scopes.length+1;
+			var args = hl.evaluate(args, false, true);
+			hl.changeInScope(service.name, {type: "ScopeReference", scope: nextScopeIndex});
+		} else if (action == ".") {
+			return service[args];
+		} else fail();
+	} else if (serviceType == "ScopeReference") { // TODO: DRY!
+		var oldScopeIndex = scopeIndex;
 		
-		return null;
+		scopeIndex = service.scope;
+		var code = hl.searchScope(action)["code"];
+		
+		hl.saveToScope("argument", args);
+		var result = hl.evaluate(code, true);
+		scopeIndex = oldScopeIndex;
+		return result;
+
+	// System service
+	} else if (serviceType == "System") {
+		if (action == "extend") {
+			return {type: "System", serviceName: args};
+		} else if (action == "with") {
+			return {type: "System", serviceName: service.serviceName, extensionName: args};
+		} else if (action == "as") {
+			var serviceName = service.serviceName;
+			var extensionName = service.extensionName;
+
+			var newScopeIndex = hl.pushScope(true);
+			standardLibraries[serviceName] = standardLibraries[serviceName] || {};
+			standardLibraries[serviceName][extensionName] = {code: args, scope: newScopeIndex};
+		} else fail();
+	
+	// Custom service
+	} else { // TODO: DRY!
+		var oldScopeIndex = scopeIndex;
+		
+		scopeIndex = hl.searchScope(service)["scope"];
+		var code = hl.searchScope(action)["code"];
+		
+		hl.saveToScope("argument", args);
+		var result = hl.evaluate(code, true);
+		scopeIndex = oldScopeIndex;
+		return result;
 	}
 	
+	return null;
+}
+
+hl.evaluate = function(trees, returnLast, makeNewScope) {
 	makeNewScope = makeNewScope || false;
 	if (returnLast == undefined) returnLast = true;
 	
@@ -452,8 +455,11 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 		if (tree != null && tree.service) {
 			var evaluatedService = hl.evaluate(tree.service, returnLast);
 			var args = tree.args;
-			if (!(tree.args instanceof Array)) var args = hl.evaluate(tree.args, returnLast); // If argument is array, it should be possible for the action implementation to choose to evaluate or not. If the argument is not array, we must evaluate it NOW before the scope is changed. Or else @.argument and other values that only exist in THIS scope can not be used as args in function calls.
-			result.push(doAction(evaluatedService, tree.action, args));
+			if (!(tree.args instanceof Array)) {
+				console.log("WAS NOT ARRAY", tree.args)
+				var args = hl.evaluate(tree.args, returnLast); // If argument is array, it should be possible for the action implementation to choose to evaluate or not. If the argument is not array, we must evaluate it NOW before the scope is changed. Or else @.argument and other values that only exist in THIS scope can not be used as args in function calls.
+			}
+			result.push(hl.doAction(evaluatedService, tree.action, args, returnLast));
 		} else {
 			result.push(tree);
 		}

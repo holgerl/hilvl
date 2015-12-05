@@ -10,7 +10,7 @@
 		@ new nof = (@ . argument)
 		@ . Do
 	@ new times :
-		@ new body = (@ . argument)
+		@ new body : (@ . argument) // Need to use : so that the code in argument is not evaluated here
 		0 until
 			@ body _
 			@ set nof = (@ . nof - 1)

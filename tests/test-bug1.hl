@@ -1,0 +1,19 @@
+@ new foo = 10
+
+@ new Do @
+	@ new nof = 2
+	@ new times :
+		@ new body : (@ . argument)
+		0 until
+			@ body _
+			@ set nof = (@ . nof - 1)
+			@ . nof
+
+Do times
+	@ set foo = (@ . foo + 1)
+
+@ . foo
+
+/*result
+12
+*/
