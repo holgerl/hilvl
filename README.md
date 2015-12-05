@@ -238,7 +238,7 @@ If an array of statements is executed, the value of the *last* statement is retu
 @ new MyService @ 
 	@ new myAction :
 		@ set foo = 42 // Variable in inner scope
-		@ new myFunction = (@.argument)
+		@ new myFunction : (@.argument) // Saving argument without evaluating it
 		@ myFunction _ // Invoking the argument as an action
 		
 @ new bar = 
