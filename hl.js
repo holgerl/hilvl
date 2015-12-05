@@ -364,8 +364,8 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 				hl.saveToScope(args, null);
 				return {type: "Variable", name: args};
 			} else if (action == "set") {
-				var value = hl.searchScope(args);
-				return {type: "Variable", name: args, value: value};
+				var currentValue = hl.searchScope(args);
+				return {type: "Variable", name: args, currentValue: currentValue};
 			} else if (action == ".") {
 				return hl.searchScope(args);
 			} else { // TODO: DRY!
