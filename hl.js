@@ -168,7 +168,6 @@ hl.saveToScope = function(key, value) {
 }
 
 hl.changeInScope = function(key, value) {
-	console.log("changeInScope", key, value);
 	var result = hl.searchScope(key, value);
 }
 
@@ -375,10 +374,7 @@ hl.doAction = function(service, action, args, returnLast) {
 		}
 	} else if (serviceType == "Variable") {
 		if (action == "=") {
-			console.log("********* HEEEERE", service, action, args);
-			if (args instanceof Array) {
-				var args = hl.evaluate(args, false);
-			}
+			var args = hl.evaluate(args, false);
 			hl.changeInScope(service.name, args);
 			return args;
 		} else if (action == ":") { // TODO: Should have an action like this for assigning without evaluating argument, but without making a new scope for the future evaluation. It could be named =>. This way, @ new foo => ($.argument) will not make a new scope when evaluating $.argument (which can be a code block, so we can't use =)
@@ -456,7 +452,6 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 			var evaluatedService = hl.evaluate(tree.service, returnLast);
 			var args = tree.args;
 			if (!(tree.args instanceof Array)) {
-				console.log("WAS NOT ARRAY", tree.args)
 				var args = hl.evaluate(tree.args, returnLast); // If argument is array, it should be possible for the action implementation to choose to evaluate or not. If the argument is not array, we must evaluate it NOW before the scope is changed. Or else @.argument and other values that only exist in THIS scope can not be used as args in function calls.
 			}
 			result.push(hl.doAction(evaluatedService, tree.action, args, returnLast));
