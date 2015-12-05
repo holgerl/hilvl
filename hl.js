@@ -239,16 +239,10 @@ hl.getServiceType = function(service) {
 		return "Number";
 	else if (service === true || service === "true" || service === false || service === "false")
 		return "Boolean"
-	else if (service == "@")
-		return "Scope";
-	else if (service.type == "ScopeReference")
-		return "ScopeReference";
-	else  if (service.type == "Variable")
-		return "Variable";
-	else if (service == "System" || service.type == "System")
-		return "System";
+	else if (service.type)
+		return service.type
 	else
-		return "Service";
+		return service
 }
 
 hl.evaluate = function(trees, returnLast, makeNewScope) {
@@ -358,7 +352,7 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 
 
 		// Scope related services:
-		} else if (serviceType == "Scope") {
+		} else if (serviceType == "@") {
 			var args = hl.evaluate(tree.args, returnLast);
 			if (action == "new") {
 				hl.saveToScope(args, null);
@@ -395,16 +389,6 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 			} else if (action == ".") {
 				return service[args];
 			} else fail();
-		} else if (serviceType == "Service") { // TODO: DRY!
-			var oldScopeIndex = scopeIndex;
-			
-			scopeIndex = hl.searchScope(service)["scope"];
-			var code = hl.searchScope(action)["code"];
-			
-			hl.saveToScope("argument", args);
-			var result = hl.evaluate(code, true);
-			scopeIndex = oldScopeIndex;
-			return result;
 		} else if (serviceType == "ScopeReference") { // TODO: DRY!
 			var oldScopeIndex = scopeIndex;
 			
@@ -430,6 +414,18 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 				standardLibraries[serviceName] = standardLibraries[serviceName] || {};
 				standardLibraries[serviceName][extensionName] = {code: tree.args, scope: newScopeIndex};
 			} else fail();
+		
+		// Custom service
+		} else { // TODO: DRY!
+			var oldScopeIndex = scopeIndex;
+			
+			scopeIndex = hl.searchScope(service)["scope"];
+			var code = hl.searchScope(action)["code"];
+			
+			hl.saveToScope("argument", args);
+			var result = hl.evaluate(code, true);
+			scopeIndex = oldScopeIndex;
+			return result;
 		}
 		
 		return null;
