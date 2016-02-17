@@ -187,5 +187,6 @@ if (process.argv[2]) {
         files.filter(function(file) {return file.substr(-3) === '.hl';}).forEach(function(file) {testFile("tests/" + file);});
 
         console.log("\n" + totalFilesTested + " TESTS COMPLETED");
+		console.log("No errors");
     });
 }
