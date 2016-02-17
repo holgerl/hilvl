@@ -287,7 +287,7 @@ hl.doAction = function(service, action, args, returnLast) {
 		var args = hl.evaluate(args, returnLast);
 
 		var value = service.value || service;
-		var value = value.value || value;
+		var value = value.value || value; // TODO: This unwrapping is awkward
 
 		var a = value.substring(1, value.length-1);
 		var b = args[0] == "\"" ? args.substring(1, args.length-1) : null;
