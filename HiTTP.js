@@ -5,6 +5,8 @@ var http = require('http');
 var fs = require("fs");
 var url  = require('url');
 
+var server;
+
 var HiTTP = {};
 HiTTP.startServer = function(fileName) {
 	if (!fileName) throw Error("No args given: webapp filename");
@@ -12,7 +14,7 @@ HiTTP.startServer = function(fileName) {
 	var fileContents = fs.readFileSync(fileName, "utf8");
 	var result = hl.execute(fileContents);
 	
-	var server = http.createServer(function (request, response) {
+	server = http.createServer(function (request, response) {
 		try {
 			var filePath = url.parse(request.url.substring(1)).pathname;
 			
@@ -63,6 +65,12 @@ HiTTP.startServer = function(fileName) {
 	console.log("\n" + "Server running at http://127.0.0.1:8080/");
 }
 
+HiTTP.stopServer = function() {
+	server.close();
+}
+
 if (process.argv[2]) {
 	HiTTP.startServer(process.argv[2])
 }
+
+module.exports = HiTTP;
