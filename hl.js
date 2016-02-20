@@ -313,12 +313,17 @@ hl.doAction = function(service, action, args, returnLast) {
 		var value = value.value || value; // TODO: This unwrapping is awkward
 
 		var a = value.substring(1, value.length-1);
-		var b = args[0] == "\"" ? args.substring(1, args.length-1) : null;
+		var argsIsString = args[0] == "\""; 
+		var b = argsIsString ? args.substring(1, args.length-1) : null;
+		
 		if (action == "+") {
+			if (!argsIsString) throw new Error("args is not string");
 			return "\"" + a + b + "\"";
 		} else if (action == "==") {
+			if (!argsIsString) throw new Error("args is not string");
 			return a === b;
 		} else if (action == "!=") {
+			if (!argsIsString) throw new Error("args is not string");
 			return a !== b;
 		} else if (action == "at") {
 			return {type: "String", atIndex: args, value: service};
@@ -421,7 +426,7 @@ hl.doAction = function(service, action, args, returnLast) {
 		scopeIndex = oldScopeIndex;
 		return result;
 
-	// System service
+	// System service (for system libraries)
 	} else if (serviceType == "System") {
 		if (action == "extend") {
 			return {type: "System", serviceName: args};
@@ -434,6 +439,16 @@ hl.doAction = function(service, action, args, returnLast) {
 			var newScopeIndex = hl.pushScope(true);
 			standardLibraries[serviceName] = standardLibraries[serviceName] || {};
 			standardLibraries[serviceName][extensionName] = {code: args, scope: newScopeIndex};
+		} else fail();
+
+	// IO service
+	} else if (serviceType == "IO") {
+		if (action == "print") {
+			if (args[0] && args[0] == "\"")
+				args = args.substring(1, args.length-1);
+			if (typeof args == "object")
+				args = JSON.stringify(args)
+			console.log(args);
 		} else fail();
 	
 	// Custom service

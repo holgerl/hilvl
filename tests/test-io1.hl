@@ -1,0 +1,22 @@
+@ new foo = 42
+	
+@.foo == 42 then
+	IO print "foo is 42"
+
+@.foo == 55 then
+	IO print "foo is 55" // Will not be printed
+
+IO print ("foo + 8 = " + (@.foo + 8 as string))
+	
+@ new myArray = 
+	1
+	2
+	3
+
+IO print (@.myArray)
+
+@.foo
+
+/*result
+42
+*/
