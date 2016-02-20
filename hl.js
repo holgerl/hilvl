@@ -10,6 +10,38 @@ var fs = require("fs");
 
 var hl = {};
 
+function argumentsToArray(args) {
+	var array = [];
+	for (var i in args) array.push(args[i]);
+	return array;
+}
+
+hl.logLevel = "warning";
+
+hl.setLogLevel = function(level) {
+	hl.logLevel = level;
+}
+
+hl.log = function(level) {
+	var levels = ["error", "warning", "info", "debug"];
+
+	var args = argumentsToArray(arguments);
+
+	if (levels.indexOf(level) < 0) {
+		level = "debug";
+	} else {
+		args.shift();
+	}
+
+	if (levels.indexOf(level) > levels.indexOf(hl.logLevel)) return;
+
+	var levelLetter = level[0].toUpperCase();
+
+	args.unshift(levelLetter);
+
+	console.log.apply({}, args)
+}
+
 hl.tokenize = function(script) {
 	function escapeSpacesInStrings(string) {
 		return string.replace(/"[^"]*"/g, function(match) {
@@ -103,7 +135,7 @@ hl.parse = function(tokenLists) {
 			}
 		}
 		
-		//console.log("parseLine: ", root, "---", stack);
+		hl.log("parseLine: ", root, "---", stack);
 		
 		return root;
 	}
@@ -115,7 +147,7 @@ hl.parse = function(tokenLists) {
 		var head = stack[stack.length-1];
 		var nofTabs = countTabs(tokens);
 		
-		//console.log("->", tokens, indent, JSON.stringify(stack));
+		hl.log("->", tokens, indent, JSON.stringify(stack));
 		
 		if (nofTabs == indent) {
 			head.args.push(parseLine(tokens, indent));
@@ -136,15 +168,6 @@ hl.parse = function(tokenLists) {
 	stack[0].args.pop(); // Removing EOF
 	
 	return stack[0].args;
-}
-
-hl.setDebug = function(shouldLogDebug) {
-	global.oldConsoleLog = global.oldConsoleLog || console.log;
-	if (shouldLogDebug) {
-		console.log = global.oldConsoleLog
-	} else {
-		console.log = function() {};
-	}
 }
 
 var scopes = [{}];
@@ -187,11 +210,11 @@ hl.popScope = function() {
 
 hl.searchScope = function(key, newValue) {
 	var index = scopeIndex;
-	console.log("searching for", key, "from", index, "(" + newValue + ")");
+	hl.log("searching for", key, "from", index, "(" + newValue + ")");
 	while (index != undefined) {
 		var scope = scopes[index];
 		var result = scope[key];
-		console.log("index, result =", index, result);
+		hl.log("index, result =", index, result);
 		if (result !== undefined) {
 			if (newValue !== undefined) scope[key] = newValue;
 			return result;
@@ -219,11 +242,11 @@ hl.printScopes = function() {
 			}
 		}
 	}
-	console.log("scopeIndex:", scopeIndex);
+	hl.log("scopeIndex:", scopeIndex);
 	for (var i in scopes) {
 		var scope = naiveClone(scopes[i]);
 		replaceCode(scope)
-		console.log(i + ": " + JSON.stringify(scope));
+		hl.log(i + ": " + JSON.stringify(scope));
 	}
 }
 
@@ -248,9 +271,9 @@ hl.getServiceType = function(service) {
 hl.doAction = function(service, action, args, returnLast) {
 	var serviceType = hl.getServiceType(service);
 	
-	console.log("");
-	console.log("--- doAction:", service, action, args, "(returnLast=" + returnLast + ", scopeIndex="+scopeIndex+")");
-	console.log("->" + serviceType);
+	hl.log("");
+	hl.log("--- doAction:", service, action, args, "(returnLast=" + returnLast + ", scopeIndex="+scopeIndex+")");
+	hl.log("->" + serviceType);
 	hl.printScopes();
 	
 	if (serviceType == null) return null;
@@ -444,8 +467,8 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 	for (var i in trees) {
 		var tree = trees[i];
 		
-		console.log("");
-		console.log("--- evalTree:", tree, "scopeIndex=" + scopeIndex);
+		hl.log("");
+		hl.log("--- evalTree:", tree, "scopeIndex=" + scopeIndex);
 		//hl.printScopes();
 		
 		if (tree != null && tree.service) {
@@ -459,7 +482,7 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 			result.push(tree);
 		}
 		
-		console.log("result " + i + ":", result);
+		hl.log("info", "result " + i + ":", result);
 	}
 	
 	if (makeNewScope) hl.popScope();
@@ -478,7 +501,7 @@ hl.execute = function(script) {
 	script = script.trim();
 	var tokens = hl.tokenize(script);
 	var trees = hl.parse(tokens);
-	console.log(JSON.stringify(trees, null, 4));
+	hl.log(JSON.stringify(trees, null, 4));
 	var result = hl.evaluate(trees);
 	return result;
 }
@@ -497,8 +520,6 @@ hl.loadStandardLibraries();
 if (process.argv[2]) {
 	var fileName = process.argv[2];
 	var fileContents = fs.readFileSync(fileName, "utf8");
-	//hl.setDebug(false);
-	hl.setDebug(true);
 	var result = hl.execute(fileContents);
 	
 	process.stdout.write(JSON.stringify(result));

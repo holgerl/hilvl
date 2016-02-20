@@ -57,11 +57,9 @@ function testFile(fileName) {
         var fileContents = fs.readFileSync(fileName, "utf8");
          
         if (getExpected(fileContents, "noDebug") == true)
-            hl.setDebug(false);
+            hl.setLogLevel("error");
         else
-            hl.setDebug(true);
-         
-        console.log("\n");
+            hl.setLogLevel("warning");
          
         var resultParsed = hl.parse(hl.tokenize(fileContents));
          
@@ -80,12 +78,10 @@ function testFile(fileName) {
         totalFilesTested++;
 
     } catch (err) {
-        hl.setDebug(true);
         console.log("\t\t" + " ___TEST ERROR___ " + fileName + " " + err);
         throw err;
     }
     
-    hl.setDebug(true);
 }
  
 function getExpected(fileContents, type) {
