@@ -12,7 +12,7 @@
 
 @ new MyWebApp2 @ 
 	@ new handleRequest :
-		"The other webapp"
+		"The other webapp got argument " + (@.argument)
 
 // This webapp will generate the following responses:
 /*responses
@@ -25,8 +25,11 @@ http://127.0.0.1:8080/MyWebApp
 http://127.0.0.1:8080/MyWebApp
 "My value is now 3"
 
-http://127.0.0.1:8080/MyWebApp2
-"The other webapp"
+http://127.0.0.1:8080/MyWebApp2?hello
+"The other webapp got argument hello"
+
+http://127.0.0.1:8080/MyWebApp2?foobar
+"The other webapp got argument foobar"
 
 http://127.0.0.1:8080/MyWebApp/myPage
 "The magic number is 42"

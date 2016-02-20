@@ -17,6 +17,9 @@ HiTTP.startServer = function(fileName) {
 	server = http.createServer(function (request, response) {
 		try {
 			var filePath = url.parse(request.url.substring(1)).pathname;
+			var query = url.parse(request.url).query;
+			console.log(request.url, JSON.stringify(url.parse(request.url)));
+			var query = query || "";
 			
 			if (filePath == null) {
 				response.writeHead(404);
@@ -49,10 +52,11 @@ HiTTP.startServer = function(fileName) {
 				result = "Could not find " + serviceName + " in scope";
 				var returnCode = 404;
 			} else {
-				var result = hl.evaluate({service:serviceName, action:"handleRequest", args: null}, true, false);
+				var result = hl.evaluate({service:serviceName, action:"handleRequest", args: "\""+query+"\""}, true, false);
 				var returnCode = 200;
 			}
 		} catch (e) {
+			console.log(e.message);
 			var result = JSON.stringify(e);
 			var returnCode = 503;
 		}

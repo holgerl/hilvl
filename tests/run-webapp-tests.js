@@ -56,11 +56,11 @@ function testEquals(fileName, result, expected) {
 function testResponse(url, expectedResponse) {
 	console.log("testResponse", url, expectedResponse);
 	var parsedUrl = urlLib.parse(url);
-	
+
 	var options = {
 		host: parsedUrl.host.split(":")[0],
 		port: parsedUrl.port,
-		path: parsedUrl.pathname,
+		path: parsedUrl.path,
 		method: "GET"
 	};
 	
@@ -81,7 +81,7 @@ function testResponse(url, expectedResponse) {
 			console.log("end");
 					
 			if (!equal(expectedResponseInner, result))
-				throw new Error(url + " DID NOT RETURN CORRECT VALUE. Expected: " + expectedResponseInner + " Actual: " + result);
+				throw new Error(url + " DID NOT RETURN CORRECT VALUE. \nExpected: " + expectedResponseInner + "\n  Actual: " + result);
 			else {
 				console.log("was equal:", expectedResponseInner, result);
 				global.numberOfPassedTests++;
