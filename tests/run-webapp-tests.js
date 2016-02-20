@@ -67,10 +67,24 @@ function testResponse(url, expectedResponse) {
 	console.log("OPTIONS:", options);
 	
 	var request = http.request(options);
+
+	var checkReturnValue = function(returnValue) {
+		if (!equal(expectedResponse, returnValue))
+			throw new Error(url + " DID NOT RETURN CORRECT VALUE. \nExpected: " + expectedResponse + "\n  Actual: " + returnValue);
+		else {
+			console.log("was equal:", expectedResponse, returnValue);
+			global.numberOfPassedTests++;
+			console.log(global.numberOfPassedTests, "of", global.totalNumberOfTests, "tests completed");
+			if (global.numberOfPassedTests == global.totalNumberOfTests) {
+				console.log("\n" + "TEST COMPLETED");
+				console.log("No errors");
+				HiTTP.stopServer();
+			}
+		}
+	}
 	
-	request.on('response', function (response) { // TODO: This has race conditions for the variable expectedResponse.
+	request.on('response', function (response) {
 		var result = "";
-		var expectedResponseInner = expectedResponse;
 	
 		response.setEncoding('utf8');
 		response.on('data', function (chunk) {
@@ -78,20 +92,8 @@ function testResponse(url, expectedResponse) {
 			result += chunk;
 		});
 		response.on('end', function () {
-			console.log("end");
-					
-			if (!equal(expectedResponseInner, result))
-				throw new Error(url + " DID NOT RETURN CORRECT VALUE. \nExpected: " + expectedResponseInner + "\n  Actual: " + result);
-			else {
-				console.log("was equal:", expectedResponseInner, result);
-				global.numberOfPassedTests++;
-				console.log(global.numberOfPassedTests, "of", global.totalNumberOfTests, "tests completed");
-				if (global.numberOfPassedTests == global.totalNumberOfTests) {
-					console.log("\n" + "TEST COMPLETED");
-					console.log("No errors");
-					HiTTP.stopServer();
-				}
-			}
+			console.log("end");	
+			checkReturnValue(result);
 		});
 		response.on('close', function () {
 			console.log("close");
