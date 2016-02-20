@@ -13,7 +13,21 @@
 @ new MyWebApp2 @ 
 	@ new handleRequest :
 		"The other webapp"
-		
-// http://localhost:8080/MyWebApp
-// http://localhost:8080/MyWebApp2
-// http://localhost:8080/MyWebApp/myPage
+
+// This webapp will generate the following responses:
+/*responses
+http://127.0.0.1:8080/MyWebApp
+"My value is now 1"
+
+http://127.0.0.1:8080/MyWebApp
+"My value is now 2"
+
+http://127.0.0.1:8080/MyWebApp
+"My value is now 3"
+
+http://127.0.0.1:8080/MyWebApp2
+"The other webapp"
+
+http://127.0.0.1:8080/MyWebApp/myPage
+"The magic number is 42"
+*/

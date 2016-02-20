@@ -25,7 +25,7 @@ HiTTP.startServer = function(fileName) {
 			}
 			
 			filePath = filePath.split("/");
-			console.log("\t\t FILEPATH", filePath);
+			console.log("FILEPATH", filePath);
 			
 			var scopeIndex;
 			
@@ -36,7 +36,7 @@ HiTTP.startServer = function(fileName) {
 				
 				if (scopeIndex.scope) scopeIndex = scopeIndex.scope;
 				
-				console.log("___________", serviceName, scopeIndex);
+				console.log("--", serviceName, scopeIndex);
 				
 				if (scopeIndex == undefined) {
 					break;
