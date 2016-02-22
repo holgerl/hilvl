@@ -64,19 +64,16 @@ function testResponse(url, expectedResponse) {
 		method: "GET"
 	};
 	
-	console.log("OPTIONS:", options);
-	
 	var request = http.request(options);
 
 	var checkReturnValue = function(returnValue) {
 		if (!equal(expectedResponse, returnValue))
 			throw new Error(url + " DID NOT RETURN CORRECT VALUE. \nExpected: " + expectedResponse + "\n  Actual: " + returnValue);
 		else {
-			console.log("was equal:", expectedResponse, returnValue);
 			global.numberOfPassedTests++;
-			console.log(global.numberOfPassedTests, "of", global.totalNumberOfTests, "tests completed");
+			console.log(global.numberOfPassedTests + " of " + global.totalNumberOfTests + " tests completed");
 			if (global.numberOfPassedTests == global.totalNumberOfTests) {
-				console.log("\n" + "TEST COMPLETED");
+				console.log("\n" + "WEBAPP TESTS COMPLETED");
 				console.log("No errors");
 				HiTTP.stopServer();
 			}
@@ -88,15 +85,12 @@ function testResponse(url, expectedResponse) {
 	
 		response.setEncoding('utf8');
 		response.on('data', function (chunk) {
-			console.log("data", chunk);
 			result += chunk;
 		});
 		response.on('end', function () {
-			console.log("end");	
 			checkReturnValue(result);
 		});
 		response.on('close', function () {
-			console.log("close");
 		});
 	});
 
@@ -116,8 +110,7 @@ function testFile(fileName) {
 		global.totalNumberOfTests = responseTuples.length;
 		global.numberOfPassedTests = 0;
 		
-		console.log("Performing", global.totalNumberOfTests, "tests asynchronously");
-		console.log(JSON.stringify(responseTuples, null, 4));
+		console.log("Performing", global.totalNumberOfTests, "webapp tests asynchronously");
 		
 		HiTTP.startServer(fileName);
 		

@@ -181,8 +181,10 @@ if (process.argv[2]) {
 } else {
     fs.readdir('tests', function(err, files) {
         files.filter(function(file) {return file.substr(-3) === '.hl';}).forEach(function(file) {testFile("tests/" + file);});
+		
+        console.log("\n" + totalFilesTested + " UNIT TESTS COMPLETED");
+		console.log("No errors\n");
 
-        console.log("\n" + totalFilesTested + " TESTS COMPLETED");
-		console.log("No errors");
+		var webappTests = require("./run-webapp-tests");
     });
 }
