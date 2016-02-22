@@ -279,7 +279,7 @@ Please add 42 and 50 andThen 100
 
 To run a file with hilvl code: `node hl.js myFile.hl`
 	
-To run all tests: `node test/run-tests.js`
+To run all tests: `node test/run-all-tests.js`
 
 To run HiTTP web framework: `node HiTTP.js example-webapp.hl`
 
