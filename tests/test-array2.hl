@@ -1,0 +1,22 @@
+@ new myArray1 = 
+	40
+	41
+	
+@ new myArray2 = 
+	()
+	
+@.myArray1 push 42
+
+@.myArray2 push 1
+@.myArray2 push 2
+	
+@ new foo =
+	@.myArray1
+	@.myArray2
+	
+/*result
+[
+	[40, 41, 42],
+	[1, 2]
+]
+*/

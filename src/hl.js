@@ -310,6 +310,9 @@ hl.doAction = function(service, action, args, returnLast) {
 				hl.saveToScope("element", service[i]);
 				hl.evaluate(args, returnLast);
 			}
+		} else if (action == "push") {
+			var args = hl.evaluate(args, returnLast);
+			service.push(args);
 		} else fail();
 	} else if (serviceType == "String") {
 		var args = hl.evaluate(args, returnLast);
