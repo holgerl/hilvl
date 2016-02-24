@@ -120,6 +120,7 @@ hl.parse = function(tokenLists) {
 			} else if (symbol == ")") {
 				var popped = stack.pop();
 				typeCounter = popped.typeCounter;
+				if (root.service == null) root = null;
 				popped.root[types[typeCounter]] = root;
 				root = popped.root;
 				typeCounter++;
@@ -134,6 +135,8 @@ hl.parse = function(tokenLists) {
 				}
 			}
 		}
+		
+		if (root.service == null) root = null;
 		
 		hl.log("parseLine: ", root, "---", stack);
 		
@@ -153,7 +156,9 @@ hl.parse = function(tokenLists) {
 			head.args.push(parseLine(tokens, indent));
 		} else if (nofTabs > indent) {
 			indent++;
-			stack.push({args: [parseLine(tokens, indent)]});
+			var element = parseLine(tokens, indent);
+			var args = element != null ? [element] : [];
+			stack.push({args: args});
 		} else {
 			for (var t = 0; t < indent - nofTabs; t++) {
 				var popped = stack.pop();

@@ -1,0 +1,65 @@
+@ new myArray1 = 
+	1
+	2
+	3
+	
+@ new myEmptyArray = 
+	()
+	
+@ new foo =
+	@.myArray1
+	@.myEmptyArray
+	
+/*parsed
+[
+    {
+        "service": {
+            "service": "@",
+            "action": "new",
+            "args": "myArray1"
+        },
+        "action": "=",
+        "args": [
+            "1",
+            "2",
+            "3"
+        ]
+    },
+    {
+        "service": {
+            "service": "@",
+            "action": "new",
+            "args": "myEmptyArray"
+        },
+        "action": "=",
+        "args": []
+    },
+    {
+        "service": {
+            "service": "@",
+            "action": "new",
+            "args": "foo"
+        },
+        "action": "=",
+        "args": [
+            {
+                "service": "@",
+                "action": ".",
+                "args": "myArray1"
+            },
+            {
+                "service": "@",
+                "action": ".",
+                "args": "myEmptyArray"
+            }
+        ]
+    }
+]
+*/
+	
+/*result
+[
+	[1,2,3],
+	[]
+]
+*/
