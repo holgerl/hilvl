@@ -277,10 +277,10 @@ Please add 42 and 50 andThen 100
 
 ### How to run hilvl
 
-To run a file with hilvl code: `node hl.js myFile.hl`
+To run a file with hilvl code: `node src/hl.js myFile.hl`
 	
 To run all tests: `node test/run-all-tests.js`
 
-To run HiTTP web framework: `node HiTTP.js example-webapp.hl`
+To run HiTTP web framework: `node src/HiTTP.js example-webapp.hl`
 
 <!-- TODO: Explain HiTTP -->

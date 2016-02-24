@@ -1,7 +1,7 @@
 'use strict';
 
 var fs = require("fs");
-var hl = require("../hl");
+var hl = require("../src/hl");
 
 var totalFilesTested = 0;
 

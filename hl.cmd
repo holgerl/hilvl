@@ -1,1 +1,1 @@
-@node hl.js %1
+@node src\hl.js %1

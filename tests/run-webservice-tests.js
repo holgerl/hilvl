@@ -2,8 +2,8 @@
 
 var fs = require("fs");
 var http = require("http");
-var hl = require("../hl");
-var HiTTP = require("../HiTTP");
+var hl = require("../src/hl");
+var HiTTP = require("../src/HiTTP");
 var urlLib = require('url');
 
 var totalFilesTested = 0;
