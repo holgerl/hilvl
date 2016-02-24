@@ -151,4 +151,4 @@ function getResponseTuples(fileContents) {
 	return responseTuples;
 }
 
-testFile("example-webapp.hl");
+testFile("examples/simple-webapp/example-webapp.hl");
