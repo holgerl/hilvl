@@ -61,6 +61,8 @@ HiTTP.startServer = function(fileName) {
 			var returnCode = 503;
 		}
 		
+		if (typeof result != "string") result = JSON.stringify(result);
+		
 		response.writeHead(returnCode, {"Content-Type": "text/plain"});
 		response.end(result);
 	});
