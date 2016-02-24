@@ -185,6 +185,6 @@ if (process.argv[2]) {
         console.log("\n" + totalFilesTested + " UNIT TESTS COMPLETED");
 		console.log("No errors\n");
 
-		var webappTests = require("./run-webapp-tests");
+		var webappTests = require("./run-webservice-tests");
     });
 }
