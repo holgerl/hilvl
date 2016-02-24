@@ -172,13 +172,12 @@ function testScope() {
         throw err;
     }
 }
- 
-testScope();
 
 if (process.argv[2]) {
     var file = process.argv[2]
     testFile(file);
 } else {
+	testScope();
     fs.readdir('tests', function(err, files) {
         files.filter(function(file) {return file.substr(-3) === '.hl';}).forEach(function(file) {testFile("tests/" + file);});
 		
