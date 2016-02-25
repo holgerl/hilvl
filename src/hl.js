@@ -70,11 +70,33 @@ hl.tokenize = function(script) {
 	function lineIsNotEmpty(line) {
 		return !/^\s*$/.test(line);
 	}
+	
+	function addSpacesAroundCharacters(line) {
+		var characters = Array.prototype.slice.call(arguments).slice(1);
+		var isInString = false;
+		var isInEscape = false;
+		var result = "";
+		
+		for (var i in line) {
+			var character = line[i];
+			
+			if (!isInString && characters.indexOf(character) >= 0)
+				result += " " + character + " ";
+			else 
+				result += character;
+			
+			var isCharacterQuote = character == "\"" && !isInEscape;
+			isInEscape = isInEscape ? false : character == "\\";
+			isInString = isInString ? !isCharacterQuote	: isCharacterQuote;
+		}
+		
+		return result;
+	}
 
 	function tokenizeLine(line) {
 		line = escapeSpacesInStrings(line);
 		line = line.replace(/\t|    /g, " tab ");
-		line = line.replace(/[\.:()]/g, " $& ");
+		line = addSpacesAroundCharacters(line, ".", ":", "(", ")");
 		
 		return line.trim().split(/\s+/).map(unescapeSpacesInStrings);
 	}
