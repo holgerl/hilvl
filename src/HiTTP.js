@@ -17,10 +17,12 @@ HiTTP.startServer = function(fileName) {
 	server = http.createServer(function (request, response) {
 		try {
 			var filePath = url.parse(request.url.substring(1)).pathname;
-			var query = url.parse(request.url).query;
-			console.log(request.url, JSON.stringify(url.parse(request.url)));
-			var query = query || "";
+			var query = url.parse(request.url, true).query;
 			
+			console.log(request.url, JSON.stringify(url.parse(request.url, true)));
+			
+			query = query.value; // TODO: When maps are supported in hilvl, use the entire query object as argument to the webservice code
+						
 			if (filePath == null) {
 				response.writeHead(404);
 				response.end();
@@ -56,14 +58,14 @@ HiTTP.startServer = function(fileName) {
 				var returnCode = 200;
 			}
 		} catch (e) {
-			console.log(e.message);
-			var result = JSON.stringify(e);
+			console.log("ERROR: " + e.message);
+			var result = JSON.stringify(e.message);
 			var returnCode = 503;
 		}
 		
 		if (typeof result != "string") result = JSON.stringify(result);
 		
-		response.writeHead(returnCode, {"Content-Type": "text/plain"});
+		response.writeHead(returnCode, {"Content-Type": "text/html"});
 		response.end(result);
 	});
 

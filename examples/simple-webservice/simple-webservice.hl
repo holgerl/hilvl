@@ -25,10 +25,10 @@ http://127.0.0.1:8080/MyWebApp
 http://127.0.0.1:8080/MyWebApp
 "My value is now 3"
 
-http://127.0.0.1:8080/MyWebApp2?hello
+http://127.0.0.1:8080/MyWebApp2?value=hello
 "The other webapp got argument hello"
 
-http://127.0.0.1:8080/MyWebApp2?foobar
+http://127.0.0.1:8080/MyWebApp2?value=foobar
 "The other webapp got argument foobar"
 
 http://127.0.0.1:8080/MyWebApp/myPage
