@@ -58,7 +58,7 @@ hl.tokenize = function(script) {
 	}
 
 	function removeBlockComments(string) {
-		return script.replace(/\/\*[^*]*\*\//g, " ");
+		return script.replace(/\/\*(\*(?!\/)|[^*])*\*\//g, " ");
 	}
 
 	function convertCommaSeparatedArray(string) {

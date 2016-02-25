@@ -33,4 +33,7 @@ http://127.0.0.1:8080/MyWebApp2?value=foobar
 
 http://127.0.0.1:8080/MyWebApp/myPage
 "The magic number is 42"
+
+http://127.0.0.1:8080/MyWebApp
+/My .* is now [0-9]+/
 */

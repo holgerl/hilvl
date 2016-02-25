@@ -40,19 +40,6 @@ function equal(x, y) { // TODO: DRY with run-tests.js
     return Object.keys(y).every(function (i) {return p.indexOf(i) !== -1; }) && p.every(function (i) { return equal(x[i], y[i]); });
 }
 
-function testEquals(fileName, result, expected) {
-    var success = equal(result, expected);
-     
-    if (success) {
-        console.log(fileName + " test ok");
-    } else {
-        console.log("\t\t" + " ___TEST FAIL___ " + fileName + " Does not match:");
-        console.log("result: ", JSON.stringify(result, null, 4));
-        console.log("expected: ", JSON.stringify(expected, null, 4));
-        throw "Test failed";
-    }
-}
-
 function testResponse(url, expectedResponse) {
 	console.log("testResponse", url, expectedResponse);
 	var parsedUrl = urlLib.parse(url);
@@ -67,7 +54,14 @@ function testResponse(url, expectedResponse) {
 	var request = http.request(options);
 
 	var checkReturnValue = function(returnValue) {
-		if (!equal(expectedResponse, returnValue))
+		if (expectedResponse[0] == "/") {
+			var regex = expectedResponse.substring(1, expectedResponse.length-1);
+			var passed = returnValue.match(regex);
+		} else {
+			var passed = equal(expectedResponse, returnValue);
+		}
+			
+		if (!passed)
 			throw new Error(url + " DID NOT RETURN CORRECT VALUE. \nExpected: " + expectedResponse + "\n  Actual: " + returnValue);
 		else {
 			global.numberOfPassedTests++;
@@ -127,7 +121,7 @@ function testFile(fileName) {
  
 function getResponseTuples(fileContents) {
 	var type = "responses";
-    var regex1 = new RegExp("\\/\\*"+type+"([^*]*)\\*\\/", "g");
+    var regex1 = new RegExp("\\/\\*"+type+"((\\*(?!\\/)|[^*])*)\\*\\/", "g");
     var match = regex1.exec(fileContents);
     
 	if (!match || !match[1]) return null;
@@ -151,4 +145,6 @@ function getResponseTuples(fileContents) {
 	return responseTuples;
 }
 
+// TODO: Can only test one file at the time because it is asynchronous. Use library for async stuff to queue them after eachother
 testFile("examples/simple-webservice/simple-webservice.hl");
+//testFile("examples/todo-webapp/backend.hl");
