@@ -4,7 +4,6 @@
 	3
 	
 @ new myEmptyArray = 
-	()
 	
 @ new foo =
 	@.myArray1

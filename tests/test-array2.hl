@@ -3,7 +3,6 @@
 	41
 	
 @ new myArray2 = 
-	()
 	
 @.myArray1 push 42
 

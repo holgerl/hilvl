@@ -120,7 +120,6 @@ hl.parse = function(tokenLists) {
 			} else if (symbol == ")") {
 				var popped = stack.pop();
 				typeCounter = popped.typeCounter;
-				if (root.service == null) root = null;
 				popped.root[types[typeCounter]] = root;
 				root = popped.root;
 				typeCounter++;
@@ -136,7 +135,7 @@ hl.parse = function(tokenLists) {
 			}
 		}
 		
-		if (root.service == null) root = null;
+		if (root.args == null) root.args = []; // This makes hilvl interpret missing arguments as empty arrays instead of a null sentinel value
 		
 		hl.log("parseLine: ", root, "---", stack);
 		
@@ -156,9 +155,7 @@ hl.parse = function(tokenLists) {
 			head.args.push(parseLine(tokens, indent));
 		} else if (nofTabs > indent) {
 			indent++;
-			var element = parseLine(tokens, indent);
-			var args = element != null ? [element] : [];
-			stack.push({args: args});
+			stack.push({args: [parseLine(tokens, indent)]});
 		} else {
 			for (var t = 0; t < indent - nofTabs; t++) {
 				var popped = stack.pop();
