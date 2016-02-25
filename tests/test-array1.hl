@@ -3,7 +3,7 @@
 	2
 	3
 	
-@ new myEmptyArray = 
+@ new myEmptyArray = // This makes an empty array
 	
 @ new foo =
 	@.myArray1
