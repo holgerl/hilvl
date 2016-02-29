@@ -1,7 +1,7 @@
 'use strict';
 
 // Makes the code run on both node.js and in a browser:
-if (typeof(global) == 'undefined') {window.global = window;}
+if (typeof(global) == 'undefined') {window.global = window; global.isBrowser = true;}
 global.require = global.require || function() {};
 global.process = global.process || {argv: []};
 global.module = global.module || {};
@@ -561,7 +561,7 @@ hl.loadStandardLibraries = function() {
 	}
 }
 
-hl.loadStandardLibraries();
+if (!global.isBrowser) hl.loadStandardLibraries();
 
 if (process.argv[2]) {
 	var fileName = process.argv[2];
