@@ -476,6 +476,10 @@ hl.doAction = function(service, action, args, returnLast) {
 			if (typeof args == "object")
 				args = JSON.stringify(args)
 			console.log(args);
+		} else if (action == "readFile") {
+			args = args.substring(1, args.length-1);
+			var filePath = process.cwd() + "\\" + args;
+			return fs.readFileSync(filePath, "utf8");
 		} else fail();
 	
 	// Custom service

@@ -1,0 +1,31 @@
+@ new Todo @ 
+	@ new todoList = 
+	@ new handleRequest :
+		IO readFile "examples/todo-webapp/index.html" // TODO: Handle cwd properly so that the path can be simply index.html
+	@ new all @ 
+		@ new handleRequest :
+			@.todoList
+	@ new add @ 
+		@ new handleRequest :
+			@.todoList push (@.argument)
+			"Success"
+
+/*responses
+http://127.0.0.1:8080/Todo/all
+[]
+
+http://127.0.0.1:8080/Todo/add?value=Send+letter
+"Success"
+
+http://127.0.0.1:8080/Todo/all
+["\"Send letter\""]
+
+http://127.0.0.1:8080/Todo/add?value=Shop+groceries
+"Success"
+
+http://127.0.0.1:8080/Todo/all
+["\"Send letter\"","\"Shop groceries\""]
+
+http://127.0.0.1:8080/Todo
+/<h1>hilvl todo webapp<\/h1>/
+*/
