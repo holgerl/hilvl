@@ -40,7 +40,7 @@ function equal(x, y) { // TODO: DRY with run-tests.js
     return Object.keys(y).every(function (i) {return p.indexOf(i) !== -1; }) && p.every(function (i) { return equal(x[i], y[i]); });
 }
 
-function testResponse(url, expectedResponse) {
+function testResponseAsync(url, expectedResponse, dispatcher) {
 	console.log("testResponse", url, expectedResponse);
 	var parsedUrl = urlLib.parse(url);
 
@@ -67,9 +67,9 @@ function testResponse(url, expectedResponse) {
 			global.numberOfPassedTests++;
 			console.log(global.numberOfPassedTests + " of " + global.totalNumberOfTests + " tests completed");
 			if (global.numberOfPassedTests == global.totalNumberOfTests) {
-				console.log("\n" + "WEBAPP TESTS COMPLETED");
 				console.log("No errors");
 				HiTTP.stopServer();
+				dispatcher.signalFinished();
 			}
 		}
 	}
@@ -95,7 +95,7 @@ function testResponse(url, expectedResponse) {
 	request.end();
 }
 
-function testFile(fileName) {
+function testFileAsync(fileName, dispatcher) {
     try {
         var fileContents = fs.readFileSync(fileName, "utf8");
          
@@ -111,7 +111,7 @@ function testFile(fileName) {
 		for (var i in responseTuples) {
 			var url = responseTuples[i].url;
 			var response = responseTuples[i].response;
-			testResponse(url, response);
+			testResponseAsync(url, response, dispatcher);
 		}
     } catch (err) {
         console.log("\t\t" + " ___TEST ERROR___ " + fileName + " " + err);
@@ -145,6 +145,20 @@ function getResponseTuples(fileContents) {
 	return responseTuples;
 }
 
-// TODO: Can only test one file at the time because it is asynchronous. Use library for async stuff to queue them after eachother
-testFile("examples/simple-webservice/simple-webservice.hl");
-//testFile("examples/todo-webapp/backend.hl");
+function sequence() {
+	var asyncFunctions = Array.prototype.slice.call(arguments).slice();
+	var i = 0;
+	var dispatcher = {
+		signalFinished: () => {
+			i++;
+			if  (i < asyncFunctions.length) asyncFunctions[i](dispatcher);
+			else console.log("\nALL ASYNC TEST SEQUENCES COMPLETE");
+		}
+	}
+	asyncFunctions[i](dispatcher);
+}
+
+sequence(
+	dispatcher => testFileAsync("examples/simple-webservice/simple-webservice.hl", dispatcher),
+	dispatcher => testFileAsync("examples/todo-webapp/backend.hl", dispatcher)
+);
