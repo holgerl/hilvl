@@ -5,40 +5,9 @@ var http = require("http");
 var hl = require("../src/hl");
 var HiTTP = require("../src/HiTTP");
 var urlLib = require('url');
+var utils = require("./utils.js");
 
 var totalFilesTested = 0;
-
-function equal(x, y) { // TODO: DRY with run-tests.js
-	if (typeof x === "string" || y === "string")
-		return x.toString() === y.toString();
-
-    if (x === null || x === undefined || y === null || y === undefined)
-		return x === y;
-	
-    if (x.constructor !== y.constructor) 
-		return false;
-	
-    if (x instanceof Function) 
-		return x === y;
-	
-    if (x instanceof RegExp) 
-		return x === y;
-    if (x === y || x.valueOf() === y.valueOf()) 
-		return true;
-    if (Array.isArray(x) && x.length !== y.length) 
-		return false;
-
-    if (x instanceof Date) 
-		return false;
-
-    if (!(x instanceof Object)) 
-		return false;
-    if (!(y instanceof Object)) 
-		return false;
-
-    var p = Object.keys(x);
-    return Object.keys(y).every(function (i) {return p.indexOf(i) !== -1; }) && p.every(function (i) { return equal(x[i], y[i]); });
-}
 
 function testResponseAsync(url, expectedResponse, dispatcher) {
 	console.log("testResponse", url, expectedResponse);
@@ -58,7 +27,7 @@ function testResponseAsync(url, expectedResponse, dispatcher) {
 			var regex = expectedResponse.substring(1, expectedResponse.length-1);
 			var passed = returnValue.match(regex);
 		} else {
-			var passed = equal(expectedResponse, returnValue);
+			var passed = utils.equal(expectedResponse, returnValue);
 		}
 			
 		if (!passed)
