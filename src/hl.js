@@ -16,6 +16,8 @@ function argumentsToArray(args) {
 	return array;
 }
 
+//hl.logLevel = "debug";
+//hl.logLevel = "info";
 hl.logLevel = "warning";
 
 hl.setLogLevel = function(level) {
@@ -43,9 +45,28 @@ hl.log = function(level) {
 }
 
 hl.tokenize = function(script) {
-	function escapeSpacesInStrings(string) {
-		return string.replace(/"[^"]*"/g, function(match) {
-			return match.replace(/ /g, "%%s%%");
+	function iterateLine(line, iteratorFun) {
+		var isInString = false;
+		var isInEscape = false;
+		var result = "";
+		
+		for (var character of line) {				
+			result += iteratorFun(character, isInString);
+			
+			var isCharacterQuote = character == "\"" && !isInEscape;
+			isInEscape = isInEscape ? false : character == "\\";
+			isInString = isInString ? !isCharacterQuote	: isCharacterQuote;
+		}
+		
+		return result;
+	}
+	
+	function escapeSpacesInStrings(line) {
+		return iterateLine(line, function(character, isInString) {
+			if (isInString && character == " ") 
+				return "%%s%%";
+			else 
+				return character;
 		});
 	}
 	
@@ -73,30 +94,19 @@ hl.tokenize = function(script) {
 	
 	function addSpacesAroundCharacters(line) {
 		var characters = Array.prototype.slice.call(arguments).slice(1);
-		var isInString = false;
-		var isInEscape = false;
-		var result = "";
 		
-		for (var i in line) {
-			var character = line[i];
-			
+		return iterateLine(line, function(character, isInString) {
 			if (!isInString && characters.indexOf(character) >= 0)
-				result += " " + character + " ";
+				return " " + character + " ";
 			else 
-				result += character;
-			
-			var isCharacterQuote = character == "\"" && !isInEscape;
-			isInEscape = isInEscape ? false : character == "\\";
-			isInString = isInString ? !isCharacterQuote	: isCharacterQuote;
-		}
-		
-		return result;
+				return character;
+		});
 	}
 
 	function tokenizeLine(line) {
-		line = escapeSpacesInStrings(line);
 		line = line.replace(/\t|    /g, " tab ");
 		line = addSpacesAroundCharacters(line, ".", ":", "(", ")");
+		line = escapeSpacesInStrings(line);
 		
 		return line.trim().split(/\s+/).map(unescapeSpacesInStrings);
 	}
@@ -547,7 +557,7 @@ hl.execute = function(script) {
 	script = script.trim();
 	var tokens = hl.tokenize(script);
 	var trees = hl.parse(tokens);
-	hl.log(JSON.stringify(trees, null, 4));
+	hl.log("info", JSON.stringify(trees, null, 4));
 	var result = hl.evaluate(trees);
 	return result;
 }

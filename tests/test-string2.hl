@@ -4,22 +4,24 @@
 @ set s2 = (@.s2 + ".second")
 
 @ new s3 = "foo : bar"
-//@ new s4 = "foo ( bar )" // TODO: Parantheses in strings do not work
-//@ new s5 = "foo \" bar"  // TODO: Quotes in strings do not work
+@ new s4 = "foo ( bar )"
+@ new s5 = "foo \" bar"
 	
 @ new foo = 
 	@.s1
 	@.s1 + "." + "baz"
 	@.s2
 	@.s3
-//	@.s4
-//	@.s5
+	@.s4
+	@.s5
 
 /*result
 [
 "\"foo.bar\"",
 "\"foo.bar.baz\"",
 "\"first.second\"",
-"\"foo : bar\""
+"\"foo : bar\"",
+"\"foo ( bar )\"",
+"\"foo \\\" bar\""
 ]
 */
