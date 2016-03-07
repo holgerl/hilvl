@@ -89,7 +89,7 @@ hl.tokenize = function(script) {
 	}
 
 	function lineIsNotEmpty(line) {
-		return !/^\s*$/.test(line);
+		return !/^[\s\t]*$/.test(line);
 	}
 	
 	function addSpacesAroundCharacters(line) {
@@ -104,6 +104,7 @@ hl.tokenize = function(script) {
 	}
 
 	function tokenizeLine(line) {
+		line = line.replace(/[\s\t]*$/g, "");
 		line = line.replace(/\t|    /g, " tab ");
 		line = addSpacesAroundCharacters(line, ".", ":", "(", ")");
 		line = escapeSpacesInStrings(line);
@@ -313,7 +314,7 @@ hl.doAction = function(service, action, args, returnLast) {
 	if (serviceType == null) return null;
 	
 	function fail() {
-		throw new Error(action + " is not a valid action on " + serviceType);
+		throw new Error(action + " is not a valid action on " + serviceType + " (" + service + ")");
 	}
 
 	// Standard library services
