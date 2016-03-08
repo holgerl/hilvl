@@ -2,8 +2,8 @@
     // It is important to preserve all whitespace in this test    
 
 @ new foo = 0
-@ new bar   =   0
-@  new  baz   = 0     
+@ new bar    =   0
+@  new  baz         = 0     
 
 true then
 	@ set foo = 1
@@ -16,13 +16,13 @@ true then
 	
 @ new array = 
 
-    @.foo
+    @	.	foo
     @.bar
         
-    @.baz
+    @.	baz
 
 
-@.array
+@.		array
 	
 /*parsed
 [

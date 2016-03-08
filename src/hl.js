@@ -50,7 +50,7 @@ hl.tokenize = function(script) {
 		var isInEscape = false;
 		var result = "";
 		
-		for (var character of line) {				
+		for (var character of line) {
 			result += iteratorFun(character, isInString);
 			
 			var isCharacterQuote = character == "\"" && !isInEscape;
@@ -84,7 +84,7 @@ hl.tokenize = function(script) {
 
 	function convertCommaSeparatedArray(string) {
 		return script.replace(/(\t*)(.+,.+)+/g, function(match, group1, group2) {
-			return group1 + group2.split(",").join("\n" + group1);
+			return group1 + group2.split(/\s*,\s*/).join("\n" + group1);
 		});
 	}
 
@@ -103,9 +103,17 @@ hl.tokenize = function(script) {
 		});
 	}
 
+	function replaceLeadingWhitespaceWithTabTokens(line) {
+		return line.replace(/^[\s\t]+/g, function(match) {
+			match = match.replace(/\t/g, "    ");
+			var numberOfTabs = match.length / 4;
+			if (numberOfTabs !== parseInt(numberOfTabs, 10)) throw new Error("Leading spaces not multiple of 4 in\n" + line);
+			return "TAB ".repeat(numberOfTabs);
+		});
+	}
+
 	function tokenizeLine(line) {
-		line = line.replace(/[\s\t]*$/g, "");
-		line = line.replace(/\t|    /g, " tab ");
+		line = replaceLeadingWhitespaceWithTabTokens(line);
 		line = addSpacesAroundCharacters(line, ".", ":", "(", ")");
 		line = escapeSpacesInStrings(line);
 		
@@ -116,7 +124,8 @@ hl.tokenize = function(script) {
 	script = removeBlockComments(script);
 	script = convertCommaSeparatedArray(script);
 
-	var tokenLists = script.split(/\r?\n|\r/)
+	var tokenLists = script
+		.split(/\r?\n|\r/)
 		.filter(lineIsNotEmpty)
 		.map(tokenizeLine);
 
@@ -128,7 +137,7 @@ hl.parse = function(tokenLists) {
 	function countTabs(tokens) {
 		var numberOfTabs = 0;
 		for (var j in tokens) {
-			if (tokens[j] == "tab") 
+			if (tokens[j] == "TAB") 
 				numberOfTabs++;
 			else 
 				break;
