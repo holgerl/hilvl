@@ -64,14 +64,14 @@ hl.tokenize = function(script) {
 	function escapeSpacesInStrings(line) {
 		return iterateLine(line, function(character, isInString) {
 			if (isInString && character == " ") 
-				return "%%s%%";
+				return "\uFFFF";
 			else 
 				return character;
 		});
 	}
 	
 	function unescapeSpacesInStrings(string) {
-		return string.replace(/%%s%%/g, " ");
+		return string.replace(/\uFFFF/g, " ");
 	}
 
 	function removeLineComments(string) {
