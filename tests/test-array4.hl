@@ -1,0 +1,20 @@
+@ new myValue1 = 1
+@ new myValue2 = 2
+
+@ new myArray1 = 
+	10
+	20
+	30
+	
+@ new foo =
+	@.myArray1 get 0
+	@.myArray1 get 2
+	@.myArray1 get (@.myValue1)
+	
+/*result
+[
+    10,
+    30,
+    20
+]
+*/

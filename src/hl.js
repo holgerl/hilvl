@@ -341,6 +341,12 @@ hl.doAction = function(service, action, args, returnLast) {
 		scopeIndex = oldScopeIndex;
 		return result;
 	}
+
+	// Actions all services have:
+	if (action == ";") { // TODO: Can this replace the syntactic sugar comma?
+		var args = hl.evaluate(args, returnLast);
+		return [service, args];
+	}
 	
 	// Simple system services:
 	if (serviceType == "Array") {
@@ -352,6 +358,12 @@ hl.doAction = function(service, action, args, returnLast) {
 		} else if (action == "push") {
 			var args = hl.evaluate(args, returnLast);
 			service.push(args);
+			return service;
+		} else if (action == "get") {
+			var args = hl.evaluate(args, returnLast);
+			var element = service[args];
+			if (element == undefined) throw new Error("array index " + args + " does not exist");
+			return element;
 		} else fail();
 	} else if (serviceType == "String") {
 		var args = hl.evaluate(args, returnLast);
