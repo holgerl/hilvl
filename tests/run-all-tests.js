@@ -19,13 +19,15 @@ function testEquals(fileName, result, expected) {
     }
 }
  
-function testFile(fileName) {
+function testFile(fileName, logLevel) {
     try {
         hl.clearScope();
          
         var fileContents = fs.readFileSync(fileName, "utf8");
          
-        if (getExpected(fileContents, "noDebug") == true)
+        if (logLevel)
+            hl.setLogLevel(logLevel);
+        else if (getExpected(fileContents, "noDebug") == true)
             hl.setLogLevel("error");
         else
             hl.setLogLevel("warning");
@@ -144,7 +146,7 @@ function testScope() {
 
 if (process.argv[2]) {
     var file = process.argv[2]
-    testFile(file);
+    testFile(file, "debug");
 } else {
 	testScope();
     fs.readdir('tests', function(err, files) {
