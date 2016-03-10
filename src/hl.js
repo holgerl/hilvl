@@ -178,6 +178,8 @@ hl.parse = function(tokenLists) {
 		}
 		
 		if (root.args == null) root.args = []; // This makes hilvl interpret missing arguments as empty arrays instead of a null sentinel value
+
+		if (root.action == null) root = root.service; // This makes parantheses not followed by an action work TODO: This is not elegant!
 		
 		hl.log("parseLine: ", root, "---", stack);
 		
@@ -343,7 +345,7 @@ hl.doAction = function(service, action, args, returnLast) {
 	}
 
 	// Actions all services have:
-	if (action == ";") { // TODO: Can this replace the syntactic sugar comma?
+	if (action == ";") { // TODO: Can this replace the syntactic sugar comma? If array have an action with the same name that returns a new array with the argument pushed (i.e. not in place).
 		var args = hl.evaluate(args, returnLast);
 		return [service, args];
 	}

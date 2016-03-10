@@ -1,0 +1,23 @@
+@ new myValue1 = 1
+@ new myValue2 = 2
+
+@ new myArray1 = 
+	(1 + 2)
+    (@.myValue1)
+    (@.myValue2)
+
+@ new myArray2 =
+	1 + 2
+    @.myValue1
+    @.myValue2
+	
+@ new foo =
+	@.myArray1
+	@.myArray2
+
+/*result
+[
+    [3, 1, 2],
+    [3, 1, 2]
+]
+*/
