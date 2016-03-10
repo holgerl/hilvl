@@ -1,5 +1,5 @@
 @ new myValue1 = 1
-@ new myValue2 = 2
+(@ new myValue2 = 2)
 
 @ new myArray1 = 
 	(1 + 2)
@@ -11,7 +11,7 @@
     @.myValue1
     @.myValue2
 	
-@ new foo =
+(@ new foo) =
 	@.myArray1
 	@.myArray2
 
