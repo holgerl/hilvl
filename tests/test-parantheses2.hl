@@ -1,0 +1,21 @@
+@ new myValue1 = (42)
+@ new myValue2 = ("foo")
+(123)
+("baz")
+
+@ new myArray1 = 
+	(10)
+    ("bar")
+	
+@ new foo =
+    @.myValue1
+    @.myValue2
+	@.myArray1
+
+/*result
+[
+    42,
+    "\"foo\"",
+    [10, "\"bar\""]
+]
+*/

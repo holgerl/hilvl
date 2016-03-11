@@ -160,6 +160,7 @@ hl.parse = function(tokenLists) {
 				root = {service: null, action: null, args: null};
 				typeCounter = 0;
 			} else if (symbol == ")") {
+				if (root.action == null) root = root.service; // This makes parantheses not followed by an action work TODO: This is not elegant!
 				var popped = stack.pop();
 				typeCounter = popped.typeCounter;
 				popped.root[types[typeCounter]] = root;
@@ -178,9 +179,9 @@ hl.parse = function(tokenLists) {
 		}
 		
 		if (root.args == null) root.args = []; // This makes hilvl interpret missing arguments as empty arrays instead of a null sentinel value
-
-		if (root.action == null) root = root.service; // This makes parantheses not followed by an action work TODO: This is not elegant!
 		
+		if (root.action == null) root = root.service; // This makes parantheses not followed by an action work TODO: This is not elegant!
+
 		hl.log("parseLine: ", root, "---", stack);
 		
 		return root;
@@ -213,7 +214,11 @@ hl.parse = function(tokenLists) {
 	
 	stack[0].args.pop(); // Removing EOF
 	
-	return stack[0].args;
+	var result = stack[0].args;
+
+	hl.log("info", JSON.stringify(result, null, 4));
+
+	return result;
 }
 
 var scopes = [{}];
@@ -581,7 +586,6 @@ hl.execute = function(script) {
 	script = script.trim();
 	var tokens = hl.tokenize(script);
 	var trees = hl.parse(tokens);
-	hl.log("info", JSON.stringify(trees, null, 4));
 	var result = hl.evaluate(trees);
 	return result;
 }
@@ -597,7 +601,7 @@ hl.loadStandardLibraries = function() {
 
 if (!global.isBrowser) hl.loadStandardLibraries();
 
-if (process.argv[2]) {
+if (require.main === module && process.argv[2]) {
 	var fileName = process.argv[2];
 	var fileContents = fs.readFileSync(fileName, "utf8");
 	var result = hl.execute(fileContents);
