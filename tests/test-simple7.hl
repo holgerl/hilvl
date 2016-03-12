@@ -12,8 +12,7 @@
 	{} print 
 		foo bar "World!"
 
-@.array = 
-	1,2,3
+@.array = (1,2,3)
 	
 /*parsed
 [
@@ -64,11 +63,15 @@
             "args": "array"
         },
         "action": "=",
-        "args": [
-            "1",
-            "2",
-            "3"
-        ]
+        "args": {
+            "service": {
+                "service": "1",
+                "action": ",",
+                "args": "2"
+            },
+            "action": ",",
+            "args": "3"
+        }
     }
 ]
 */

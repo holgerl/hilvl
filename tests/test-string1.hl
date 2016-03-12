@@ -15,7 +15,7 @@
 		@.first + (@.last)
 
 @ new _ = 
-	"Hello!" length _,
+	"Hello!" length _
 	"Hello!" at 1 substringTo 4
 	Util on "Hello!" at 4 insert " n"
 	Util on "Hello!" at 1 removeTo 4

@@ -6,22 +6,19 @@
 	2
 	3
 
-@ new myArray2 = (10 ; 20 push 30)
+@ new myArray2 = (10 , 20 push 30)
 	
 @ new foo =
-	1 ; 2 ; 3
-	@.myValue1 ; (@.myValue2)
-	"foo" ; 42
-	@.myArray1 ; (@.myArray2)
+	1 , 2 , 3
+	@.myValue1 , (@.myValue2)
+	"foo" , 42
+	@.myArray1 , (@.myArray2)
 	
 /*result
 [
-    [["1", "2"], "3"],
-    ["1", "2"],
+    [1, 2, "3"], // TOOD: This is awkward. Should be solved by letting the parser convert number symbols to actual numbers
+    [1, 2],
     ["\"foo\"", "42"],
-    [
-    	["1", "2", "3"],
-    	["10", "20", "30"]
-    ]
+    ["1", "2", "3", [10, 20, "30"]]
 ]
 */

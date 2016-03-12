@@ -82,12 +82,6 @@ hl.tokenize = function(script) {
 		return script.replace(/\/\*(\*(?!\/)|[^*])*\*\//g, " ");
 	}
 
-	function convertCommaSeparatedArray(string) {
-		return script.replace(/(\t*)(.+,.+)+/g, function(match, group1, group2) {
-			return group1 + group2.split(/\s*,\s*/).join("\n" + group1);
-		});
-	}
-
 	function lineIsNotEmpty(line) {
 		return !/^[\s\t]*$/.test(line);
 	}
@@ -114,7 +108,7 @@ hl.tokenize = function(script) {
 
 	function tokenizeLine(line) {
 		line = replaceLeadingWhitespaceWithTabTokens(line);
-		line = addSpacesAroundCharacters(line, ".", ":", "(", ")");
+		line = addSpacesAroundCharacters(line, ".", ":", "(", ")", ",");
 		line = escapeSpacesInStrings(line);
 		
 		return line.trim().split(/\s+/).map(unescapeSpacesInStrings);
@@ -122,7 +116,6 @@ hl.tokenize = function(script) {
 
 	script = removeLineComments(script);
 	script = removeBlockComments(script);
-	script = convertCommaSeparatedArray(script);
 
 	var tokenLists = script
 		.split(/\r?\n|\r/)
@@ -348,12 +341,6 @@ hl.doAction = function(service, action, args, returnLast) {
 		scopeIndex = oldScopeIndex;
 		return result;
 	}
-
-	// Actions all services have:
-	if (action == ";") { // TODO: Can this replace the syntactic sugar comma? If array have an action with the same name that returns a new array with the argument pushed (i.e. not in place).
-		var args = hl.evaluate(args, returnLast);
-		return [service, args];
-	}
 	
 	// Simple system services:
 	if (serviceType == "Array") {
@@ -366,6 +353,11 @@ hl.doAction = function(service, action, args, returnLast) {
 			var args = hl.evaluate(args, returnLast);
 			service.push(args);
 			return service;
+		} else if (action == ",") {
+			var args = hl.evaluate(args, returnLast);
+			var newArray = service.slice();
+			newArray.push(args)
+			return newArray;
 		} else if (action == "get") {
 			var args = hl.evaluate(args, returnLast);
 			var element = service[args];
@@ -399,6 +391,9 @@ hl.doAction = function(service, action, args, returnLast) {
 			return "\"" + a.substring(service.atIndex, args) + "\"";
 		} else if (action == ".") {
 			return service[args];
+		} else if (action == ",") {
+			var args = hl.evaluate(args, returnLast);
+			return [service, args];
 		} else fail();
 	} else if (serviceType == "Number") {
 		var a = parseInt(service);
@@ -430,6 +425,8 @@ hl.doAction = function(service, action, args, returnLast) {
 			return a < b;
 		} else if (action == ">") {
 			return a > b;
+		} else if (action == ",") {
+			return [a, b];
 		} else fail();
 	} else if (serviceType == "Boolean") {
 		if (action == "==") {
@@ -440,6 +437,9 @@ hl.doAction = function(service, action, args, returnLast) {
 			return (service == "true") !== (args == "true");
 		} else if (action == "then") {
 			if (service === true || service === "true") hl.evaluate(args, returnLast);
+		} else if (action == ",") {
+			var args = hl.evaluate(args, returnLast);
+			return [service, args];
 		} else fail();
 
 

@@ -1,0 +1,25 @@
+@ new myValue1 = 1
+@ new myValue2 = 2
+
+@ new myArray1 = (10, 20, 30)
+
+@ new myArray2 = (10, (@.myValue1), (@.myValue2))
+
+@ new myArray3 = ("foo", "bar", "baz", 123, "hey")
+
+@ new myArray4 = (true, 12, false)
+	
+@ new foo =
+	@.myArray1
+	@.myArray2
+	@.myArray3
+	@.myArray4
+	
+/*result
+[
+    [10, 20, 30],
+    [10, 1, 2],
+    ["\"foo\"", "\"bar\"", "\"baz\"", 123, "\"hey\""],
+    [true, 12, false],
+]
+*/
