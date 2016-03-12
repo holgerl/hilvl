@@ -8,13 +8,6 @@
 @ new s5 = "foo \" bar"
 @ new s6 = " TAB "
 @ new s7 = " EOF "
-@ new : = "colon"
-@ new @ = "at"
-@ new = = "equal"
-@ new . = "dot"
-@ new + = "plus"
-@ new TAB = "tab"
-@ new EOF = "eof"
 	
 @ new foo = 
 	@.s1
@@ -26,13 +19,6 @@
 	"%%s%% hello"
 	@.s6
 	@.s7
-	@.:
-	@.@
-	@.=
-	@..
-	@.+
-	@.TAB
-	@.EOF
 
 /*result
 [
@@ -44,13 +30,6 @@
 "\"foo \\\" bar\"",
 "\"%%s%% hello\"",
 "\" TAB \"",
-"\" EOF \"",
-"\"colon\"",
-"\"at\"",
-"\"equal\"",
-"\"dot\"",
-"\"plus\"",
-"\"tab\"",
-"\"eof\""
+"\" EOF \""
 ]
 */
