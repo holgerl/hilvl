@@ -1,0 +1,37 @@
+@ new : @ 
+	@ new : :
+		"colon"
+	@ new @ :
+		"at"
+	@ new = :
+		"equal"
+	@ new . :
+		"dot"
+	@ new + :
+		"plus"
+	@ new 123 :
+		"numbers"
+	@ new "123" :
+		"numbersintext"
+	
+@ new foo = 
+	: : _
+	: @ _
+	: = _
+	: . _
+	: + _
+	: 123 _
+	: "123" _
+
+	
+/*result
+[
+"\"colon\"",
+"\"at\"",
+"\"equal\"",
+"\"dot\"",
+"\"plus\"",
+"\"numbers\"",
+"\"numbersintext\""
+]
+*/

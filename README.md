@@ -78,9 +78,9 @@ Everything is a service in hilvl, even strings and numbers. And action names can
 
 Here, `2` is the service, `+` is the action and `40` is the argument. This action returns a new service `42`
 
-There are only 5 reserved symbols:
+There are only 6 reserved symbols:
 
-`"` `whitespace` `(` `)` `//`
+`"` `(` `)` `//` `whitespace` `numbers`
 
 The rest are services and actions defined by either the user or the system. This means that all other characters can be used when defining an API. (Allthough, you probably don't want to use the same name as a system service.) 
 
