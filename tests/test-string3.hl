@@ -1,0 +1,19 @@
+@ new myVar = "value"
+
+@ new _ = 
+	"Hello !" at 6 insert "World"
+	"ar" at 0 insert "b"
+	"fo" at 2 insert "o"
+	"baz" at 1 insert (@.myVar)
+	@.myVar at 2 insert "foo"
+	
+
+/*result
+[
+	"\"Hello World!\"",
+	"\"bar\"",
+	"\"foo\"",
+	"\"bvalueaz\"",
+	"\"vafoolue\"",
+]
+*/
