@@ -1,12 +1,16 @@
 @ new Todo @ 
 	@ new todoList = 
 	@ new handleRequest :
-		@ new hlSource = (IO readFile "src/hl.js")
-		@ new body = (IO readFile "examples/todo-webapp/index.html") // TODO: Handle cwd properly so that the path can be simply index.html
-		@.body at 270 insert (@.hlSource)
+		IO readFile "examples/todo-webapp/index.html" // TODO: Handle cwd properly so that the path can be simply index.html
 	@ new frontend @	
 		@ new handleRequest :
 			IO readFile "examples/todo-webapp/frontend.hl"
+	@ new hitml @
+		@ new handleRequest :
+			IO readFile "src/HiTML.js"
+	@ new hl @
+		@ new handleRequest :
+			IO readFile "src/hl.js"
 	@ new all @ 
 		@ new handleRequest :
 			@.todoList
