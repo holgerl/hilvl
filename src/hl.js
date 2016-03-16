@@ -217,6 +217,8 @@ hl.parse = function(tokenLists) {
 var scopes = [{}];
 var scopeIndex = 0;
 
+var connectedServices = {};
+
 hl.clearScope = function() {
 	scopes = [{}];
 	scopeIndex = 0;
@@ -266,6 +268,15 @@ hl.searchScope = function(key, newValue) {
 		index = scope.parent;
 	}
 	throw new Error("Not found in scope: " + JSON.stringify(key));
+}
+
+hl.buildScope = function() {
+	var scopesBuilt = {};
+	for (var scope of scopes) {
+		for (var member of scope) {
+			scopesBuilt[member];
+		}
+	}
 }
 
 hl.printScopes = function() {
@@ -322,6 +333,23 @@ hl.doAction = function(service, action, args, returnLast) {
 	
 	if (serviceType == null) return null;
 	
+	// Connected external services
+	if (connectedServices[service]) {
+		var host = connectedServices[service].host;
+		console.log(service + " IS A CONNECTED SERVICE at " + host);
+		var args = hl.evaluate(args, returnLast);
+		var path = "http://" + host + "/" + service + "/" + action + "?value=" + args // TODO: Pass protocol (http):// in args to connect action, and not hardcoded here
+
+		var xhttp = new XMLHttpRequest();
+		console.log("Calling service on " + path);
+		xhttp.open("GET", path, false);
+		xhttp.send();
+		var result = xhttp.responseText;
+		console.log("RESPONSE: " + result);
+		if (result[0] == "[" || result[0] == "{") result = JSON.parse(result); // TODO: Awkward!! This is necessary to handle both string and array returns
+		return result;
+	}
+
 	function fail() {
 		throw new Error(action + " is not a valid action on " + serviceType + " (" + service + ")");
 	}
@@ -454,6 +482,17 @@ hl.doAction = function(service, action, args, returnLast) {
 			return {type: "Variable", name: args, currentValue: currentValue};
 		} else if (action == ".") {
 			return hl.searchScope(args);
+		} else if (action == "connect") {
+			var args = hl.evaluate(args, returnLast);
+			args = args.substring(1, args.length-1);
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("OPTIONS", "/", false);
+			xhttp.send();
+			var scope = JSON.parse(xhttp.getResponseHeader("scope"));
+			console.log("Backend scope: " + JSON.stringify(scope));
+			for (var name in scope) {
+				connectedServices[name] = {host: args, actions: scope[name]};
+			}
 		} else { // TODO: DRY!
 			var oldScopeIndex = scopeIndex;
 			
@@ -518,7 +557,7 @@ hl.doAction = function(service, action, args, returnLast) {
 		} else if (action == "readFile") {
 			args = args.substring(1, args.length-1);
 			var filePath = process.cwd() + "\\" + args;
-			return fs.readFileSync(filePath, "utf8");
+			return "\"" + fs.readFileSync(filePath, "utf8") + "\"";
 		} else fail();
 	
 	// Custom service

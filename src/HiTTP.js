@@ -16,6 +16,14 @@ HiTTP.startServer = function(fileName) {
 	
 	server = http.createServer(function (request, response) {
 		try {
+			if (request.method === "OPTIONS") {
+				//console.log("HER: " + JSON.stringify(hl.getScopes(), null, 4));
+				var scope = {Todo: {add:{}, all:{}}};
+				var responseHeaders = {scope: JSON.stringify(scope)};
+				response.writeHead(200, responseHeaders);
+				response.end();
+			}
+
 			var filePath = url.parse(request.url.substring(1)).pathname;
 			var query = url.parse(request.url, true).query;
 			
@@ -55,6 +63,7 @@ HiTTP.startServer = function(fileName) {
 				var returnCode = 404;
 			} else {
 				var result = hl.evaluate({service:serviceName, action:"handleRequest", args: "\""+query+"\""}, true, false);
+				result = result[0] === "\"" ? result.substring(1, result.length-1) : result;
 				var returnCode = 200;
 			}
 		} catch (e) {
