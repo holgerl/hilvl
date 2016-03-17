@@ -16,6 +16,13 @@ function argumentsToArray(args) {
 	return array;
 }
 
+function removeQuotes(string) { // TODO: Use the same code from util.js (make it available when hl.js is running in a browser)
+	var isDefined = string != null && string != undefined;
+	if (isDefined && string[0] === "\"") string = string.substring(1);
+	if (isDefined && string[string.length - 1] === "\"") string = string.substring(0, string.length - 1);
+	return string;
+}
+
 //hl.logLevel = "debug";
 //hl.logLevel = "info";
 hl.logLevel = "warning";
@@ -398,9 +405,11 @@ hl.doAction = function(service, action, args, returnLast) {
 		var value = service.value || service;
 		var value = value.value || value; // TODO: This unwrapping is awkward
 
-		var a = value.substring(1, value.length-1);
-		var argsIsString = args[0] == "\""; 
-		var b = argsIsString ? args.substring(1, args.length-1) : null;
+		var a = removeQuotes(value);
+
+		var argsIsString = args[0] == "\"";
+
+		var b = removeQuotes(args);
 		
 		if (action == "+") {
 			if (!argsIsString) throw new Error("args is not string");
@@ -484,7 +493,7 @@ hl.doAction = function(service, action, args, returnLast) {
 			return hl.searchScope(args);
 		} else if (action == "connect") {
 			var args = hl.evaluate(args, returnLast);
-			args = args.substring(1, args.length-1);
+			args = removeQuotes(args);
 			var xhttp = new XMLHttpRequest();
 			xhttp.open("OPTIONS", "/", false);
 			xhttp.send();
@@ -550,12 +559,12 @@ hl.doAction = function(service, action, args, returnLast) {
 	} else if (serviceType == "IO") {
 		if (action == "print") {
 			if (args[0] && args[0] == "\"")
-				args = args.substring(1, args.length-1);
+				args = removeQuotes(args);
 			if (typeof args == "object")
 				args = JSON.stringify(args)
 			console.log(args);
 		} else if (action == "readFile") {
-			args = args.substring(1, args.length-1);
+			args = removeQuotes(args);
 			var filePath = process.cwd() + "\\" + args;
 			return "\"" + fs.readFileSync(filePath, "utf8") + "\"";
 		} else fail();

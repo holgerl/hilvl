@@ -4,6 +4,7 @@ var hl = require("./hl")
 var http = require('http');
 var fs = require("fs");
 var url  = require('url');
+var util  = require('./util');
 
 var server;
 
@@ -63,7 +64,7 @@ HiTTP.startServer = function(fileName) {
 				var returnCode = 404;
 			} else {
 				var result = hl.evaluate({service:serviceName, action:"handleRequest", args: "\""+query+"\""}, true, false);
-				result = result[0] === "\"" ? result.substring(1, result.length-1) : result;
+				result = util.removeQuotes(result);
 				var returnCode = 200;
 			}
 		} catch (e) {
