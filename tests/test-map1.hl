@@ -1,0 +1,39 @@
+@ new Map @ 
+	@ new of :
+		@ new MapInstance @
+			@ new tuples = (@.argument)
+			@ new get :
+				@ new result = _
+				@ new key = (@.argument)
+				@.tuples loop
+					@.element get 0 == (@.key) then
+						@ set result = (@.element get 1)
+				@.result
+			@ new with :
+				@ set tuples = (@.argument)
+		@.MapInstance
+		
+@ new tuples1 =
+	"foo", 1
+	"bar", 2
+
+@ new myMap1 = (Map of (@.tuples1))
+		
+@ new myMap2 = (Map of _) with 
+	"foo", 11
+	"bar", 22
+	
+@ new foo =
+	myMap1 get "foo"
+	myMap1 get "bar"
+	myMap2 get "foo"
+	myMap2 get "bar"
+
+/*result
+[
+	1,
+	2,
+	11,
+	22
+]
+*/
