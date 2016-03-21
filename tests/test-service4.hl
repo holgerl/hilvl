@@ -1,0 +1,28 @@
+@ new ServiceA @ 
+	@ new actionA :
+		@.argument + "A"
+
+@ new ServiceB @ 
+	@ new actionB :
+		@.argument actionA "inside " + "B"
+
+@ new ServiceC @ 
+	@ new actionC :
+		ServiceA
+
+@ new serviceInVar = ServiceA
+		
+@ new foo = 
+	@.serviceInVar actionA "call "
+	ServiceB actionB ServiceA
+	ServiceB actionB (@.serviceInVar)
+	ServiceC actionC _ actionA "returned "
+
+/*result
+[
+	"\"call A\"",
+	"\"inside AB\"",
+	"\"inside AB\"",
+	"\"returned A\""
+]
+*/
