@@ -5,7 +5,7 @@ function refreshHitml() {
 		var element = elements[i];
 		var hlAction = element.getAttribute("hitml-content");
 		var html = hl.execute(hlAction);
-		if (html[0] == "\"") html = html.substring(1, html.length-1);
+		html = util.removeQuotes(html)
 		element.innerHTML = html;
 	};
 }
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	}
 	
 	var hlScript = httpGet(hlFilePath);
-	hlScript = hlScript[0] === "\"" ? hlScript.substring(1, hlScript.length-1) : hlScript;
+	hlScript = util.removeQuotes(hlScript);
 	hl.execute(hlScript);
 
 	refreshHitml();
@@ -34,11 +34,13 @@ document.addEventListener('DOMContentLoaded', function(){
 		var hlAction = element.getAttribute("hitml-listener");
 		element.addEventListener("submit", function(event) {
 			event.preventDefault();
+
 			var formValues = {};
 			for (var i = 0; i < event.target.children.length; i++) {
 				var child = event.target.children[i];
 				formValues[child.name] = child.value;
 			}
+			
 			hl.saveToScope("argument", formValues["value"]);
 			var result = hl.execute(hlAction);
 			console.log("RESULT " + result);

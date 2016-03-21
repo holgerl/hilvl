@@ -1,12 +1,7 @@
 'use strict';
 
-// Makes the code run on both node.js and in a browser:
-if (typeof(global) == 'undefined') {window.global = window; global.isBrowser = true;}
-global.require = global.require || function() {};
-global.process = global.process || {argv: []};
-global.module = global.module || {};
-
 var fs = require("fs");
+var util = global.util || require("./util");
 
 var hl = {};
 
@@ -14,13 +9,6 @@ function argumentsToArray(args) {
 	var array = [];
 	for (var i in args) array.push(args[i]);
 	return array;
-}
-
-function removeQuotes(string) { // TODO: Use the same code from util.js (make it available when hl.js is running in a browser)
-	var isDefined = string != null && string != undefined;
-	if (isDefined && string[0] === "\"") string = string.substring(1);
-	if (isDefined && string[string.length - 1] === "\"") string = string.substring(0, string.length - 1);
-	return string;
 }
 
 //hl.logLevel = "debug";
@@ -343,16 +331,13 @@ hl.doAction = function(service, action, args, returnLast) {
 	// Connected external services
 	if (connectedServices[service]) {
 		var host = connectedServices[service].host;
-		console.log(service + " IS A CONNECTED SERVICE at " + host);
 		var args = hl.evaluate(args, returnLast);
 		var path = "http://" + host + "/" + service + "/" + action + "?value=" + args // TODO: Pass protocol (http):// in args to connect action, and not hardcoded here
 
 		var xhttp = new XMLHttpRequest();
-		console.log("Calling service on " + path);
 		xhttp.open("GET", path, false);
 		xhttp.send();
 		var result = xhttp.responseText;
-		console.log("RESPONSE: " + result);
 		if (result[0] == "[" || result[0] == "{") result = JSON.parse(result); // TODO: Awkward!! This is necessary to handle both string and array returns
 		return result;
 	}
@@ -405,11 +390,11 @@ hl.doAction = function(service, action, args, returnLast) {
 		var value = service.value || service;
 		var value = value.value || value; // TODO: This unwrapping is awkward
 
-		var a = removeQuotes(value);
+		var a = util.removeQuotes(value);
 
 		var argsIsString = args[0] == "\"";
 
-		var b = removeQuotes(args);
+		var b = util.removeQuotes(args);
 		
 		if (action == "+") {
 			if (!argsIsString) throw new Error("args is not string");
@@ -493,7 +478,7 @@ hl.doAction = function(service, action, args, returnLast) {
 			return hl.searchScope(args);
 		} else if (action == "connect") {
 			var args = hl.evaluate(args, returnLast);
-			args = removeQuotes(args);
+			args = util.removeQuotes(args);
 			var xhttp = new XMLHttpRequest();
 			xhttp.open("OPTIONS", "/", false);
 			xhttp.send();
@@ -559,12 +544,12 @@ hl.doAction = function(service, action, args, returnLast) {
 	} else if (serviceType == "IO") {
 		if (action == "print") {
 			if (args[0] && args[0] == "\"")
-				args = removeQuotes(args);
+				args = util.removeQuotes(args);
 			if (typeof args == "object")
 				args = JSON.stringify(args)
 			console.log(args);
 		} else if (action == "readFile") {
-			args = removeQuotes(args);
+			args = util.removeQuotes(args);
 			var filePath = process.cwd() + "\\" + args;
 			return "\"" + fs.readFileSync(filePath, "utf8") + "\"";
 		} else fail();

@@ -1,5 +1,11 @@
 'use strict';
 
+// Makes the code run on both node.js and in a browser:
+if (typeof(global) == 'undefined') {window.global = window; global.isBrowser = true;}
+global.require = global.require || function(file) {};
+global.process = global.process || {argv: []};
+global.module = global.module || {};
+
 var util = {
 	removeQuotes: function(string) {
 		var isDefined = string != null && string != undefined;

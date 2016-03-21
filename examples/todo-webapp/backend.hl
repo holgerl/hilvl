@@ -8,6 +8,9 @@
 	@ new hitml @
 		@ new handleRequest :
 			IO readFile "src/HiTML.js"
+	@ new util @
+		@ new handleRequest :
+			IO readFile "src/util.js"
 	@ new hl @
 		@ new handleRequest :
 			IO readFile "src/hl.js"
