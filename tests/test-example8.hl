@@ -5,7 +5,7 @@
 // Do it 10 times
 //	 @ set foo = (@ . foo + 1)
 
-@ new Do @
+@ new Do :=
 	@ new it :
 		@ new nof = (@ . argument)
 		@ . Do

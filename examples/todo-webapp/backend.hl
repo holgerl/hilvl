@@ -1,23 +1,23 @@
-@ new Todo @ 
+@ new Todo := 
 	@ new todoList = 
 	@ new handleRequest :
 		IO readFile "examples/todo-webapp/index.html" // TODO: Handle cwd properly so that the path can be simply index.html
-	@ new frontend @	
+	@ new frontend :=	
 		@ new handleRequest :
 			IO readFile "examples/todo-webapp/frontend.hl"
-	@ new hitml @
+	@ new hitml :=
 		@ new handleRequest :
 			IO readFile "src/HiTML.js"
-	@ new util @
+	@ new util :=
 		@ new handleRequest :
 			IO readFile "src/util.js"
-	@ new hl @
+	@ new hl :=
 		@ new handleRequest :
 			IO readFile "src/hl.js"
-	@ new all @ 
+	@ new all := 
 		@ new handleRequest :
 			@.todoList
-	@ new add @ 
+	@ new add := 
 		@ new handleRequest :
 			@.todoList push (@.argument)
 			"Success"

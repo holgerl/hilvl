@@ -12,7 +12,7 @@
 @ . myArray loop
 	@ set foo = (@ . foo + (@ . element))
 
-@ new MyService @ 
+@ new MyService := 
 	@ new myAction :
 		@ . argument + 10
 		

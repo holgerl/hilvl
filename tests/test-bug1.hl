@@ -1,6 +1,6 @@
 @ new foo = 10
 
-@ new Do @
+@ new Do :=
 	@ new nof = 2
 	@ new times :
 		@ new body : (@ . argument)

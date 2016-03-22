@@ -1,9 +1,9 @@
-@ new ServiceB @ 
+@ new ServiceB := 
 	@ new actionB :
 		@.argument
 
 
-@ new ServiceA @ 
+@ new ServiceA := 
 	@ new actionA :
 		ServiceB actionB (@.argument)
 		

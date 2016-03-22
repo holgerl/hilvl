@@ -1,12 +1,12 @@
-@ new ServiceA @ 
+@ new ServiceA := 
 	@ new actionA :
 		@.argument + "A"
 
-@ new ServiceB @ 
+@ new ServiceB := 
 	@ new actionB :
 		@.argument actionA "inside " + "B"
 
-@ new ServiceC @ 
+@ new ServiceC := 
 	@ new actionC :
 		ServiceA
 

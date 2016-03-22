@@ -1,5 +1,5 @@
 // Creating a new service with an action:
-@ new MyService @ 
+@ new MyService := 
 	@ new myAction :
 		@ new myVariable = (42 + (@.argument))
 		@.myVariable // This is the return value

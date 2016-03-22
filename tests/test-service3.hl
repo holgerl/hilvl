@@ -1,6 +1,6 @@
 @ new foo = 10
 
-@ new MyService @ 
+@ new MyService :=
 	@ new myAction :
 		@ set foo = 42
 		@ new myFunction = (@.argument)

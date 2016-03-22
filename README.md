@@ -28,7 +28,7 @@ Try the [online evaluator](http://holgerl.github.io/hilvl/)
 @ . myArray loop
 	@ set foo = (@ . foo + (@ . element))
 
-@ new MyService @ 
+@ new MyService := 
 	@ new myAction :
 		@ . argument + 10
 		
@@ -80,7 +80,7 @@ Here, `2` is the service, `+` is the action and `40` is the argument. This actio
 
 There are only 6 reserved symbols:
 
-`"` `(` `)` `//` `whitespace` `numbers`
+`"` `(` `)` `//` `whitespace` `numbers` <!-- But true and false are also reserved?!! -->
 
 The rest are services and actions defined by either the user or the system. This means that all other characters can be used when defining an API. (Allthough, you probably don't want to use the same name as a system service.) 
 
@@ -99,7 +99,7 @@ Since everything is a service. It is easy to make your own. The last statement o
 <!-- test-example7.hl -->
 ```javascript
 // Creating a new service with an action:
-@ new MyService @ 
+@ new MyService := 
 	@ new myAction :
 		@ new myVariable = (42 + (@.argument))
 		@.myVariable // This is the return value
@@ -174,14 +174,14 @@ Variables are created, changed and read by using the scope service `@`:
 //result: 52
 ```
 
-All variables are saved in the same scope. But to add a new nested scope, there is an action named `@` on the variable service:
+All variables are saved in the same scope. But to add a new nested scope, there is an action named `:=` on the variable service:
 
 <!-- test-example5.hl -->
 ```javascript
 @ new myVar1 = 1
 @ new myVar2 = 2
 
-@ new myScope @ // the two statements in the argument are now evaluated in a new scope:
+@ new myScope := // the two statements in the argument are now evaluated in a new scope:
 	@ new myVar1 = 10
 	@ set myVar2 = 20
 	
@@ -197,7 +197,7 @@ Notice how `myVar1` kept its value because the change to `10` was done on a new 
 
 The scopes are nested, which means that if a variable is used, its value will be searched for upwards in all parent scopes.
 
-After adding a new scope, the `@` action acts exactly like the `=` action, and evalates the argument array. This means that any statements in the argument gets executed. And in the example above, this meant that the variables where changed.
+After adding a new scope, the `:=` action acts exactly like the `=` action, and evalates the argument array. This means that any statements in the argument gets executed. And in the example above, this meant that the variables where changed.
 
 But it is possible to set a value to a variable *without* evaluating the arguments. This is useful when we want to execute a block of code at a later time, or many times over. This is also the key mechanism for structuring code as services and actions. 
 
@@ -235,7 +235,7 @@ If an array of statements is executed, the value of the *last* statement is retu
 ```javascript
 @ new foo = 10 // Variable in outer scope
 
-@ new MyService @ 
+@ new MyService := 
 	@ new myAction :
 		@ set foo = 42 // Variable in inner scope
 		@ new myFunction : (@.argument) // Saving argument without evaluating it
@@ -260,7 +260,7 @@ If an array of statements is executed, the value of the *last* statement is retu
 
 <!-- test-example3.hl -->
 ```javascript
-@ new Please @ 
+@ new Please := 
 	@ new add :
 		@ new arg1 = (@.argument)
 		@.Please // Returning the service itself

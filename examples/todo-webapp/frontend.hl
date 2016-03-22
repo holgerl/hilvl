@@ -1,6 +1,6 @@
 @ connect "localhost:8080" // TODO: Make it possible to use // inside strings
 
-@ new TodoFront @ 
+@ new TodoFront := 
 	@ new getList :
 		@ new list = ""
 		Todo all _ loop // Rename Todo to TodoBackend

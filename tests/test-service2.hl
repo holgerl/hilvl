@@ -1,4 +1,4 @@
-@ new InnerInnerService @ 
+@ new InnerInnerService := 
 	@ new setArg1 :
 		@ new arg1 = (@.argument)
 	@ new setArg2 :
@@ -6,7 +6,7 @@
 	@ new innerInnerAction :
 		@.arg1 + (@.arg2) + (@.argument)
 
-@ new InnerService @ 
+@ new InnerService := 
 	@ new setArg1 :
 		@ new arg1 = (@.argument)
 	@ new innerAction :
@@ -14,7 +14,7 @@
 		InnerInnerService setArg2 (@.argument)
 		@.InnerInnerService
 
-@ new OuterService @ 
+@ new OuterService := 
 	@ new outerAction :
 		InnerService setArg1 (@.argument)
 		@.InnerService

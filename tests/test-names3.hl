@@ -1,8 +1,8 @@
-@ new . @ 
+@ new . :=
 	@ new . :
 		"dot dot"
 
-@ new = @ 
+@ new = := 
 	@ new 123 :
 		"equals 123"
 	

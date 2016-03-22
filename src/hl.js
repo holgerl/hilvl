@@ -103,7 +103,7 @@ hl.tokenize = function(script) {
 
 	function tokenizeLine(line) {
 		line = replaceLeadingWhitespaceWithTabTokens(line);
-		line = addSpacesAroundCharacters(line, ".", ":", "(", ")", ",");
+		line = addSpacesAroundCharacters(line, ".", "(", ")", ",");
 		line = escapeSpacesInStrings(line);
 		
 		return line.trim().split(/\s+/).map(unescapeSpacesInStrings);
@@ -507,7 +507,7 @@ hl.doAction = function(service, action, args, returnLast) {
 		} else if (action == ":") { // TODO: Should have an action like this for assigning without evaluating argument, but without making a new scope for the future evaluation. It could be named =>. This way, @ new foo => ($.argument) will not make a new scope when evaluating $.argument (which can be a code block, so we can't use =)
 			var newScopeIndex = hl.pushScope(true);
 			hl.changeInScope(service.name, {code: args, scope: newScopeIndex});
-		} else if (action == "@") {
+		} else if (action == ":=") {
 			var nextScopeIndex = scopes.length+1;
 			var args = hl.evaluate(args, false, true);
 			hl.changeInScope(service.name, {type: "ScopeReference", scope: nextScopeIndex});
@@ -561,6 +561,7 @@ hl.doAction = function(service, action, args, returnLast) {
 		scopeIndex = hl.searchScope(service)["scope"];
 		var code = hl.searchScope(action)["code"];
 		
+		//hl.saveToScope("this", {type:"ScopeReference", scope: scopeIndex}); // TODO: Standard libararies allrady use the word "this" for something else. Maybe it should be called "currentScope" here, and "extendedService" in standard libraries?
 		hl.saveToScope("argument", args);
 		var result = hl.evaluate(code, true);
 		scopeIndex = oldScopeIndex;

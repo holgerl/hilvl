@@ -1,4 +1,4 @@
-@ new Util @ 
+@ new Util := 
 	@ new on :
 		@ new arg1 = (@.argument)
 		@.Util

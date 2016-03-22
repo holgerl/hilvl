@@ -1,6 +1,6 @@
-@ new OuterService @ 
+@ new OuterService := 
 	@ new outerVar = 42
-	@ new InnerService @ 
+	@ new InnerService := 
 		@ new innerVar = 30
 		@ new innerAction :
 			@ set outerVar = (@.innerVar)

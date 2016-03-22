@@ -1,6 +1,6 @@
-@ new Map @ 
+@ new Map :=
 	@ new of :
-		@ new MapInstance @
+		@ new MapInstance :=
 			@ new tuples = (@.argument)
 			@ new get :
 				@ new result = _
@@ -37,3 +37,5 @@
 	22
 ]
 */
+
+// TODO: new -> var

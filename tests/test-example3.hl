@@ -1,4 +1,4 @@
-@ new Please @ 
+@ new Please := 
 	@ new add :
 		@ new arg1 = (@.argument)
 		@.Please // Returning the service itself

@@ -5,9 +5,9 @@ myValue == true then
 	Console log element
 
 @.myMap map
-	"name": "John"
-	"address": "Wilkerstreet 12"
-	"telephone": "80045223"
+	"name" : "John"
+	"address" : "Wilkerstreet 12"
+	"telephone" : "80045223"
 
 /*parsed
 [

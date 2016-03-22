@@ -1,4 +1,4 @@
-@ new MyService @ 
+@ new MyService := 
     @ new myAction1 :
         @ new myValue = 42
 		@.argument + (@.myValue)

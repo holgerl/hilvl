@@ -1,4 +1,4 @@
-@ new : @ 
+@ new : := 
 	@ new : :
 		"colon"
 	@ new @ :
@@ -13,6 +13,8 @@
 		"numbers"
 	@ new "123" :
 		"numbersintext"
+	@ new := :
+		"colonequal"
 	
 @ new foo = 
 	: : _
@@ -22,6 +24,7 @@
 	: + _
 	: 123 _
 	: "123" _
+	: := _
 
 	
 /*result
@@ -32,6 +35,7 @@
 "\"dot\"",
 "\"plus\"",
 "\"numbers\"",
-"\"numbersintext\""
+"\"numbersintext\"",
+"\"colonequal\""
 ]
 */

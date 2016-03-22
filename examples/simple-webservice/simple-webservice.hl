@@ -1,16 +1,16 @@
-@ new MyWebApp @ 
+@ new MyWebApp := 
 	@ new myValue = 0
 	@ new incrementValue :
 		@ set myValue = (@.myValue + (@.argument))
 	@ new handleRequest :
 		@ incrementValue 1
 		"My value is now " + (@.myValue as string)
-	@ new myPage @ 
+	@ new myPage := 
 		@ new pageVariable = 42
 		@ new handleRequest :
 			"The magic number is " + (@.pageVariable as string)
 
-@ new MyWebApp2 @ 
+@ new MyWebApp2 := 
 	@ new handleRequest :
 		"The other webapp got argument " + (@.argument)
 
