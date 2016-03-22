@@ -8,9 +8,9 @@ To run the code and tests, you need [node.js](https://nodejs.org).
 
 ## Running tests
 
-Hilvl has an extensive test suite that should cover all the features in the language. To run them, simply run `node tests\run-tests.js`
+Hilvl has an extensive test suite that should cover all the features in the language. To run them, simply run `node tests\run-all-tests.js`
 
-To run a single test, you can run `node tests\run-tests.js [FILENAME]`
+To run a single test, you can run `node tests\run-all-tests.js [FILENAME]`. That will also display more debug information.
 
 ## Important principles
 
@@ -21,4 +21,4 @@ To run a single test, you can run `node tests\run-tests.js [FILENAME]`
 - Use a coding style similar to what is already used (naming, formatting, etc)
 - Use English for all text
 
-*note: ES6 is allowed, even though it is not used much at the moment*
+*note: The language level for the JavaScript is ES6*
