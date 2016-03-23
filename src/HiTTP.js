@@ -65,7 +65,6 @@ HiTTP.startServer = function(fileName) {
 				var returnCode = 404;
 			} else {
 				var result = hl.evaluate({service:serviceName, action:"handleRequest", args: "\""+query+"\""}, true, false);
-				result = util.removeQuotes(result);
 				var returnCode = 200;
 			}
 		} catch (e) {
@@ -73,6 +72,8 @@ HiTTP.startServer = function(fileName) {
 			var result = JSON.stringify(e.message);
 			var returnCode = 503;
 		}
+
+		result = util.removeQuotes(result);
 		
 		if (typeof result != "string") result = JSON.stringify(result);
 		
