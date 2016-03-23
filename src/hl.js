@@ -36,7 +36,7 @@ hl.log = function(level) {
 
 	args.unshift(levelLetter);
 
-	console.log.apply({}, args)
+	console.log.apply(console, args)
 }
 
 hl.tokenize = function(script) {
