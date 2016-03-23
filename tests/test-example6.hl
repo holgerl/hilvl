@@ -1,15 +1,15 @@
-@ new bar = 1
+@ var bar = 1
 	
-@ new foo : // the statement in the argument is not evaluated yet
+@ var foo : // the statement in the argument is not evaluated yet
 	@ set bar = 2
 	
-@ new barBefore = (@.bar)
+@ var barBefore = (@.bar)
 	
 @ foo _ // this invokes the foo action, and the code is evaluated (_ means no argument)
 
-@ new barAfter = (@.bar)
+@ var barAfter = (@.bar)
 
-@ new results =
+@ var results =
 	@.barBefore
 	@.barAfter
 

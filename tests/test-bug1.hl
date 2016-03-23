@@ -1,9 +1,9 @@
-@ new foo = 10
+@ var foo = 10
 
-@ new Do :=
-	@ new nof = 2
-	@ new times :
-		@ new body : (@ . argument)
+@ var Do :=
+	@ var nof = 2
+	@ var times :
+		@ var body : (@ . argument)
 		0 until
 			@ body _
 			@ set nof = (@ . nof - 1)

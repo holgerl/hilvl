@@ -1,6 +1,6 @@
-@ new myVar = "value"
+@ var myVar = "value"
 
-@ new _ = 
+@ var _ = 
 	"Hello !" at 6 insert "World"
 	"ar" at 0 insert "b"
 	"fo" at 2 insert "o"

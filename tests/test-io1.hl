@@ -1,4 +1,4 @@
-@ new foo = 42
+@ var foo = 42
 	
 @.foo == 42 then
 	IO print "foo is 42"
@@ -8,7 +8,7 @@
 
 IO print ("foo + 8 = " + (@.foo + 8 as string))
 	
-@ new myArray = 
+@ var myArray = 
 	1
 	2
 	3

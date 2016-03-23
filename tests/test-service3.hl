@@ -1,12 +1,12 @@
-@ new foo = 10
+@ var foo = 10
 
-@ new MyService :=
-	@ new myAction :
+@ var MyService :=
+	@ var myAction :
 		@ set foo = 42
-		@ new myFunction = (@.argument)
+		@ var myFunction = (@.argument)
 		@ myFunction _
 		
-@ new bar = 
+@ var bar = 
 	MyService myAction (@.foo + 2)
 	MyService myAction 
 		@.foo + 2

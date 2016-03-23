@@ -1,24 +1,24 @@
-@ new Todo := 
-	@ new todoList = 
-	@ new handleRequest :
+@ var Todo := 
+	@ var todoList = 
+	@ var handleRequest :
 		IO readFile "examples/todo-webapp/index.html" // TODO: Handle cwd properly so that the path can be simply index.html
-	@ new frontend :=	
-		@ new handleRequest :
+	@ var frontend :=	
+		@ var handleRequest :
 			IO readFile "examples/todo-webapp/frontend.hl"
-	@ new hitml :=
-		@ new handleRequest :
+	@ var hitml :=
+		@ var handleRequest :
 			IO readFile "src/HiTML.js"
-	@ new util :=
-		@ new handleRequest :
+	@ var util :=
+		@ var handleRequest :
 			IO readFile "src/util.js"
-	@ new hl :=
-		@ new handleRequest :
+	@ var hl :=
+		@ var handleRequest :
 			IO readFile "src/hl.js"
-	@ new all := 
-		@ new handleRequest :
+	@ var all := 
+		@ var handleRequest :
 			@.todoList
-	@ new add := 
-		@ new handleRequest :
+	@ var add := 
+		@ var handleRequest :
 			@.todoList push (@.argument)
 			"Success"
 
@@ -42,5 +42,5 @@ http://127.0.0.1:8080/Todo
 /<h1>hilvl todo webapp<\/h1>/
 
 http://127.0.0.1:8080/Todo/frontend
-/@ new getList :/
+/@ var getList :/
 */

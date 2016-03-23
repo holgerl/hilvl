@@ -1,5 +1,5 @@
-@ new foo = 3
-@ new bar = 3
+@ var foo = 3
+@ var bar = 3
 	
 @.foo == (@.bar) then
 	@ set foo = 42
@@ -14,7 +14,7 @@
     {
         "service": {
             "service": "@",
-            "action": "new",
+            "action": "var",
             "args": "foo"
         },
         "action": "=",
@@ -23,7 +23,7 @@
     {
         "service": {
             "service": "@",
-            "action": "new",
+            "action": "var",
             "args": "bar"
         },
         "action": "=",

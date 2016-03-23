@@ -1,5 +1,5 @@
 System extend String with insert as
-	@ new atIndex = (@.this.atIndex)
-	@ new first = (@.this at 0 substringTo (@.atIndex))
-	@ new last = (@.this at (@.atIndex) substringTo (@.this length _))
+	@ var atIndex = (@.this.atIndex)
+	@ var first = (@.this at 0 substringTo (@.atIndex))
+	@ var last = (@.this at (@.atIndex) substringTo (@.this length _))
 	@.first + (@.argument) + (@.last)

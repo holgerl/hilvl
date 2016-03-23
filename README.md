@@ -14,13 +14,13 @@ Try the [online evaluator](http://holgerl.github.io/hilvl/)
 ```javascript
 // Note: @ is the name of a system defined service
 
-@ new foo = 42
-@ new bar = (2 + 40)
+@ var foo = 42
+@ var bar = (2 + 40)
 	
 @ . foo == (@ . bar) then
 	@ set foo = 0
 	
-@ new myArray = 
+@ var myArray = 
 	1
 	2
 	3
@@ -28,8 +28,8 @@ Try the [online evaluator](http://holgerl.github.io/hilvl/)
 @ . myArray loop
 	@ set foo = (@ . foo + (@ . element))
 
-@ new MyService := 
-	@ new myAction :
+@ var MyService := 
+	@ var myAction :
 		@ . argument + 10
 		
 MyService myAction (@ . foo) // foo is now 6, and this returns 16
@@ -99,9 +99,9 @@ Since everything is a service. It is easy to make your own. The last statement o
 <!-- test-example7.hl -->
 ```javascript
 // Creating a new service with an action:
-@ new MyService := 
-	@ new myAction :
-		@ new myVariable = (42 + (@.argument))
+@ var MyService := 
+	@ var myAction :
+		@ var myVariable = (42 + (@.argument))
 		@.myVariable // This is the return value
 		
 MyService myAction 1 // Using the service
@@ -166,9 +166,9 @@ Variables are created, changed and read by using the scope service `@`:
 
 <!-- test-example4.hl -->
 ```javascript
-@ new myVar // variable "myVar" is declared
+@ var myVar // variable "myVar" is declared
 @ set myVar = 42 // myVar is given a value
-@ new myOtherVar = 10 // the variable service also has an = action for more consise code
+@ var myOtherVar = 10 // the variable service also has an = action for more consise code
 @.myVar + (@.myOtherVar) // the values of myVar and myOtherVar are read and added together
 
 //result: 52
@@ -178,15 +178,15 @@ All variables are saved in the same scope. But to add a new nested scope, there 
 
 <!-- test-example5.hl -->
 ```javascript
-@ new myVar1 = 1
-@ new myVar2 = 2
+@ var myVar1 = 1
+@ var myVar2 = 2
 
-@ new myScope := // the two statements in the argument are now evaluated in a new scope:
-	@ new myVar1 = 10
+@ var myScope := // the two statements in the argument are now evaluated in a new scope:
+	@ var myVar1 = 10
 	@ set myVar2 = 20
 	
 // we place the variables in an array that is returned as the result:
-@ new myArray =
+@ var myArray =
 	@.myVar1
 	@.myVar2
 
@@ -205,18 +205,18 @@ It is done with the action `:`:
 
 <!-- test-example6.hl -->
 ```javascript
-@ new bar = 1
+@ var bar = 1
 	
-@ new foo : // the statement in the argument is not evaluated yet
+@ var foo : // the statement in the argument is not evaluated yet
 	@ set bar = 2
 	
-@ new barBefore = (@.bar)
+@ var barBefore = (@.bar)
 	
 @ foo _ // this invokes the foo action, and the code is evaluated
 
-@ new barAfter = (@.bar)
+@ var barAfter = (@.bar)
 
-@ new results =
+@ var results =
 	@.barBefore
 	@.barAfter
 
@@ -233,15 +233,15 @@ If an array of statements is executed, the value of the *last* statement is retu
 
 <!-- test-example2.hl -->
 ```javascript
-@ new foo = 10 // Variable in outer scope
+@ var foo = 10 // Variable in outer scope
 
-@ new MyService := 
-	@ new myAction :
+@ var MyService := 
+	@ var myAction :
 		@ set foo = 42 // Variable in inner scope
-		@ new myFunction : (@.argument) // Saving argument without evaluating it
+		@ var myFunction : (@.argument) // Saving argument without evaluating it
 		@ myFunction _ // Invoking the argument as an action
 		
-@ new bar = 
+@ var bar = 
 	MyService myAction (@.foo + 2) // Argument is evaluated before action is invocated
 	MyService myAction // Argument is evaluated on demand by the myAction implementation
 		@.foo + 2
@@ -260,14 +260,14 @@ If an array of statements is executed, the value of the *last* statement is retu
 
 <!-- test-example3.hl -->
 ```javascript
-@ new Please := 
-	@ new add :
-		@ new arg1 = (@.argument)
+@ var Please := 
+	@ var add :
+		@ var arg1 = (@.argument)
 		@.Please // Returning the service itself
-	@ new and :
-		@ new arg2 = (@.argument)
+	@ var and :
+		@ var arg2 = (@.argument)
 		@.Please // Returning the service itself
-	@ new andThen :
+	@ var andThen :
 		@.arg1 + (@.arg2) + (@.argument)
 		
 Please add 42 and 50 andThen 100

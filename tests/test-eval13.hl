@@ -1,6 +1,6 @@
-@ new bar = 0
+@ var bar = 0
 	
-@ new foo :
+@ var foo :
 	@ set bar = (@.argument)
 	@.bar
 	

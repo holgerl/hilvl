@@ -1,11 +1,11 @@
-@ new MyService := 
-	@ new myValue = 42
-	@ new myAction1 :
+@ var MyService := 
+	@ var myValue = 42
+	@ var myAction1 :
 		@ set myValue = 50
-	@ new getMyValue :
+	@ var getMyValue :
 		@.myValue
 		
-@ new foo =
+@ var foo =
 	MyService getMyValue _
 	MyService myAction1 _
 	MyService getMyValue _

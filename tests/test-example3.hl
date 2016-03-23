@@ -1,11 +1,11 @@
-@ new Please := 
-	@ new add :
-		@ new arg1 = (@.argument)
+@ var Please := 
+	@ var add :
+		@ var arg1 = (@.argument)
 		@.Please // Returning the service itself
-	@ new and :
-		@ new arg2 = (@.argument)
+	@ var and :
+		@ var arg2 = (@.argument)
 		@.Please // Returning the service itself
-	@ new andThen :
+	@ var andThen :
 		@.arg1 + (@.arg2) + (@.argument)
 		
 Please add 42 and 50 andThen 100

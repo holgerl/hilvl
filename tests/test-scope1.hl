@@ -1,9 +1,9 @@
-@ new globalVar = 3
+@ var globalVar = 3
 	
-@ new outerFun :
-	@ new outerVar = 5
-	@ new innerFun :
-		@ new innerVar = 12
+@ var outerFun :
+	@ var outerVar = 5
+	@ var innerFun :
+		@ var innerVar = 12
 		@.innerVar + (@.outerVar) + (@.globalVar)
 	@ innerFun _
 	

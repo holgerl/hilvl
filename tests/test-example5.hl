@@ -1,12 +1,12 @@
-@ new myVar1 = 1
-@ new myVar2 = 2
+@ var myVar1 = 1
+@ var myVar2 = 2
 
-@ new myScope := // the two statements in the argument are now evaluated in a new scope:
-	@ new myVar1 = 10
+@ var myScope := // the two statements in the argument are now evaluated in a var scope:
+	@ var myVar1 = 10
 	@ set myVar2 = 20
 	
 // we place the variables in an array that is returned as the result:
-@ new myArray =
+@ var myArray =
 	@.myVar1
 	@.myVar2
 

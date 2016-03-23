@@ -1,12 +1,12 @@
-@ new . :=
-	@ new . :
+@ var . :=
+	@ var . :
 		"dot dot"
 
-@ new = := 
-	@ new 123 :
+@ var = := 
+	@ var 123 :
 		"equals 123"
 	
-@ new foo = 
+@ var foo = 
 	. . _
 	= 123 _
 

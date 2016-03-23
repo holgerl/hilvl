@@ -1,5 +1,5 @@
 @.now = 
-	Date new none
+	Date var none
 
 /*parsed
 [
@@ -13,7 +13,7 @@
         "args": [
             {
                 "service": "Date",
-                "action": "new",
+                "action": "var",
                 "args": "none"
             }
         ]

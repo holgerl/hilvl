@@ -1,10 +1,10 @@
-@ new bar = 1
+@ var bar = 1
 	
-@ new foo :
-	@ new bar = 2
+@ var foo :
+	@ var bar = 2
 	@.bar
 	
-@ new baz =
+@ var baz =
 	@ foo _
 	@.bar
 	

@@ -1,12 +1,12 @@
-@ new foo = 10 // Variable in outer scope
+@ var foo = 10 // Variable in outer scope
 
-@ new MyService := 
-	@ new myAction :
+@ var MyService := 
+	@ var myAction :
 		@ set foo = 42 // Variable in inner scope
-		@ new myFunction : (@.argument) // Saving argument without evaluating it
+		@ var myFunction : (@.argument) // Saving argument without evaluating it
 		@ myFunction _ // Invoking the argument as an action
 		
-@ new bar = 
+@ var bar = 
 	MyService myAction (@.foo + 2) // Argument is evaluated before action is invocated
 	MyService myAction // Argument is evaluated on demand by the myAction implementation
 		@.foo + 2

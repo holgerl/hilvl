@@ -1,4 +1,4 @@
-@.now = (Date new none)
+@.now = (Date var none)
 
 object action (object2 action2 arg2) action3 arg3
 
@@ -15,7 +15,7 @@ object action (object2 action2 (object3 action3 arg3))
         "action": "=",
         "args": {
             "service": "Date",
-            "action": "new",
+            "action": "var",
             "args": "none"
         }
     },

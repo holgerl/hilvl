@@ -1,11 +1,11 @@
-@ new myArray1 = 
+@ var myArray1 = 
 	1
 	2
 	3
 	
-@ new myEmptyArray = // This makes an empty array
+@ var myEmptyArray = // This makes an empty array
 	
-@ new foo =
+@ var foo =
 	@.myArray1
 	@.myEmptyArray
 	
@@ -14,7 +14,7 @@
     {
         "service": {
             "service": "@",
-            "action": "new",
+            "action": "var",
             "args": "myArray1"
         },
         "action": "=",
@@ -27,7 +27,7 @@
     {
         "service": {
             "service": "@",
-            "action": "new",
+            "action": "var",
             "args": "myEmptyArray"
         },
         "action": "=",
@@ -36,7 +36,7 @@
     {
         "service": {
             "service": "@",
-            "action": "new",
+            "action": "var",
             "args": "foo"
         },
         "action": "=",

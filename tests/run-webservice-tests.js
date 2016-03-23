@@ -95,7 +95,7 @@ function getResponseTuples(fileContents) {
     
 	if (!match || !match[1]) return null;
 
-	var lines = match[1].split("\r\n"); // TODO: Make platform independent new line split
+	var lines = match[1].split("\r\n"); // TODO: Make platform independent var line split
 	
 	var responseTuples = [];
 	var tuple = {};

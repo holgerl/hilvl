@@ -27,7 +27,7 @@ contexts:
       scope: entity.name.function.hilvl
 
     # keywords 2
-    - match: 'new|set|argument|\.'
+    - match: 'var|set|argument|\.'
       scope: keyword.other.hilvl
 
     # Numbers

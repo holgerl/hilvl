@@ -1,22 +1,22 @@
-@ new : := 
-	@ new : :
+@ var : := 
+	@ var : :
 		"colon"
-	@ new @ :
+	@ var @ :
 		"at"
-	@ new = :
+	@ var = :
 		"equal"
-	@ new . :
+	@ var . :
 		"dot"
-	@ new + :
+	@ var + :
 		"plus"
-	@ new 123 :
+	@ var 123 :
 		"numbers"
-	@ new "123" :
+	@ var "123" :
 		"numbersintext"
-	@ new := :
+	@ var := :
 		"colonequal"
 	
-@ new foo = 
+@ var foo = 
 	: : _
 	: @ _
 	: = _

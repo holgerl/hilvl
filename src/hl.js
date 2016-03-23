@@ -468,7 +468,7 @@ hl.doAction = function(service, action, args, returnLast) {
 	// Scope related services:
 	} else if (serviceType == "@") {
 		var args = hl.evaluate(args, returnLast);
-		if (action == "new") {
+		if (action == "var") {
 			hl.saveToScope(args, null);
 			return {type: "Variable", name: args};
 		} else if (action == "set") {

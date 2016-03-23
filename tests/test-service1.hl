@@ -1,11 +1,11 @@
-@ new OuterService := 
-	@ new outerAction :
-		@ new arg1 = (@.argument)
+@ var OuterService := 
+	@ var outerAction :
+		@ var arg1 = (@.argument)
 		@.OuterService
-	@ new innerAction :
-		@ new arg2 = (@.argument)
+	@ var innerAction :
+		@ var arg2 = (@.argument)
 		@.OuterService
-	@ new innerInnerAction :
+	@ var innerInnerAction :
 		@.arg1 + (@.arg2) + (@.argument)
 		
 OuterService outerAction 42 innerAction 50 innerInnerAction 100

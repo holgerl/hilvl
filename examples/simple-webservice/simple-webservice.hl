@@ -1,17 +1,17 @@
-@ new MyWebApp := 
-	@ new myValue = 0
-	@ new incrementValue :
+@ var MyWebApp := 
+	@ var myValue = 0
+	@ var incrementValue :
 		@ set myValue = (@.myValue + (@.argument))
-	@ new handleRequest :
+	@ var handleRequest :
 		@ incrementValue 1
 		"My value is now " + (@.myValue as string)
-	@ new myPage := 
-		@ new pageVariable = 42
-		@ new handleRequest :
+	@ var myPage := 
+		@ var pageVariable = 42
+		@ var handleRequest :
 			"The magic number is " + (@.pageVariable as string)
 
-@ new MyWebApp2 := 
-	@ new handleRequest :
+@ var MyWebApp2 := 
+	@ var handleRequest :
 		"The other webapp got argument " + (@.argument)
 
 // This webapp will generate the following responses:

@@ -1,7 +1,7 @@
-@ new bar = 42
+@ var bar = 42
 @ set bar += 2
 
-@ new foo =
+@ var foo =
 	@.bar
 	"Hello!" at 4 insert " n"
 

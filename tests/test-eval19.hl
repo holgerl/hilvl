@@ -1,10 +1,10 @@
-@ new ServiceB := 
-	@ new actionB :
+@ var ServiceB := 
+	@ var actionB :
 		@.argument
 
 
-@ new ServiceA := 
-	@ new actionA :
+@ var ServiceA := 
+	@ var actionA :
 		ServiceB actionB (@.argument)
 		
 ServiceA actionA 42

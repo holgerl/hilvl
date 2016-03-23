@@ -1,16 +1,16 @@
-@ new foo = 10
+@ var foo = 10
 
 @ . foo + 2
 
 // Do it 10 times
 //	 @ set foo = (@ . foo + 1)
 
-@ new Do :=
-	@ new it :
-		@ new nof = (@ . argument)
+@ var Do :=
+	@ var it :
+		@ var nof = (@ . argument)
 		@ . Do
-	@ new times :
-		@ new body : (@ . argument) // Need to use : so that the code in argument is not evaluated here
+	@ var times :
+		@ var body : (@ . argument) // Need to use : so that the code in argument is not evaluated here
 		0 until
 			@ body _
 			@ set nof = (@ . nof - 1)

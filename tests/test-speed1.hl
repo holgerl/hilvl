@@ -1,6 +1,6 @@
 /*noDebug*/
 
-@ new bar = 0
+@ var bar = 0
 	
 10000 until
 	@ set bar = (@.bar + 1)

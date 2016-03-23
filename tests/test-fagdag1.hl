@@ -1,7 +1,7 @@
-@ new foo = 100
+@ var foo = 100
 	
 @.foo == 100 then
-    @ new localVar = 12
+    @ var localVar = 12
 	@ set foo = (@.localVar + 30)
 
 @.foo
@@ -11,7 +11,7 @@
     {
         "service": {
             "service": "@",
-            "action": "new",
+            "action": "var",
             "args": "foo"
         },
         "action": "=",
@@ -32,7 +32,7 @@
             {
                 "service": {
                     "service": "@",
-                    "action": "new",
+                    "action": "var",
                     "args": "localVar"
                 },
                 "action": "=",

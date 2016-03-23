@@ -1,4 +1,4 @@
-@ new foo = (3 + 2)
+@ var foo = (3 + 2)
 @.foo
 	
 /*parsed
@@ -6,7 +6,7 @@
     {
         "service": {
             "service": "@",
-            "action": "new",
+            "action": "var",
             "args": "foo"
         },
         "action": "=",

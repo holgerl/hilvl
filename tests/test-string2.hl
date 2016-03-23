@@ -1,15 +1,15 @@
-@ new s1 = "foo.bar"
+@ var s1 = "foo.bar"
 	
-@ new s2 = "first"
+@ var s2 = "first"
 @ set s2 = (@.s2 + ".second")
 
-@ new s3 = "foo : bar"
-@ new s4 = "foo ( bar )"
-@ new s5 = "foo \" bar"
-@ new s6 = " TAB "
-@ new s7 = " EOF "
+@ var s3 = "foo : bar"
+@ var s4 = "foo ( bar )"
+@ var s5 = "foo \" bar"
+@ var s6 = " TAB "
+@ var s7 = " EOF "
 	
-@ new foo = 
+@ var foo = 
 	@.s1
 	@.s1 + "." + "baz"
 	@.s2

@@ -1,14 +1,14 @@
-@ new myValue1 = 1
-@ new myValue2 = 2
+@ var myValue1 = 1
+@ var myValue2 = 2
 
-@ new myArray1 = 
+@ var myArray1 = 
 	1
 	2
 	3
 
-@ new myArray2 = (10 , 20 push 30)
+@ var myArray2 = (10 , 20 push 30)
 	
-@ new foo =
+@ var foo =
 	1 , 2 , 3
 	@.myValue1 , (@.myValue2)
 	"foo" , 42

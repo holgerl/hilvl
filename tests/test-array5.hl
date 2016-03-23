@@ -1,15 +1,15 @@
-@ new myValue1 = 1
-@ new myValue2 = 2
+@ var myValue1 = 1
+@ var myValue2 = 2
 
-@ new myArray1 = (10, 20, 30)
+@ var myArray1 = (10, 20, 30)
 
-@ new myArray2 = (10, (@.myValue1), (@.myValue2))
+@ var myArray2 = (10, (@.myValue1), (@.myValue2))
 
-@ new myArray3 = ("foo", "bar", "baz", 123, "hey")
+@ var myArray3 = ("foo", "bar", "baz", 123, "hey")
 
-@ new myArray4 = (true, 12, false)
+@ var myArray4 = (true, 12, false)
 	
-@ new foo =
+@ var foo =
 	@.myArray1
 	@.myArray2
 	@.myArray3

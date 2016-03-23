@@ -1,9 +1,9 @@
 
     // It is important to preserve all whitespace in this test    
 
-@ new foo = 0
-@ new bar    =   0
-@  new  baz         = 0     
+@ var foo = 0
+@ var bar    =   0
+@  var  baz         = 0     
 
 true then
 	@ set foo = 1
@@ -14,7 +14,7 @@ true then
 
 	@ set baz = 3
 	
-@ new array = 
+@ var array = 
 
     @	.	foo
     @.bar
@@ -29,7 +29,7 @@ true then
     {
         "service": {
             "service": "@",
-            "action": "new",
+            "action": "var",
             "args": "foo"
         },
         "action": "=",
@@ -38,7 +38,7 @@ true then
     {
         "service": {
             "service": "@",
-            "action": "new",
+            "action": "var",
             "args": "bar"
         },
         "action": "=",
@@ -47,7 +47,7 @@ true then
     {
         "service": {
             "service": "@",
-            "action": "new",
+            "action": "var",
             "args": "baz"
         },
         "action": "=",
@@ -95,7 +95,7 @@ true then
     {
         "service": {
             "service": "@",
-            "action": "new",
+            "action": "var",
             "args": "array"
         },
         "action": "=",

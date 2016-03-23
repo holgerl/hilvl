@@ -1,10 +1,10 @@
-@ new foo = 42
-@ new bar = (2 + 40)
+@ var foo = 42
+@ var bar = (2 + 40)
 	
 @ . foo == (@ . bar) then
 	@ set foo = 0
 	
-@ new myArray = 
+@ var myArray = 
 	1
 	2
 	3
@@ -12,8 +12,8 @@
 @ . myArray loop
 	@ set foo = (@ . foo + (@ . element))
 
-@ new MyService := 
-	@ new myAction :
+@ var MyService := 
+	@ var myAction :
 		@ . argument + 10
 		
 MyService myAction (@ . foo) // foo is now 6, and this returns 16

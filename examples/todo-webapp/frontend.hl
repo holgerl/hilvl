@@ -1,13 +1,13 @@
 @ connect "localhost:8080" // TODO: Make it possible to use // inside strings
 
-@ new TodoFront := 
-	@ new getList :
-		@ new list = ""
+@ var TodoFront := 
+	@ var getList :
+		@ var list = ""
 		Todo all _ loop // Rename Todo to TodoBackend
 			IO print (@.element)
-			@ new item = ("<li>" + (@.element) + "</li>")
+			@ var item = ("<li>" + (@.element) + "</li>")
 			@ set list = (@.list + (@.item))
 		@.list
-	@ new onEvent :
+	@ var onEvent :
 		Todo add (@.argument)
 		

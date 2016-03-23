@@ -1,17 +1,17 @@
-@ new myValue1 = 1
-(@ new myValue2 = 2)
+@ var myValue1 = 1
+(@ var myValue2 = 2)
 
-@ new myArray1 = 
+@ var myArray1 = 
 	(1 + 2)
     (@.myValue1)
     (@.myValue2)
 
-@ new myArray2 =
+@ var myArray2 =
 	1 + 2
     @.myValue1
     @.myValue2
 	
-(@ new foo) =
+(@ var foo) =
 	@.myArray1
 	@.myArray2
 

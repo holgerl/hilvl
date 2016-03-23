@@ -1,15 +1,15 @@
-@ new : = "colon"
-@ new @ = "at"
-@ new = = "equal"
-@ new . = "dot"
-@ new + = "plus"
-@ new TAB = "tab"
-@ new EOF = "eof"
-@ new 123 = "numbers"
-@ new "123" = "numbersintext"
-@ new := = "colonequals"
+@ var : = "colon"
+@ var @ = "at"
+@ var = = "equal"
+@ var . = "dot"
+@ var + = "plus"
+@ var TAB = "tab"
+@ var EOF = "eof"
+@ var 123 = "numbers"
+@ var "123" = "numbersintext"
+@ var := = "colonequals"
 	
-@ new foo = 
+@ var foo = 
 	@.:
 	@.@
 	@.=

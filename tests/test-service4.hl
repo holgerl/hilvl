@@ -1,18 +1,18 @@
-@ new ServiceA := 
-	@ new actionA :
+@ var ServiceA := 
+	@ var actionA :
 		@.argument + "A"
 
-@ new ServiceB := 
-	@ new actionB :
+@ var ServiceB := 
+	@ var actionB :
 		@.argument actionA "inside " + "B"
 
-@ new ServiceC := 
-	@ new actionC :
+@ var ServiceC := 
+	@ var actionC :
 		ServiceA
 
-@ new serviceInVar = ServiceA
+@ var serviceInVar = ServiceA
 		
-@ new foo = 
+@ var foo = 
 	@.serviceInVar actionA "call "
 	ServiceB actionB ServiceA
 	ServiceB actionB (@.serviceInVar)
