@@ -12,8 +12,6 @@ Try the [online evaluator](http://holgerl.github.io/hilvl/)
 
 <!-- test-example1.hl -->
 ```javascript
-// Note: @ is the name of a system defined service
-
 @ var foo = 42
 @ var bar = (2 + 40)
 	
