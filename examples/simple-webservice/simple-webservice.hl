@@ -35,7 +35,7 @@ http://127.0.0.1:8080/MyWebApp/myPage
 The magic number is 42
 
 http://127.0.0.1:8080/myPage
-TODO: This should not work!!
+Not found in scope: \"myPage\"
 
 http://127.0.0.1:8080/MyWebApp
 /My .* is now [0-9]+/

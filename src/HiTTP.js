@@ -41,7 +41,8 @@ HiTTP.startServer = function(fileName) {
 			filePath = filePath.split("/");
 			console.log("FILEPATH", filePath);
 			
-			var scopeIndex;
+			var scopeIndex = 0;
+			hl.setScope(scopeIndex); // Important to reset to root scope between all requests
 			
 			for (var i in filePath) {
 				var serviceName = filePath[i];
@@ -85,6 +86,7 @@ HiTTP.startServer = function(fileName) {
 
 HiTTP.stopServer = function() {
 	server.close();
+	hl.clearScope();
 }
 
 if (process.argv[2]) {
