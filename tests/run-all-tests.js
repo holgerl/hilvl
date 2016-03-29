@@ -56,7 +56,7 @@ function testFile(fileName, logLevel) {
 }
  
 function getExpected(fileContents, type) {
-    var regex1 = new RegExp("\\/\\*"+type+"([^*]*)\\*\\/", "g");
+    var regex1 = new RegExp("\\/\\*"+type+"([^*]*)\\*\\/", "g"); // TODO: Not possible to use * in the contents of expected
     var match = regex1.exec(fileContents);
     
     if (!match) {

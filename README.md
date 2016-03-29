@@ -149,7 +149,7 @@ KeyboardService onEvent
 Here, the implementation of `onEvent` may decide itself when to evaluate the statements in the argument.
 
 ### Syntactic sugar
-
+<!-- TODO: Include comma here -->
 To make the code more readable, a special shortcut is supported in the syntax:
 
 `foo.bar` is the same as  `foo . bar`
