@@ -89,6 +89,7 @@ hl.tokenize = function(script) {
 
 		function consumeToken() {
 			if (token.length > 0) {
+				if (!isNaN(parseFloat(token, 10))) token = parseFloat(token, 10);
 				tokens.push(token);
 				token = "";
 			}
@@ -314,7 +315,7 @@ hl.getServiceType = function(service) {
 		return "Array";
 	else if (service[0] == "\"" || service.type == "String")
 		return "String";
-	else if (!isNaN(parseInt(service)))
+	else if (!isNaN(parseFloat(service)))
 		return "Number";
 	else if (service === true || service === "true" || service === false || service === "false")
 		return "Boolean"
@@ -424,7 +425,7 @@ hl.doAction = function(service, action, args, returnLast) {
 			return [service, args];
 		} else fail();
 	} else if (serviceType == "Number") {
-		var a = parseInt(service);
+		var a = parseFloat(service);
 		
 		if (action == "until") {
 			var result = undefined;
@@ -441,7 +442,7 @@ hl.doAction = function(service, action, args, returnLast) {
 		
 		var args = hl.evaluate(args, returnLast);
 		
-		var b = parseInt(args);
+		var b = parseFloat(args);
 		
 		if (action == "+") {
 			return a + b;
@@ -596,7 +597,7 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 		hl.log("--- evalTree:", tree, "scopeIndex=" + scopeIndex);
 		//hl.printScopes();
 		
-		if (tree != null && tree.service) {
+		if (tree != null && tree.service != undefined) {
 			var evaluatedService = hl.evaluate(tree.service, returnLast);
 			var args = tree.args;
 			if (!(tree.args instanceof Array)) {

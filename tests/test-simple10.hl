@@ -35,7 +35,7 @@ Global.ServiceChild inherit MyService =
                             "args": "myValue"
                         },
                         "action": "=",
-                        "args": "42"
+                        "args": 42
                     },
                     {
                         "service": "argument",
@@ -63,7 +63,7 @@ Global.ServiceChild inherit MyService =
                             "args": "incrementedValue"
                         },
                         "action": "=",
-                        "args": "4"
+                        "args": 4
                     },
                     {
                         "service": {
@@ -105,7 +105,7 @@ Global.ServiceChild inherit MyService =
                     {
                         "service": "argument",
                         "action": "+",
-                        "args": "12"
+                        "args": 12
                     }
                 ]
             }

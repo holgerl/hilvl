@@ -15,7 +15,7 @@
             "args": "foo"
         },
         "action": "=",
-        "args": "100"
+        "args": 100
     },
     {
         "service": {
@@ -25,7 +25,7 @@
                 "args": "foo"
             },
             "action": "==",
-            "args": "100"
+            "args": 100
         },
         "action": "then",
         "args": [
@@ -36,7 +36,7 @@
                     "args": "localVar"
                 },
                 "action": "=",
-                "args": "12"
+                "args": 12
             },
             {
                 "service": {
@@ -52,7 +52,7 @@
                         "args": "localVar"
                     },
                     "action": "+",
-                    "args": "30"
+                    "args": 30
                 }
             }
         ]

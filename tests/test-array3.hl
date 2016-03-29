@@ -16,9 +16,9 @@
 	
 /*result
 [
-    [1, 2, "3"], // TOOD: This is awkward. Should be solved by letting the parser convert number symbols to actual numbers
+    [1, 2, 3],
     [1, 2],
-    ["\"foo\"", "42"],
-    ["1", "2", "3", [10, 20, "30"]]
+    ["\"foo\"", 42],
+    [1, 2, 3, [10, 20, 30]]
 ]
 */

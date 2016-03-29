@@ -14,9 +14,9 @@
         "action": "=",
         "args": [
             {
-                "service": "1",
+                "service": 1,
                 "action": "+",
-                "args": "2"
+                "args": 2
             }
         ]
     },
@@ -27,7 +27,7 @@
             "args": "foo"
         },
         "action": "+",
-        "args": "3"
+        "args": 3
     }
 ]
 */

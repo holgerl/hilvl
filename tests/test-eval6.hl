@@ -3,12 +3,12 @@
 /*parsed
 [
     {
-        "service": "10",
+        "service": 10,
         "action": "-",
         "args": {
-            "service": "4",
+            "service": 4,
             "action": "-",
-            "args": "2"
+            "args": 2
         }
     }
 ]

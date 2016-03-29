@@ -17,7 +17,7 @@ false then
             "args": "foo"
         },
         "action": "=",
-        "args": "0"
+        "args": 0
     },
     {
         "service": "true",
@@ -30,7 +30,7 @@ false then
                     "args": "foo"
                 },
                 "action": "=",
-                "args": "4"
+                "args": 4
             }
         ]
     },
@@ -45,7 +45,7 @@ false then
                     "args": "foo"
                 },
                 "action": "=",
-                "args": "5"
+                "args": 5
             }
         ]
     },

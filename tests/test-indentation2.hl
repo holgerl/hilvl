@@ -33,7 +33,7 @@ true then
             "args": "foo"
         },
         "action": "=",
-        "args": "0"
+        "args": 0
     },
     {
         "service": {
@@ -42,7 +42,7 @@ true then
             "args": "bar"
         },
         "action": "=",
-        "args": "0"
+        "args": 0
     },
     {
         "service": {
@@ -51,7 +51,7 @@ true then
             "args": "baz"
         },
         "action": "=",
-        "args": "0"
+        "args": 0
     },
     {
         "service": "true",
@@ -64,7 +64,7 @@ true then
                     "args": "foo"
                 },
                 "action": "=",
-                "args": "1"
+                "args": 1
             },
             {
                 "service": {
@@ -73,7 +73,7 @@ true then
                     "args": "bar"
                 },
                 "action": "=",
-                "args": "2"
+                "args": 2
             }
         ]
     },
@@ -88,7 +88,7 @@ true then
                     "args": "baz"
                 },
                 "action": "=",
-                "args": "3"
+                "args": 3
             }
         ]
     },

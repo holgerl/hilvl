@@ -34,7 +34,7 @@ Foo bar 12 // comment
     {
         "service": "Foo",
         "action": "bar",
-        "args": "12"
+        "args": 12
     }
 ]
 */

@@ -3,9 +3,9 @@
 /*parsed
 [
     {
-        "service": "3",
+        "service": 3,
         "action": "==",
-        "args": "4"
+        "args": 4
     }
 ]
 */
