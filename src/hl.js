@@ -347,7 +347,7 @@ hl.doAction = function(service, action, args, returnLast) {
 	if (connectedServices[service]) {
 		var host = connectedServices[service].host;
 		var args = hl.evaluate(args, returnLast);
-		var path = "http://" + host + "/" + service + "/" + action + "?value=" + args // TODO: Pass protocol (http):// in args to connect action, and not hardcoded here
+		var path = host + "/" + service + "/" + action + "?value=" + args // TODO: Pass protocol (http):// in args to connect action, and not hardcoded here. To do this, the tokenizer must be changed so that // inside strings are not interpreted as line comments. This should be accomplished by changing the tokenizer to not simply split on space, but to consume characters and generate tokens as each line is consumed
 
 		var xhttp = new XMLHttpRequest();
 		xhttp.open("GET", path, false);

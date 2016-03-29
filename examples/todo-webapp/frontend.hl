@@ -1,4 +1,4 @@
-@ connect "localhost:8080" // TODO: Make it possible to use // inside strings
+@ connect "http://localhost:8080"
 
 @ var TodoFront := 
 	@ var getList :
