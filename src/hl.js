@@ -280,15 +280,6 @@ hl.searchScope = function(key, newValue) {
 	throw new Error("Not found in scope: " + JSON.stringify(key));
 }
 
-hl.buildScope = function() {
-	var scopesBuilt = {};
-	for (var scope of scopes) {
-		for (var member of scope) {
-			scopesBuilt[member];
-		}
-	}
-}
-
 hl.printScopes = function() {
 	function naiveClone(obj) {
 		if (null == obj || "object" != typeof obj) return obj;

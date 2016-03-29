@@ -9,6 +9,19 @@ var util  = require('./util');
 var server;
 
 var HiTTP = {};
+
+HiTTP.buildScope = function(scopes) {
+	var scopesBuilt = {};
+	var rootScope = scopes[0];
+	for (var key in rootScope) {
+		var field = rootScope[key]
+		if (field.scope) {
+			scopesBuilt[key] = {};
+		}
+	}
+	return scopesBuilt;
+}
+
 HiTTP.startServer = function(fileName) {
 	if (!fileName) throw Error("No args given: webapp filename");
 	
@@ -18,8 +31,7 @@ HiTTP.startServer = function(fileName) {
 	server = http.createServer(function (request, response) {
 		try {
 			if (request.method === "OPTIONS") {
-				//console.log("HER: " + JSON.stringify(hl.getScopes(), null, 4));
-				var scope = {Todo: {add:{}, all:{}}};
+				var scope = HiTTP.buildScope(hl.getScopes());
 				var responseHeaders = {scope: JSON.stringify(scope)};
 				response.writeHead(200, responseHeaders);
 				response.end();
