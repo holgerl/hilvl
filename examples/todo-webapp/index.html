@@ -12,11 +12,11 @@
     <body hitml-src="Todo/frontend">
         <h1>hilvl todo webapp</h1>
 
-        <ol hitml-content="TodoFront getList _">
+        <ol hitml-content="TodoFrontend getList _">
 			<li>Tidy room</li>
 			<li>Refactor service</li>
 		</ol>
-		<form method="GET" action="Todo/add" hitml-listener="TodoFront onEvent (@.argument)">
+		<form method="GET" action="Todo/add" hitml-listener="TodoFrontend onEvent (@.argument)">
 			<input name="value" type="text" autocomplete="off" />
 			<input type="submit" value="Add" />
 		</form>

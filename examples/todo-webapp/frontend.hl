@@ -1,13 +1,13 @@
 @ connect "http://localhost:8080"
 
-@ var TodoFront := 
+@ var TodoFrontend := 
 	@ var getList :
 		@ var list = ""
-		Todo all _ loop // Rename Todo to TodoBackend
+		TodoBackend all _ loop
 			IO print (@.element)
 			@ var item = ("<li>" + (@.element) + "</li>")
 			@ set list = (@.list + (@.item))
 		@.list
 	@ var onEvent :
-		Todo add (@.argument)
+		TodoBackend add (@.argument)
 		

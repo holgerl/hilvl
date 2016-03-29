@@ -1,5 +1,14 @@
-@ var Todo := 
+@ var TodoBackend := 
 	@ var todoList = 
+	@ var all := 
+		@ var handleRequest :
+			@.todoList
+	@ var add := 
+		@ var handleRequest :
+			@.todoList push (@.argument)
+			"Success"
+
+@ var Todo :=
 	@ var handleRequest :
 		IO readFile "examples/todo-webapp/index.html" // TODO: Handle cwd properly so that the path can be simply index.html
 	@ var frontend :=	
@@ -14,28 +23,22 @@
 	@ var hl :=
 		@ var handleRequest :
 			IO readFile "src/hl.js"
-	@ var all := 
-		@ var handleRequest :
-			@.todoList
-	@ var add := 
-		@ var handleRequest :
-			@.todoList push (@.argument)
-			"Success"
+
 
 /*responses
-http://127.0.0.1:8080/Todo/all
+http://127.0.0.1:8080/TodoBackend/all
 []
 
-http://127.0.0.1:8080/Todo/add?value=Send+letter
+http://127.0.0.1:8080/TodoBackend/add?value=Send+letter
 Success
 
-http://127.0.0.1:8080/Todo/all
+http://127.0.0.1:8080/TodoBackend/all
 ["\"Send letter\""]
 
-http://127.0.0.1:8080/Todo/add?value=Shop+groceries
+http://127.0.0.1:8080/TodoBackend/add?value=Shop+groceries
 Success
 
-http://127.0.0.1:8080/Todo/all
+http://127.0.0.1:8080/TodoBackend/all
 ["\"Send letter\"","\"Shop groceries\""]
 
 http://127.0.0.1:8080/Todo
