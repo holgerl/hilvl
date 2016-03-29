@@ -40,84 +40,99 @@ hl.log = function(level) {
 }
 
 hl.tokenize = function(script) {
-	function iterateLine(line, iteratorFun) {
-		var isInString = false;
-		var isInEscape = false;
-		var result = "";
-		
-		for (var character of line) {
-			result += iteratorFun(character, isInString);
-			
-			var isCharacterQuote = character == "\"" && !isInEscape;
-			isInEscape = isInEscape ? false : character == "\\";
-			isInString = isInString ? !isCharacterQuote	: isCharacterQuote;
-		}
-		
-		return result;
-	}
-	
-	function escapeSpacesInStrings(line) {
-		return iterateLine(line, function(character, isInString) {
-			if (isInString && character == " ") 
-				return "\uFFFF";
-			else 
-				return character;
-		});
-	}
-	
-	function unescapeSpacesInStrings(string) {
-		return string.replace(/\uFFFF/g, " ");
-	}
-
-	function removeLineComments(string) {
-		return string.replace(/\/\/.*/g, "");
-	}
 
 	function removeBlockComments(string) {
 		return script.replace(/\/\*(\*(?!\/)|[^*])*\*\//g, " ");
 	}
 
-	function lineIsNotEmpty(line) {
-		return !/^[\s\t]*$/.test(line);
-	}
-	
-	function addSpacesAroundCharacters(line) {
-		var characters = Array.prototype.slice.call(arguments).slice(1);
-		
-		return iterateLine(line, function(character, isInString) {
-			if (!isInString && characters.indexOf(character) >= 0)
-				return " " + character + " ";
-			else 
-				return character;
-		});
+	function lineIsNotEmptyOrJustLineComment(line) {
+		return !/^[\s\t]*(\/\/.*)?$/.test(line);
 	}
 
-	function replaceLeadingWhitespaceWithTabTokens(line) {
-		return line.replace(/^[\s\t]+/g, function(match) {
-			match = match.replace(/\t/g, "    ");
-			var numberOfTabs = match.length / 4;
+	function generateTabTokensFromLeadingWhitespace(line) {
+		var match = line.match(/^[\s\t]+/g);
+		if (match) {
+			var whitespace = match[0];
+			whitespace = whitespace.replace(/\t/g, "    ");
+			var numberOfTabs = whitespace.length / 4;
 			if (numberOfTabs !== parseInt(numberOfTabs, 10)) throw new Error("Leading spaces not multiple of 4 in\n" + line);
-			return "TAB ".repeat(numberOfTabs);
-		});
+			return "TAB ".repeat(numberOfTabs).trim().split(" ");
+		} else {
+			return [];
+		}
 	}
 
 	function tokenizeLine(line) {
-		line = replaceLeadingWhitespaceWithTabTokens(line);
-		line = addSpacesAroundCharacters(line, ".", "(", ")", ",");
-		line = escapeSpacesInStrings(line);
+		var i = 0, 
+			token = "", 
+			tokens = generateTabTokensFromLeadingWhitespace(line);
+
+		var pushChar = () => token += line[i++];
+		var ignoreChar = () => i++;
+
+		function pushCharUntil(endRegex, escapeChar) {
+			var isInEscape = false;
+
+			while (i < line.length) {
+				var character = line[i];
+				
+				if (character.match(endRegex) && !isInEscape) 
+					break;
+				else if (character == escapeChar)
+					ignoreChar();
+				else 
+					pushChar();
+				
+				isInEscape = character == escapeChar;
+			}
+		}
+
+		function consumeToken() {
+			if (token.length > 0) {
+				tokens.push(token);
+				token = "";
+			}
+		}
+
+		while (i < line.length) {
+			var character = line[i];
+
+			if (character.match(/[\s\t]/)) {
+				consumeToken()
+				ignoreChar()
+			} else if (character.match(/[()]/)) {
+				consumeToken();
+				pushChar();
+				consumeToken();
+			} else if (character.match(/[.,]/)) {
+				consumeToken();
+				pushCharUntil(/[^.,]/);
+				consumeToken();
+			} else if (character == "\"") {
+				pushChar();
+				pushCharUntil(/"/, "\\");
+				pushChar();
+				consumeToken();
+			} else if (line.substring(i).match(/^\/\//)) {
+				consumeToken();
+				break;
+			} else {
+				pushChar();
+			}
+		}
 		
-		return line.trim().split(/\s+/).map(unescapeSpacesInStrings);
+		consumeToken();
+
+		return tokens;
 	}
 
-	script = removeLineComments(script);
-	script = removeBlockComments(script);
-
-	var tokenLists = script
+	var tokenLists = removeBlockComments(script)
 		.split(/\r?\n|\r/)
-		.filter(lineIsNotEmpty)
+		.filter(lineIsNotEmptyOrJustLineComment)
 		.map(tokenizeLine);
 
 	tokenLists.push(["EOF"]);
+
 	return tokenLists;
 }
 

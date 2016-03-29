@@ -8,6 +8,8 @@
 @ var s5 = "foo \" bar"
 @ var s6 = " TAB "
 @ var s7 = " EOF "
+@ var s8 = "http://google.com/index.html"
+@ var s9 = "string with \"quote\" in it"
 	
 @ var foo = 
 	@.s1
@@ -19,6 +21,8 @@
 	"%%s%% hello"
 	@.s6
 	@.s7
+	@.s8
+	@.s9
 
 /*result
 [
@@ -27,9 +31,11 @@
 "\"first.second\"",
 "\"foo : bar\"",
 "\"foo ( bar )\"",
-"\"foo \\\" bar\"",
+"\"foo \" bar\"",
 "\"%%s%% hello\"",
 "\" TAB \"",
-"\" EOF \""
+"\" EOF \"",
+"\"http://google.com/index.html\"",
+"\"string with \"quote\" in it\""
 ]
 */

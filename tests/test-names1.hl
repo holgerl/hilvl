@@ -8,18 +8,24 @@
 @ var 123 = "numbers"
 @ var "123" = "numbersintext"
 @ var := = "colonequals"
+@ var , = "comma"
+@ var ,, = "commas"
+@ var ... = "ellipsis"
 	
 @ var foo = 
 	@.:
 	@.@
 	@.=
-	@..
+	@. .
 	@.+
 	@.TAB
 	@.EOF
 	@.123
 	@."123"
 	@.:=
+	@. ,
+	@. ,,
+	@. ...
 
 /*result
 [
@@ -32,6 +38,9 @@
 "\"eof\"",
 "\"numbers\"",
 "\"numbersintext\"",
-"\"colonequals\""
+"\"colonequals\"",
+"\"comma\"",
+"\"commas\"",
+"\"ellipsis\""
 ]
 */
