@@ -29,10 +29,10 @@ import no.foo.service
 MyWebapp
     main
         #.now = (Date new none)
-        #.array = [1,2,3]
-        For #.array
+        #.list = [1,2,3]
+        For #.list
             #.sum add element
-        if #.array.0 == 1 // if (# array 0) equals 1
+        if #.list.0 == 1 // if (# list 0) equals 1
             Console log "foobar"
         return "<em>" + now + "</em>" // return "<em>" add now add "</em>"
     doSomething

@@ -1,15 +1,15 @@
 @ var myValue1 = 1
 @ var myValue2 = 2
 
-@ var myArray1 = 
+@ var myList1 = 
 	10
 	20
 	30
 	
 @ var foo =
-	@.myArray1 get 0
-	@.myArray1 get 2
-	@.myArray1 get (@.myValue1)
+	@.myList1 get 0
+	@.myList1 get 2
+	@.myList1 get (@.myValue1)
 	
 /*result
 [

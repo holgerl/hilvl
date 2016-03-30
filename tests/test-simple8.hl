@@ -1,7 +1,7 @@
 myValue == true then
 	Console log "foobar"
 	
-@.array for
+@.list for
 	Console log element
 
 @.myMap map
@@ -30,7 +30,7 @@ myValue == true then
         "service": {
             "service": "@",
             "action": ".",
-            "args": "array"
+            "args": "list"
         },
         "action": "for",
         "args": [

@@ -8,12 +8,12 @@
 
 IO print ("foo + 8 = " + (@.foo + 8 as string))
 	
-@ var myArray = 
+@ var myList = 
 	1
 	2
 	3
 
-IO print (@.myArray)
+IO print (@.myList)
 
 @.foo
 

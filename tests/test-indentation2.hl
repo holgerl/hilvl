@@ -14,7 +14,7 @@ true then
 
 	@ set baz = 3
 	
-@ var array = 
+@ var list = 
 
     @	.	foo
     @.bar
@@ -22,7 +22,7 @@ true then
     @.	baz
 
 
-@.		array
+@.		list
 	
 /*parsed
 [
@@ -96,7 +96,7 @@ true then
         "service": {
             "service": "@",
             "action": "var",
-            "args": "array"
+            "args": "list"
         },
         "action": "=",
         "args": [
@@ -120,7 +120,7 @@ true then
     {
         "service": "@",
         "action": ".",
-        "args": "array"
+        "args": "list"
     }
 ]
 */

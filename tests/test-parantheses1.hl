@@ -1,19 +1,19 @@
 @ var myValue1 = 1
 (@ var myValue2 = 2)
 
-@ var myArray1 = 
+@ var myList1 = 
 	(1 + 2)
     (@.myValue1)
     (@.myValue2)
 
-@ var myArray2 =
+@ var myList2 =
 	1 + 2
     @.myValue1
     @.myValue2
 	
 (@ var foo) =
-	@.myArray1
-	@.myArray2
+	@.myList1
+	@.myList2
 
 /*result
 [

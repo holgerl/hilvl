@@ -18,12 +18,12 @@ Try the [online evaluator](http://holgerl.github.io/hilvl/)
 @ . foo == (@ . bar) then
 	@ set foo = 0
 	
-@ var myArray = 
+@ var myList = 
 	1
 	2
 	3
 	
-@ . myArray loop
+@ . myList loop
 	@ set foo = (@ . foo + (@ . element))
 
 @ var MyService := 
@@ -121,9 +121,9 @@ This is wrong because the action named `=` will take `2` as its argument, but th
 @ set myVar = (2 + 40)
 ```
 
-#### Intendation and arrays
+#### Intendation and lists
 
-Every action takes only 1 argument, but that argument can be an array. Whitespace intendation is used to declare an array:
+Every action takes only 1 argument, but that argument can be a list. Whitespace intendation is used to declare a list:
 
 ```javascript
 MyUtil sort
@@ -133,9 +133,9 @@ MyUtil sort
 	3
 ```
 	
-Here, the argument is the array `[4,2,9,3]`.
+Here, the argument is the list `[4,2,9,3]`.
 
-Why use whitespace for this you ask? The point is that if you make an array of *statements*, then you have a block of code. All code in hilvl are arrays of statements that can be passed around and invoked by other code.
+Why use whitespace for this you ask? The point is that if you make a list of *statements*, then you have a block of code. All code in hilvl are lists of statements that can be passed around and invoked by other code.
 
 Here is an example:
 
@@ -158,7 +158,7 @@ This means that the `.` is an action name even though there is no space around i
 
 ### Variables, scope and evaluation
 
-The `Service action argument` structure and indentation based arrays are combined with the scope system for great flexibility for the programmer.
+The `Service action argument` structure and indentation based lists are combined with the scope system for great flexibility for the programmer.
 
 Variables are created, changed and read by using the scope service `@`:
 
@@ -183,8 +183,8 @@ All variables are saved in the same scope. But to add a new nested scope, there 
 	@ var myVar1 = 10
 	@ set myVar2 = 20
 	
-// we place the variables in an array that is returned as the result:
-@ var myArray =
+// we place the variables in a list that is returned as the result:
+@ var myList =
 	@.myVar1
 	@.myVar2
 
@@ -195,7 +195,7 @@ Notice how `myVar1` kept its value because the change to `10` was done on a new 
 
 The scopes are nested, which means that if a variable is used, its value will be searched for upwards in all parent scopes.
 
-After adding a new scope, the `:=` action acts exactly like the `=` action, and evalates the argument array. This means that any statements in the argument gets executed. And in the example above, this meant that the variables where changed.
+After adding a new scope, the `:=` action acts exactly like the `=` action, and evalates the argument list. This means that any statements in the argument gets executed. And in the example above, this meant that the variables where changed.
 
 But it is possible to set a value to a variable *without* evaluating the arguments. This is useful when we want to execute a block of code at a later time, or many times over. This is also the key mechanism for structuring code as services and actions. 
 
@@ -223,7 +223,7 @@ It is done with the action `:`:
 
 Notice how `_` is used as argument for `foo`. This is because `foo` does not use its argument. So any argument would be ignored anyway. 
 
-If an array of statements is executed, the value of the *last* statement is returned from the action. All hilvl code are arrays of statements, so this is why the last value is always the result in the examples. 
+If a list of statements is executed, the value of the *last* statement is returned from the action. All hilvl code are lists of statements, so this is why the last value is always the result in the examples. 
 
 ## Advanced examples of hilvl
 
@@ -282,4 +282,4 @@ To run all tests: `node test/run-all-tests.js`
 To run HiTTP web framework: `node src/HiTTP.js example-webapp.hl`
 
 <!-- TODO: Explain HiTTP -->
-<!-- TODO: Add examples of making empty array -->
+<!-- TODO: Add examples of making empty list -->

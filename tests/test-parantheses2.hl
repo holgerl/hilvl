@@ -3,14 +3,14 @@
 (123)
 ("baz")
 
-@ var myArray1 = 
+@ var myList1 = 
 	(10)
     ("bar")
 	
 @ var foo =
     @.myValue1
     @.myValue2
-	@.myArray1
+	@.myList1
 
 /*result
 [

@@ -17,10 +17,10 @@ FooService setValue 42
 BarService save (#.person.name)
 "<em>" + now + "</em>" // (((String new "<em>") + #.now) + (String new "</em>"))
 
-#.array = 
+#.list = 
 	1,2,3
 #.value = 
-	#.array.0 == 1 // # get value set (# get array get 0 equals 1)
+	#.list.0 == 1 // # get value set (# get list get 0 equals 1)
 
 #.myValue == true then
 	Console log "foobar"

@@ -1,19 +1,19 @@
 @ var myValue1 = 1
 @ var myValue2 = 2
 
-@ var myArray1 = (10, 20, 30)
+@ var myList1 = (10, 20, 30)
 
-@ var myArray2 = (10, (@.myValue1), (@.myValue2))
+@ var myList2 = (10, (@.myValue1), (@.myValue2))
 
-@ var myArray3 = ("foo", "bar", "baz", 123, "hey")
+@ var myList3 = ("foo", "bar", "baz", 123, "hey")
 
-@ var myArray4 = (true, 12, false)
+@ var myList4 = (true, 12, false)
 	
 @ var foo =
-	@.myArray1
-	@.myArray2
-	@.myArray3
-	@.myArray4
+	@.myList1
+	@.myList2
+	@.myList3
+	@.myList4
 	
 /*result
 [

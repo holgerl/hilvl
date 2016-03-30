@@ -1,18 +1,18 @@
 @ var myValue1 = 1
 @ var myValue2 = 2
 
-@ var myArray1 = 
+@ var myList1 = 
 	1
 	2
 	3
 
-@ var myArray2 = (10 , 20 push 30)
+@ var myList2 = (10 , 20 push 30)
 	
 @ var foo =
 	1 , 2 , 3
 	@.myValue1 , (@.myValue2)
 	"foo" , 42
-	@.myArray1 , (@.myArray2)
+	@.myList1 , (@.myList2)
 	
 /*result
 [

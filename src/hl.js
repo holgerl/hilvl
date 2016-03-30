@@ -182,7 +182,7 @@ hl.parse = function(tokenLists) {
 			}
 		}
 		
-		if (root.args == null) root.args = []; // This makes hilvl interpret missing arguments as empty arrays instead of a null sentinel value
+		if (root.args == null) root.args = []; // This makes hilvl interpret missing arguments as empty lists instead of a null sentinel value
 		
 		if (root.action == null) root = root.service; // This makes parantheses not followed by an action work TODO: This is not elegant!
 
@@ -345,7 +345,7 @@ hl.doAction = function(service, action, args, returnLast) {
 		xhttp.open("GET", path, false);
 		xhttp.send();
 		var result = xhttp.responseText;
-		if (result[0] == "[" || result[0] == "{") result = JSON.parse(result); // TODO: Awkward!! This is necessary to handle both string and array returns
+		if (result[0] == "[" || result[0] == "{") result = JSON.parse(result); // TODO: Awkward!! This is necessary to handle both string and list returns
 		return result;
 	}
 
@@ -388,7 +388,7 @@ hl.doAction = function(service, action, args, returnLast) {
 		} else if (action == "get") {
 			var args = hl.evaluate(args, returnLast);
 			var element = service[args];
-			if (element == undefined) throw new Error("array index " + args + " does not exist");
+			if (element == undefined) throw new Error("List index " + args + " does not exist");
 			return element;
 		} else fail();
 	} else if (serviceType == "String") {
@@ -601,7 +601,7 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 			var evaluatedService = hl.evaluate(tree.service, returnLast);
 			var args = tree.args;
 			if (!(tree.args instanceof Array)) {
-				var args = hl.evaluate(tree.args, returnLast); // If argument is array, it should be possible for the action implementation to choose to evaluate or not. If the argument is not array, we must evaluate it NOW before the scope is changed. Or else @.argument and other values that only exist in THIS scope can not be used as args in function calls.
+				var args = hl.evaluate(tree.args, returnLast); // If argument is a list, it should be possible for the action implementation to choose to evaluate or not. If the argument is not array, we must evaluate it NOW before the scope is changed. Or else @.argument and other values that only exist in THIS scope can not be used as args in function calls.
 			}
 			result.push(hl.doAction(evaluatedService, tree.action, args, returnLast));
 		} else {

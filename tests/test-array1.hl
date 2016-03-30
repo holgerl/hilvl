@@ -1,13 +1,13 @@
-@ var myArray1 = 
+@ var myList1 = 
 	1
 	2
 	3
 	
-@ var myEmptyArray = // This makes an empty array
+@ var myEmptyList = // This makes an empty list
 	
 @ var foo =
-	@.myArray1
-	@.myEmptyArray
+	@.myList1
+	@.myEmptyList
 	
 /*parsed
 [
@@ -15,7 +15,7 @@
         "service": {
             "service": "@",
             "action": "var",
-            "args": "myArray1"
+            "args": "myList1"
         },
         "action": "=",
         "args": [
@@ -28,7 +28,7 @@
         "service": {
             "service": "@",
             "action": "var",
-            "args": "myEmptyArray"
+            "args": "myEmptyList"
         },
         "action": "=",
         "args": []
@@ -44,12 +44,12 @@
             {
                 "service": "@",
                 "action": ".",
-                "args": "myArray1"
+                "args": "myList1"
             },
             {
                 "service": "@",
                 "action": ".",
-                "args": "myEmptyArray"
+                "args": "myEmptyList"
             }
         ]
     }

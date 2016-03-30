@@ -16,5 +16,5 @@
 
 {} inner 12 outer 24
 
-#.array = 
+#.list = 
 	1,2,3

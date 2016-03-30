@@ -5,8 +5,8 @@
 	@ var myVar1 = 10
 	@ set myVar2 = 20
 	
-// we place the variables in an array that is returned as the result:
-@ var myArray =
+// we place the variables in a list that is returned as the result:
+@ var myList =
 	@.myVar1
 	@.myVar2
 
