@@ -76,7 +76,7 @@ Everything is a service in hilvl, even strings and numbers. And action names can
 
 Here, `2` is the service, `+` is the action and `40` is the argument. This action returns a new service `42`
 
-There are only 8 reserved symbols in total:
+There are only 8 reserved symbols in hilvl:
 
 `"` `(` `)` `//` `true` `false` `(numbers)` `(whitespace)`
 
@@ -279,7 +279,7 @@ To run a file with hilvl code: `node src/hl.js myFile.hl`
 	
 To run all tests: `node test/run-all-tests.js`
 
-To run HiTTP web framework: `node src/HiTTP.js example-webapp.hl`
+To run HiTTP web framework: `node src/HiTTP.js examples/todo-webapp/backend.hl`
 
 <!-- TODO: Explain HiTTP -->
 <!-- TODO: Add examples of making empty list -->
