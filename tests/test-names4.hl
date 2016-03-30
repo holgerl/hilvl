@@ -1,0 +1,27 @@
+@ var myval1 = "varname1"
+@ var myval2 = "varname2"
+@ var myval3 = 42
+
+@ var (@.myval1) = "foo"
+@ var (@.myval3) = "bar"
+
+@ var myService :=
+	@ var (@.myval2) :
+		"hello"
+	@ var (@.myval3) :
+		"world"
+	
+@ var result = 
+	@."varname1"
+	myService "varname2" _
+	@.42
+	myService 42 _
+	
+/*result
+[
+"\"foo\"",
+"\"hello\"",
+"\"bar\"",
+"\"world\""
+]
+*/
