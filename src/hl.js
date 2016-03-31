@@ -271,7 +271,7 @@ hl.searchScope = function(key, newValue) {
 	while (index != undefined) {
 		var scope = scopes[index];
 		var result = scope[key];
-		hl.log("index, result =", index, result);
+		hl.log("\tindex, result =", index, result);
 		if (result !== undefined) {
 			if (newValue !== undefined) scope[key] = newValue;
 			return result;
@@ -299,11 +299,11 @@ hl.printScopes = function() {
 			}
 		}
 	}
-	hl.log("scopeIndex:", scopeIndex);
+	hl.log("Print scopes (scopeIndex:" + scopeIndex + ")");
 	for (var i in scopes) {
 		var scope = naiveClone(scopes[i]);
 		replaceCode(scope)
-		hl.log(i + ": " + JSON.stringify(scope));
+		hl.log("\t" + i + ": " + JSON.stringify(scope));
 	}
 }
 
@@ -329,8 +329,7 @@ hl.doAction = function(service, action, args, returnLast) {
 	var serviceType = hl.getServiceType(service);
 	
 	hl.log("");
-	hl.log("--- doAction:", service, action, args, "(returnLast=" + returnLast + ", scopeIndex="+scopeIndex+")");
-	hl.log("->" + serviceType);
+	hl.log("--- doAction:", service, action, args, "(serviceType=" + serviceType + ", returnLast=" + returnLast + ", scopeIndex="+scopeIndex+")");
 	hl.printScopes();
 	
 	if (serviceType == null) return null;
@@ -594,8 +593,7 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 		var tree = trees[i];
 		
 		hl.log("");
-		hl.log("--- evalTree:", tree, "scopeIndex=" + scopeIndex);
-		//hl.printScopes();
+		hl.log("-"+i+"- evalTree:", tree, "scopeIndex=" + scopeIndex);
 		
 		if (tree != null && tree.service != undefined) {
 			var evaluatedService = hl.evaluate(tree.service, returnLast);
@@ -608,7 +606,7 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 			result.push(tree);
 		}
 		
-		hl.log("info", "result " + i + ":", result);
+		hl.log("info", "-"+i+"- eval result:", result);
 	}
 	
 	if (makeNewScope) hl.popScope();
