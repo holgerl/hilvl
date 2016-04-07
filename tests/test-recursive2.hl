@@ -3,7 +3,7 @@
 @ var globalVar = 0
 	
 @ var recurFun :
-	@.globalVar < 600 then
+	@.globalVar < 400 then
 		@ set globalVar = (@.globalVar + 1)
 		@ recurFun _
 	@.globalVar
@@ -11,5 +11,5 @@
 @ recurFun _
 
 /*result
-600
+400
 */
