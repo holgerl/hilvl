@@ -42,7 +42,7 @@ function testFile(fileName, logLevel) {
         var expectedEvaluated = getExpected(fileContents, "result");
         if (expectedEvaluated != null) {
             hl.loadStandardLibraries();
-            var resultEvaluated = hl.evaluate(resultParsed);
+            var resultEvaluated = hl.execute(fileContents);
             testEquals(fileName, resultEvaluated, expectedEvaluated);
         }
 

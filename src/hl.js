@@ -230,6 +230,8 @@ var scopeIndex = 0;
 
 var connectedServices = {};
 
+var actionStack = [];
+
 hl.clearScope = function() {
 	scopes = [{}];
 	scopeIndex = 0;
@@ -331,11 +333,20 @@ hl.doAction = function(service, action, args, returnLast) {
 	hl.log("");
 	hl.log("--- doAction:", service, action, args, "(serviceType=" + serviceType + ", returnLast=" + returnLast + ", scopeIndex="+scopeIndex+")");
 	hl.printScopes();
+
+	actionStack.push(serviceType + " " + action);
 	
-	if (serviceType == null) return null;
+	var returnValue;
+
+	function fail() {
+		throw new Error(action + " is not a valid action on " + serviceType + " (" + service + ")");
+	}
+
+	if (serviceType == null) {
+		returnValue = null;
 	
 	// Connected external services
-	if (connectedServices[service]) {
+	} else if (connectedServices[service]) {
 		var host = connectedServices[service].host;
 		var args = hl.evaluate(args, returnLast);
 		var path = host + "/" + service + "/" + action + "?value=" + args;
@@ -345,15 +356,11 @@ hl.doAction = function(service, action, args, returnLast) {
 		xhttp.send();
 		var result = xhttp.responseText;
 		if (result[0] == "[" || result[0] == "{") result = JSON.parse(result); // TODO: Awkward!! This is necessary to handle both string and list returns
-		return result;
-	}
-
-	function fail() {
-		throw new Error(action + " is not a valid action on " + serviceType + " (" + service + ")");
+		returnValue = result;
 	}
 
 	// Standard library services
-	if (standardLibraries[serviceType] && standardLibraries[serviceType][action]) {
+	else if (standardLibraries[serviceType] && standardLibraries[serviceType][action]) {
 		var library = standardLibraries[serviceType][action];
 		 // TODO: DRY!
 		var oldScopeIndex = scopeIndex;
@@ -365,11 +372,11 @@ hl.doAction = function(service, action, args, returnLast) {
 		hl.saveToScope("this", service);
 		var result = hl.evaluate(code, true);
 		scopeIndex = oldScopeIndex;
-		return result;
+		returnValue = result;
 	}
 	
 	// Simple system services:
-	if (serviceType == "Array") {
+	else if (serviceType == "Array") {
 		if (action == "loop") {
 			for (var i in service) {
 				hl.saveToScope("element", service[i]);
@@ -378,17 +385,17 @@ hl.doAction = function(service, action, args, returnLast) {
 		} else if (action == "push") {
 			var args = hl.evaluate(args, returnLast);
 			service.push(args);
-			return service;
+			returnValue = service;
 		} else if (action == ",") {
 			var args = hl.evaluate(args, returnLast);
 			var newArray = service.slice();
 			newArray.push(args)
-			return newArray;
+			returnValue = newArray;
 		} else if (action == "get") {
 			var args = hl.evaluate(args, returnLast);
 			var element = service[args];
 			if (element == undefined) throw new Error("List index " + args + " does not exist");
-			return element;
+			returnValue = element;
 		} else fail();
 	} else if (serviceType == "String") {
 		var args = hl.evaluate(args, returnLast);
@@ -404,24 +411,24 @@ hl.doAction = function(service, action, args, returnLast) {
 		
 		if (action == "+") {
 			if (!argsIsString) throw new Error("args is not string");
-			return "\"" + a + b + "\"";
+			returnValue = "\"" + a + b + "\"";
 		} else if (action == "==") {
 			if (!argsIsString) throw new Error("args is not string");
-			return a === b;
+			returnValue = a === b;
 		} else if (action == "!=") {
 			if (!argsIsString) throw new Error("args is not string");
-			return a !== b;
+			returnValue = a !== b;
 		} else if (action == "at") {
-			return {type: "String", atIndex: args, value: service};
+			returnValue = {type: "String", atIndex: args, value: service};
 		} else if (action == "length") {
-			return a.length;
+			returnValue = a.length;
 		} else if (action == "substringTo") {
-			return "\"" + a.substring(service.atIndex, args) + "\"";
+			returnValue = "\"" + a.substring(service.atIndex, args) + "\"";
 		} else if (action == ".") {
-			return service[args];
+			returnValue = service[args];
 		} else if (action == ",") {
 			var args = hl.evaluate(args, returnLast);
-			return [service, args];
+			returnValue = [service, args];
 		} else fail();
 	} else if (serviceType == "Number") {
 		var a = parseFloat(service);
@@ -431,43 +438,42 @@ hl.doAction = function(service, action, args, returnLast) {
 			while(result != a) {
 				var result = hl.evaluate(args, returnLast);
 			}
-			return null;
+			returnValue = null;
 		} else if (action == "as") {
 			if (args == "string")
-				return "\"" + a + "\"";
+				returnValue = "\"" + a + "\"";
 			else 
 				throw new Error("Can not convert " + serviceType + " to " + args);
+		} else {
+			var args = hl.evaluate(args, returnLast);
+			var b = parseFloat(args);
+			
+			if (action == "+") {
+				returnValue = a + b;
+			} else if (action == "-") {
+				returnValue = a - b;
+			} else if (action == "==") {
+				returnValue = a === b;
+			} else if (action == "<") {
+				returnValue = a < b;
+			} else if (action == ">") {
+				returnValue = a > b;
+			} else if (action == ",") {
+				returnValue = [a, b];
+			} else fail();
 		}
-		
-		var args = hl.evaluate(args, returnLast);
-		
-		var b = parseFloat(args);
-		
-		if (action == "+") {
-			return a + b;
-		} else if (action == "-") {
-			return a - b;
-		} else if (action == "==") {
-			return a === b;
-		} else if (action == "<") {
-			return a < b;
-		} else if (action == ">") {
-			return a > b;
-		} else if (action == ",") {
-			return [a, b];
-		} else fail();
 	} else if (serviceType == "Boolean") {
 		if (action == "==") {
 			var args = hl.evaluate(args, returnLast);
-			return (service == "true") === (args == "true");
+			returnValue = (service == "true") === (args == "true");
 		} else if (action == "!=") {
 			var args = hl.evaluate(args, returnLast);
-			return (service == "true") !== (args == "true");
+			returnValue = (service == "true") !== (args == "true");
 		} else if (action == "then") {
 			if (service === true || service === "true") hl.evaluate(args, returnLast);
 		} else if (action == ",") {
 			var args = hl.evaluate(args, returnLast);
-			return [service, args];
+			returnValue = [service, args];
 		} else fail();
 
 
@@ -476,12 +482,12 @@ hl.doAction = function(service, action, args, returnLast) {
 		var args = hl.evaluate(args, returnLast);
 		if (action == "var") {
 			hl.saveToScope(args, null);
-			return {type: "Variable", name: args};
+			returnValue = {type: "Variable", name: args};
 		} else if (action == "set") {
 			var currentValue = hl.searchScope(args);
-			return {type: "Variable", name: args, currentValue: currentValue};
+			returnValue = {type: "Variable", name: args, currentValue: currentValue};
 		} else if (action == ".") {
-			return hl.searchScope(args);
+			returnValue = hl.searchScope(args);
 		} else if (action == "connect") {
 			var args = hl.evaluate(args, returnLast);
 			args = util.removeQuotes(args);
@@ -503,13 +509,13 @@ hl.doAction = function(service, action, args, returnLast) {
 			hl.saveToScope("argument", args);
 			var result = hl.evaluate(code, true);
 			scopeIndex = oldScopeIndex;
-			return result;
+			returnValue = result;
 		}
 	} else if (serviceType == "Variable") {
 		if (action == "=") {
 			var args = hl.evaluate(args, false);
 			hl.changeInScope(service.name, args);
-			return args;
+			returnValue = args;
 		} else if (action == ":") { // TODO: Should have an action like this for assigning without evaluating argument, but without making a new scope for the future evaluation. It could be named =>. This way, @ new foo => ($.argument) will not make a new scope when evaluating $.argument (which can be a code block, so we can't use =)
 			var newScopeIndex = hl.pushScope(true);
 			hl.changeInScope(service.name, {code: args, scope: newScopeIndex});
@@ -518,7 +524,7 @@ hl.doAction = function(service, action, args, returnLast) {
 			var args = hl.evaluate(args, false, true);
 			hl.changeInScope(service.name, {type: "ScopeReference", scope: nextScopeIndex});
 		} else if (action == ".") {
-			return service[args];
+			returnValue = service[args];
 		} else fail();
 	} else if (serviceType == "ScopeReference") { // TODO: DRY!
 		var oldScopeIndex = scopeIndex;
@@ -529,14 +535,14 @@ hl.doAction = function(service, action, args, returnLast) {
 		hl.saveToScope("argument", args);
 		var result = hl.evaluate(code, true);
 		scopeIndex = oldScopeIndex;
-		return result;
+		returnValue = result;
 
 	// System service (for system libraries)
 	} else if (serviceType == "System") {
 		if (action == "extend") {
-			return {type: "System", serviceName: args};
+			returnValue = {type: "System", serviceName: args};
 		} else if (action == "with") {
-			return {type: "System", serviceName: service.serviceName, extensionName: args};
+			returnValue = {type: "System", serviceName: service.serviceName, extensionName: args};
 		} else if (action == "as") {
 			var serviceName = service.serviceName;
 			var extensionName = service.extensionName;
@@ -557,7 +563,7 @@ hl.doAction = function(service, action, args, returnLast) {
 		} else if (action == "readFile") {
 			args = util.removeQuotes(args);
 			var filePath = process.cwd() + "\\" + args;
-			return "\"" + fs.readFileSync(filePath, "utf8") + "\"";
+			returnValue = "\"" + fs.readFileSync(filePath, "utf8") + "\"";
 		} else fail();
 	
 	// Custom service
@@ -571,10 +577,12 @@ hl.doAction = function(service, action, args, returnLast) {
 		hl.saveToScope("argument", args);
 		var result = hl.evaluate(code, true);
 		scopeIndex = oldScopeIndex;
-		return result;
+		returnValue = result;
 	}
+
+	actionStack.pop();
 	
-	return null;
+	return returnValue;
 }
 
 hl.evaluate = function(trees, returnLast, makeNewScope) {
@@ -622,11 +630,18 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 var standardLibraries = {};
 
 hl.execute = function(script) {
-	script = script.trim();
-	var tokens = hl.tokenize(script);
-	var trees = hl.parse(tokens);
-	var result = hl.evaluate(trees);
-	return result;
+	try {
+		script = script.trim();
+		var tokens = hl.tokenize(script);
+		var trees = hl.parse(tokens);
+		var result = hl.evaluate(trees);
+		return result;
+	} catch (error) {
+		hl.log("error", "#################");
+		hl.log("error", "Action stacktrace:");
+		for (var action of actionStack) hl.log("error", "\t" + action);
+		throw error;
+	}
 }
 
 hl.loadStandardLibraries = function() {
