@@ -1,18 +1,3 @@
-@ var Map :=
-	@ var of :
-		@ var MapInstance :=
-			@ var tuples = (@.argument)
-			@ var get :
-				@ var result = _
-				@ var key = (@.argument)
-				@.tuples loop
-					@.element get 0 == (@.key) then
-						@ set result = (@.element get 1)
-				@.result
-			@ var with :
-				@ set tuples = (@.argument)
-		@.MapInstance
-		
 // Three ways of initializing a map:
 
 @ var tuples1 =

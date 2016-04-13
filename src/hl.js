@@ -645,7 +645,7 @@ hl.execute = function(script) {
 }
 
 hl.loadStandardLibraries = function() {
-	var libraries = ["stdlib/Variable.hl", "stdlib/String.hl"];
+	var libraries = ["stdlib/Variable.hl", "stdlib/String.hl", "stdlib/Map.hl"];
 	for (var i in libraries) {
 		var fileName = libraries[i];
 		var fileContents = fs.readFileSync(fileName, "utf8");
