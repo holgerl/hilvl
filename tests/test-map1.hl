@@ -13,27 +13,38 @@
 				@ set tuples = (@.argument)
 		@.MapInstance
 		
+// Three ways of initializing a map:
+
 @ var tuples1 =
 	"foo", 1
 	"bar", 2
-
 @ var myMap1 = (Map of (@.tuples1))
 		
 @ var myMap2 = (Map of _) with 
 	"foo", 11
 	"bar", 22
+
+@ var myMap3 = 
+	Map of  
+		"foo", 111
+		"bar", 222
+
 	
 @ var foo =
 	myMap1 get "foo"
 	myMap1 get "bar"
 	myMap2 get "foo"
 	myMap2 get "bar"
+	myMap3 get "foo"
+	myMap3 get "bar"
 
 /*result
 [
 	1,
 	2,
 	11,
-	22
+	22,
+	111,
+	222
 ]
 */
