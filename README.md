@@ -149,7 +149,7 @@ KeyboardService onEvent
 Here, the implementation of `onEvent` may decide itself when to evaluate the statements in the argument.
 
 ### Syntactic sugar
-<!-- TODO: Include comma here -->
+
 To make the code more readable, a special shortcut is supported in the syntax:
 
 `foo.bar` is the same as  `foo . bar`
@@ -251,8 +251,6 @@ If a list of statements is executed, the value of the *last* statement is return
 [12, 44, 52]
 */
 ```
-	
-<!-- TODO: Should have one example focused on scope, and another focused on higher order programming -->
 
 #### Fluent programming
 
@@ -280,6 +278,3 @@ To run a file with hilvl code: `node src/hl.js myFile.hl`
 To run all tests: `node test/run-all-tests.js`
 
 To run HiTTP web framework: `node src/HiTTP.js examples/todo-webapp/backend.hl`
-
-<!-- TODO: Explain HiTTP -->
-<!-- TODO: Add examples of making empty list -->
