@@ -273,15 +273,6 @@ hl.scope = (function() {
 		},
 
 		print: function() {
-			function naiveClone(obj) { // TODO: Move to util.js
-				if (null == obj || "object" != typeof obj) return obj;
-				var copy = obj.constructor();
-				for (var attr in obj) {
-					if (obj.hasOwnProperty(attr)) copy[attr] = naiveClone(obj[attr]);
-				}
-				return copy;
-			}
-
 			function replaceCode(obj) {
 				for (var i in obj) {
 					var field = obj[i];
@@ -292,7 +283,7 @@ hl.scope = (function() {
 			}
 			hl.log("Print scopes (scopeIndex:" + this.index + ")");
 			for (var i in scopes) {
-				var scope = naiveClone(scopes[i]);
+				var scope = util.clone(scopes[i]);
 				replaceCode(scope)
 				hl.log("\t" + i + ": " + JSON.stringify(scope));
 			}

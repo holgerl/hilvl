@@ -48,6 +48,17 @@ var util = {
 
 	    var p = Object.keys(x);
 	    return Object.keys(y).every(function (i) {return p.indexOf(i) !== -1; }) && p.every(function (i) { return equal(x[i], y[i]); });
+	},
+
+
+	clone: function naiveClone(obj) {
+		if (null == obj || "object" != typeof obj) return obj;
+		var copy = obj.constructor();
+		for (var attr in obj) {
+			if (obj.hasOwnProperty(attr))
+				copy[attr] = naiveClone(obj[attr]);
+		}
+		return copy;
 	}
 }
 
