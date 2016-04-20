@@ -5,7 +5,7 @@ var http = require("http");
 var hl = require("../src/hl");
 var HiTTP = require("../src/HiTTP");
 var urlLib = require('url');
-var utils = require("./utils.js");
+var util = require("../src/util.js");
 
 var totalFilesTested = 0;
 
@@ -27,7 +27,7 @@ function testResponseAsync(url, expectedResponse, dispatcher) {
 			var regex = expectedResponse.substring(1, expectedResponse.length-1);
 			var passed = returnValue.match(regex);
 		} else {
-			var passed = utils.equal(expectedResponse, returnValue);
+			var passed = util.equal(expectedResponse, returnValue);
 		}
 			
 		if (!passed)

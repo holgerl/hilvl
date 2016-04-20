@@ -2,12 +2,12 @@
 
 var fs = require("fs");
 var hl = require("../src/hl");
-var utils = require("./utils.js");
+var util = require("../src/util.js");
 
 var totalFilesTested = 0;
 
 function testEquals(fileName, result, expected) {
-    var success = utils.equal(result, expected);
+    var success = util.equal(result, expected);
      
     if (success) {
         console.log(fileName + " test ok");
