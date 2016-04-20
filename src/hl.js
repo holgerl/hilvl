@@ -15,11 +15,14 @@ function argumentsToArray(args) {
 //hl.logLevel = "info";
 hl.logLevel = "warning";
 
+var connectedServices = {};
+var actionStack = [];
+
 hl.setLogLevel = function(level) {
 	hl.logLevel = level;
 }
 
-hl.log = function(level) {
+hl.log = function(level) { // TODO: Move to util.js?
 	var levels = ["error", "warning", "info", "debug"];
 
 	var args = argumentsToArray(arguments);
@@ -225,89 +228,88 @@ hl.parse = function(tokenLists) {
 	return result;
 }
 
-var scopes = [{}];
-var scopeIndex = 0;
+hl.scope = (function() {
+	var scopes = [{}];
 
-var connectedServices = {};
+	return {
+		index: 0,
 
-var actionStack = [];
+		generateNewIndex: () => scopes.length + 1,
 
-hl.clearScope = function() {
-	scopes = [{}];
-	scopeIndex = 0;
-}
+		clear: function() {
+			scopes = [{}];
+			this.index = 0;
+		},
 
-hl.setScope = function(scopeIdx) {
-	scopeIndex = scopeIdx;
-}
+		getRootScopeNames: function() {
+			var rootScope = scopes[0], copy = {};
+			for (var key in rootScope) copy[key] = rootScope[key];
+			return copy;
+		},
 
-hl.getScopes = function() {
-	return scopes;
-}
+		saveToCurrent: function(key, value) {
+			scopes[this.index][key] = value;
+		},
 
-hl.saveToScope = function(key, value) {
-	scopes[scopeIndex][key] = value;
-}
+		changeInCurrent: (key, value) => hl.scope.search(key, value),
 
-hl.changeInScope = function(key, value) {
-	var result = hl.searchScope(key, value);
-}
+		pushScope: function(withoutEntering) {
+			var newScope = {parent: this.index};
+			var newIndex = scopes.length;
+			scopes.push(newScope);
+			if (withoutEntering == undefined || withoutEntering == false)
+				this.index = newIndex;
+			else
+				return newIndex;
+		},
 
-hl.pushScope = function(withoutEntering) {
-	var newScope = {parent: scopeIndex};
-	var newIndex = scopes.length;
-	scopes.push(newScope);
-	if (withoutEntering == undefined || withoutEntering == false)
-		scopeIndex = newIndex;
-	else
-		return newIndex;
-}
+		popScope: function() {
+			this.index = scopes[this.index].parent;
+		},
 
-hl.popScope = function() {
-	scopeIndex = scopes[scopeIndex].parent;
-}
+		search: function(key, newValue) {
+			var index = this.index;
+			hl.log("searching for", key, "from", index, "(" + newValue + ")");
+			while (index != undefined) {
+				var scope = scopes[index];
+				var result = scope[key];
+				hl.log("\tindex, result =", index, result);
+				if (result !== undefined) {
+					if (newValue !== undefined) scope[key] = newValue;
+					return result;
+				}
+				index = scope.parent;
+			}
+			throw new Error("Not found in scope: " + JSON.stringify(key));
+		},
 
-hl.searchScope = function(key, newValue) {
-	var index = scopeIndex;
-	hl.log("searching for", key, "from", index, "(" + newValue + ")");
-	while (index != undefined) {
-		var scope = scopes[index];
-		var result = scope[key];
-		hl.log("\tindex, result =", index, result);
-		if (result !== undefined) {
-			if (newValue !== undefined) scope[key] = newValue;
-			return result;
-		}
-		index = scope.parent;
-	}
-	throw new Error("Not found in scope: " + JSON.stringify(key));
-}
+		print: function() {
+			function naiveClone(obj) { // TODO: Move to util.js
+				if (null == obj || "object" != typeof obj) return obj;
+				var copy = obj.constructor();
+				for (var attr in obj) {
+					if (obj.hasOwnProperty(attr)) copy[attr] = naiveClone(obj[attr]);
+				}
+				return copy;
+			}
 
-hl.printScopes = function() {
-	function naiveClone(obj) {
-		if (null == obj || "object" != typeof obj) return obj;
-		var copy = obj.constructor();
-		for (var attr in obj) {
-			if (obj.hasOwnProperty(attr)) copy[attr] = naiveClone(obj[attr]);
-		}
-		return copy;
-	}
-
-	function replaceCode(obj) {
-		for (var i in obj) {
-			var field = obj[i];
-			if (field && field.code) {
-				field.code = "(..)";
+			function replaceCode(obj) {
+				for (var i in obj) {
+					var field = obj[i];
+					if (field && field.code) {
+						field.code = "(..)";
+					}
+				}
+			}
+			hl.log("Print scopes (scopeIndex:" + this.index + ")");
+			for (var i in scopes) {
+				var scope = naiveClone(scopes[i]);
+				replaceCode(scope)
+				hl.log("\t" + i + ": " + JSON.stringify(scope));
 			}
 		}
 	}
-	hl.log("Print scopes (scopeIndex:" + scopeIndex + ")");
-	for (var i in scopes) {
-		var scope = naiveClone(scopes[i]);
-		replaceCode(scope)
-		hl.log("\t" + i + ": " + JSON.stringify(scope));
-	}
-}
+})();
 
 hl.getServiceType = function(service) {
 	if (service == undefined || service == null)
@@ -331,8 +333,8 @@ hl.doAction = function(service, action, args, returnLast) {
 	var serviceType = hl.getServiceType(service);
 	
 	hl.log("");
-	hl.log("--- doAction:", service, action, args, "(serviceType=" + serviceType + ", returnLast=" + returnLast + ", scopeIndex="+scopeIndex+")");
-	hl.printScopes();
+	hl.log("--- doAction:", service, action, args, "(serviceType=" + serviceType + ", returnLast=" + returnLast + ", scopeIndex="+hl.scope.index+")");
+	hl.scope.print();
 
 	actionStack.push(serviceType + " " + action);
 	
@@ -363,15 +365,15 @@ hl.doAction = function(service, action, args, returnLast) {
 	else if (standardLibraries[serviceType] && standardLibraries[serviceType][action]) {
 		var library = standardLibraries[serviceType][action];
 		 // TODO: DRY!
-		var oldScopeIndex = scopeIndex;
+		var oldScopeIndex = hl.scope.index;
 		
-		scopeIndex = library.scope;
+		hl.scope.index = library.scope;
 		var code = library.code;
 		
-		hl.saveToScope("argument", args);
-		hl.saveToScope("this", service);
+		hl.scope.saveToCurrent("argument", args);
+		hl.scope.saveToCurrent("this", service);
 		var result = hl.evaluate(code, true);
-		scopeIndex = oldScopeIndex;
+		hl.scope.index = oldScopeIndex;
 		returnValue = result;
 	}
 	
@@ -379,7 +381,7 @@ hl.doAction = function(service, action, args, returnLast) {
 	else if (serviceType == "Array") {
 		if (action == "loop") {
 			for (var i in service) {
-				hl.saveToScope("element", service[i]);
+				hl.scope.saveToCurrent("element", service[i]);
 				hl.evaluate(args, returnLast);
 			}
 		} else if (action == "push") {
@@ -481,13 +483,13 @@ hl.doAction = function(service, action, args, returnLast) {
 	} else if (serviceType == "@") {
 		var args = hl.evaluate(args, returnLast);
 		if (action == "var") {
-			hl.saveToScope(args, null);
+			hl.scope.saveToCurrent(args, null);
 			returnValue = {type: "Variable", name: args};
 		} else if (action == "set") {
-			var currentValue = hl.searchScope(args);
+			var currentValue = hl.scope.search(args);
 			returnValue = {type: "Variable", name: args, currentValue: currentValue};
 		} else if (action == ".") {
-			returnValue = hl.searchScope(args);
+			returnValue = hl.scope.search(args);
 		} else if (action == "connect") {
 			var args = hl.evaluate(args, returnLast);
 			args = util.removeQuotes(args);
@@ -500,41 +502,41 @@ hl.doAction = function(service, action, args, returnLast) {
 				connectedServices[name] = {host: args, actions: scope[name]};
 			}
 		} else { // TODO: DRY!
-			var oldScopeIndex = scopeIndex;
+			var oldScopeIndex = hl.scope.index;
 			
-			var codeHolder = hl.searchScope(action);
+			var codeHolder = hl.scope.search(action);
 			var code = codeHolder.code ? codeHolder.code : codeHolder;
-			scopeIndex = codeHolder.scope ? codeHolder.scope : scopeIndex;
+			hl.scope.index = codeHolder.scope ? codeHolder.scope : hl.scope.index;
 			
-			hl.saveToScope("argument", args);
+			hl.scope.saveToCurrent("argument", args);
 			var result = hl.evaluate(code, true);
-			scopeIndex = oldScopeIndex;
+			hl.scope.index = oldScopeIndex;
 			returnValue = result;
 		}
 	} else if (serviceType == "Variable") {
 		if (action == "=") {
 			var args = hl.evaluate(args, false);
-			hl.changeInScope(service.name, args);
+			hl.scope.changeInCurrent(service.name, args);
 			returnValue = args;
 		} else if (action == ":") { // TODO: Should have an action like this for assigning without evaluating argument, but without making a new scope for the future evaluation. It could be named =>. This way, @ new foo => ($.argument) will not make a new scope when evaluating $.argument (which can be a code block, so we can't use =)
-			var newScopeIndex = hl.pushScope(true);
-			hl.changeInScope(service.name, {code: args, scope: newScopeIndex});
+			var newScopeIndex = hl.scope.pushScope(true);
+			hl.scope.changeInCurrent(service.name, {code: args, scope: newScopeIndex});
 		} else if (action == ":=") {
-			var nextScopeIndex = scopes.length+1;
+			var nextScopeIndex = hl.scope.generateNewIndex();
 			var args = hl.evaluate(args, false, true);
-			hl.changeInScope(service.name, {type: "ScopeReference", scope: nextScopeIndex});
+			hl.scope.changeInCurrent(service.name, {type: "ScopeReference", scope: nextScopeIndex});
 		} else if (action == ".") {
 			returnValue = service[args];
 		} else fail();
 	} else if (serviceType == "ScopeReference") { // TODO: DRY!
-		var oldScopeIndex = scopeIndex;
+		var oldScopeIndex = hl.scope.index;
 		
-		scopeIndex = service.scope;
-		var code = hl.searchScope(action)["code"];
+		hl.scope.index = service.scope;
+		var code = hl.scope.search(action)["code"];
 		
-		hl.saveToScope("argument", args);
+		hl.scope.saveToCurrent("argument", args);
 		var result = hl.evaluate(code, true);
-		scopeIndex = oldScopeIndex;
+		hl.scope.index = oldScopeIndex;
 		returnValue = result;
 
 	// System service (for system libraries)
@@ -547,7 +549,7 @@ hl.doAction = function(service, action, args, returnLast) {
 			var serviceName = service.serviceName;
 			var extensionName = service.extensionName;
 
-			var newScopeIndex = hl.pushScope(true);
+			var newScopeIndex = hl.scope.pushScope(true);
 			standardLibraries[serviceName] = standardLibraries[serviceName] || {};
 			standardLibraries[serviceName][extensionName] = {code: args, scope: newScopeIndex};
 		} else fail();
@@ -568,15 +570,15 @@ hl.doAction = function(service, action, args, returnLast) {
 	
 	// Custom service
 	} else { // TODO: DRY!
-		var oldScopeIndex = scopeIndex;
+		var oldScopeIndex = hl.scope.index;
 		
-		scopeIndex = hl.searchScope(service)["scope"];
-		var code = hl.searchScope(action)["code"];
+		hl.scope.index = hl.scope.search(service)["scope"];
+		var code = hl.scope.search(action)["code"];
 		
-		//hl.saveToScope("this", {type:"ScopeReference", scope: scopeIndex}); // TODO: Standard libararies allrady use the word "this" for something else. Maybe it should be called "currentScope" here, and "extendedService" in standard libraries?
-		hl.saveToScope("argument", args);
+		//hl.scope.saveToCurrent("this", {type:"ScopeReference", scope: hl.scope.index}); // TODO: Standard libararies allrady use the word "this" for something else. Maybe it should be called "currentScope" here, and "extendedService" in standard libraries?
+		hl.scope.saveToCurrent("argument", args);
 		var result = hl.evaluate(code, true);
-		scopeIndex = oldScopeIndex;
+		hl.scope.index = oldScopeIndex;
 		returnValue = result;
 	}
 
@@ -595,13 +597,13 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 	
 	var result = [];
 	
-	if (makeNewScope) hl.pushScope();
+	if (makeNewScope) hl.scope.pushScope();
 	
 	for (var i in trees) {
 		var tree = trees[i];
 		
 		hl.log("");
-		hl.log("-"+i+"- evalTree:", tree, "scopeIndex=" + scopeIndex);
+		hl.log("-"+i+"- evalTree:", tree, "scopeIndex=" + hl.scope.index);
 		
 		if (tree != null && tree.service != undefined) {
 			var evaluatedService = hl.evaluate(tree.service, returnLast);
@@ -617,7 +619,7 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 		hl.log("info", "-"+i+"- eval result:", result);
 	}
 	
-	if (makeNewScope) hl.popScope();
+	if (makeNewScope) hl.scope.popScope();
 	
 	if (returnLast)
 		return result[result.length-1];

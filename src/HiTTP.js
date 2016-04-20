@@ -31,7 +31,7 @@ HiTTP.startServer = function(fileName) {
 	server = http.createServer(function (request, response) {
 		try {
 			if (request.method === "OPTIONS") {
-				var scope = HiTTP.buildScope(hl.getScopes());
+				var scope = hl.scope.getRootScopeNames();
 				var responseHeaders = {scope: JSON.stringify(scope)};
 				response.writeHead(200, responseHeaders);
 				response.end();
@@ -54,12 +54,12 @@ HiTTP.startServer = function(fileName) {
 			console.log("FILEPATH", filePath);
 			
 			var scopeIndex = 0;
-			hl.setScope(scopeIndex); // Important to reset to root scope between all requests
+			hl.scope.index = scopeIndex; // Important to reset to root scope between all requests
 			
 			for (var i in filePath) {
 				var serviceName = filePath[i];
 				
-				var scopeIndex = hl.searchScope(serviceName);
+				var scopeIndex = hl.scope.search(serviceName);
 				
 				if (scopeIndex.scope) scopeIndex = scopeIndex.scope;
 				
@@ -69,7 +69,7 @@ HiTTP.startServer = function(fileName) {
 					break;
 				}
 				
-				hl.setScope(scopeIndex);
+				hl.scope.index = scopeIndex;
 			}
 			
 			if (scopeIndex == undefined) {
@@ -99,7 +99,7 @@ HiTTP.startServer = function(fileName) {
 
 HiTTP.stopServer = function() {
 	server.close();
-	hl.clearScope();
+	hl.scope.clear();
 }
 
 if (process.argv[2]) {

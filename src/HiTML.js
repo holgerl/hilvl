@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function(){
 				formValues[child.name] = child.value;
 			}
 			
-			hl.saveToScope("argument", formValues["value"]);
+			hl.scope.saveToCurrent("argument", formValues["value"]);
 			var result = hl.execute(hlAction);
 			console.log("RESULT " + result);
 			refreshHitml();

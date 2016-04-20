@@ -21,7 +21,7 @@ function testEquals(fileName, result, expected) {
  
 function testFile(fileName, logLevel) {
     try {
-        hl.clearScope();
+        hl.scope.clear();
          
         var fileContents = fs.readFileSync(fileName, "utf8");
          
@@ -76,60 +76,60 @@ function testScope() {
     try {
         console.log("\n");
          
-        hl.clearScope();
+        hl.scope.clear();
          
-        hl.saveToScope("foo", 42);
-        hl.saveToScope("bar", 123);
+        hl.scope.saveToCurrent("foo", 42);
+        hl.scope.saveToCurrent("bar", 123);
          
-        hl.pushScope();
+        hl.scope.pushScope();
          
-        hl.saveToScope("foo", 24);
-        hl.saveToScope("foobar", 12);
+        hl.scope.saveToCurrent("foo", 24);
+        hl.scope.saveToCurrent("foobar", 12);
          
         var results1 =  [
-            hl.searchScope("foo"),
-            hl.searchScope("bar"),
-            hl.searchScope("foobar")
+            hl.scope.search("foo"),
+            hl.scope.search("bar"),
+            hl.scope.search("foobar")
         ];
          
-        hl.popScope();
+        hl.scope.popScope();
          
         var results2 =  [
-            hl.searchScope("foo"),
-            hl.searchScope("bar")
+            hl.scope.search("foo"),
+            hl.scope.search("bar")
         ];
          
         try {
-            hl.searchScope("foobar")
+            hl.scope.search("foobar")
         } catch (e) {
             var wasException = true;
         }
          
-        hl.pushScope();
+        hl.scope.pushScope();
          
-        hl.saveToScope("foo", 50);
-        hl.saveToScope("baz", 100);
+        hl.scope.saveToCurrent("foo", 50);
+        hl.scope.saveToCurrent("baz", 100);
          
         var results3 =  [
-            hl.searchScope("foo"),
-            hl.searchScope("bar"),
-            hl.searchScope("baz")
+            hl.scope.search("foo"),
+            hl.scope.search("bar"),
+            hl.scope.search("baz")
         ];
          
-        hl.changeInScope("baz", 55);
+        hl.scope.changeInCurrent("baz", 55);
          
         var results4 =  [
-            hl.searchScope("foo"),
-            hl.searchScope("bar"),
-            hl.searchScope("baz")
+            hl.scope.search("foo"),
+            hl.scope.search("bar"),
+            hl.scope.search("baz")
         ];
          
-        hl.changeInScope("bar", 33);
+        hl.scope.changeInCurrent("bar", 33);
          
         var results5 =  [
-            hl.searchScope("foo"),
-            hl.searchScope("bar"),
-            hl.searchScope("baz")
+            hl.scope.search("foo"),
+            hl.scope.search("bar"),
+            hl.scope.search("baz")
         ];
          
         testEquals("testScope1", results1, [24, 123, 12]);
