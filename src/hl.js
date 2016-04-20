@@ -8,11 +8,10 @@ var hl = {};
 var connectedServices = {};
 var actionStack = [];
 
-//hl.logLevel = "debug";
-//hl.logLevel = "info";
 hl.logLevel = "warning";
+//hl.logLevel = "debug";
 
-hl.log = function(level) { // TODO: Move to util.js?
+hl.log = function(level) {
 	var levels = ["error", "warning", "info", "debug"];
 
 	var args = util.toArray(arguments);
@@ -23,10 +22,10 @@ hl.log = function(level) { // TODO: Move to util.js?
 		args.shift();
 	}
 
-	if (levels.indexOf(level) > levels.indexOf(hl.logLevel)) return;
+	if (levels.indexOf(level) > levels.indexOf(hl.logLevel))
+		return;
 
 	var levelLetter = level[0].toUpperCase();
-
 	args.unshift(levelLetter);
 
 	console.log.apply(console, args)
