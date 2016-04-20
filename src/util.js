@@ -12,7 +12,11 @@ var util = {
 		if (isDefined && string[0] === "\"") string = string.substring(1);
 		if (isDefined && string[string.length - 1] === "\"") string = string.substring(0, string.length - 1);
 		return string;
+	},
+
+	toArray: function(arrayLike) {
+		return Array.prototype.slice.call(arrayLike).slice();
 	}
 }
 
-module.exports = util
+module.exports = util;

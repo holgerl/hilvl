@@ -115,7 +115,7 @@ function getResponseTuples(fileContents) {
 }
 
 function sequence() {
-	var asyncFunctions = Array.prototype.slice.call(arguments).slice();
+	var asyncFunctions = util.toArray(arguments);
 	var i = 0;
 	var dispatcher = {
 		signalFinished: () => {

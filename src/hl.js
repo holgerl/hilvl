@@ -5,12 +5,6 @@ var util = global.util || require("./util");
 
 var hl = {};
 
-function argumentsToArray(args) {
-	var array = [];
-	for (var i in args) array.push(args[i]);
-	return array;
-}
-
 //hl.logLevel = "debug";
 //hl.logLevel = "info";
 hl.logLevel = "warning";
@@ -25,7 +19,7 @@ hl.setLogLevel = function(level) {
 hl.log = function(level) { // TODO: Move to util.js?
 	var levels = ["error", "warning", "info", "debug"];
 
-	var args = argumentsToArray(arguments);
+	var args = util.toArray(arguments);
 
 	if (levels.indexOf(level) < 0) {
 		level = "debug";
