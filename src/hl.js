@@ -5,16 +5,12 @@ var util = global.util || require("./util");
 
 var hl = {};
 
-//hl.logLevel = "debug";
-//hl.logLevel = "info";
-hl.logLevel = "warning";
-
 var connectedServices = {};
 var actionStack = [];
 
-hl.setLogLevel = function(level) {
-	hl.logLevel = level;
-}
+//hl.logLevel = "debug";
+//hl.logLevel = "info";
+hl.logLevel = "warning";
 
 hl.log = function(level) { // TODO: Move to util.js?
 	var levels = ["error", "warning", "info", "debug"];

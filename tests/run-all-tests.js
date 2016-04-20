@@ -26,11 +26,11 @@ function testFile(fileName, logLevel) {
         var fileContents = fs.readFileSync(fileName, "utf8");
          
         if (logLevel)
-            hl.setLogLevel(logLevel);
+            hl.logLevel = logLevel;
         else if (getExpected(fileContents, "noDebug") == true)
-            hl.setLogLevel("error");
+            hl.logLevel = "error";
         else
-            hl.setLogLevel("warning");
+            hl.logLevel = "warning";
          
         var resultParsed = hl.parse(hl.tokenize(fileContents));
          
