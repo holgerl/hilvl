@@ -1,4 +1,4 @@
-@ var Map :=
+@ var Map := // TODO: This exports Map as a connected service, since it is on root scope
 	@ var of :
 		@ var MapInstance :=
 			@ var tuples = (@.argument)
@@ -11,4 +11,6 @@
 				@.result
 			@ var with :
 				@ set tuples = (@.argument)
+			@ var put :
+				@.tuples push (@.argument)
 		@.MapInstance

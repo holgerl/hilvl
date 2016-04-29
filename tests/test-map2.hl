@@ -1,0 +1,28 @@
+@ var myMap1 = (Map of)
+
+@.myMap1 put ("foo", 1)
+@.myMap1 put ("bar", 2)
+
+@ var myMap2 = 
+	Map of  
+		"foo", 11
+		"bar", 22
+
+@.myMap2 put ("baz", 33)
+	
+@ var foo =
+	myMap1 get "foo"
+	myMap1 get "bar"
+	myMap2 get "foo"
+	myMap2 get "bar"
+	myMap2 get "baz"
+
+/*result
+[
+	1,
+	2,
+	11,
+	22,
+	33
+]
+*/

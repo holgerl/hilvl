@@ -174,8 +174,6 @@ hl.parse = function(tokenLists) {
 			}
 		}
 		
-		if (root.args == null) root.args = []; // This makes hilvl interpret missing arguments as empty lists instead of a null sentinel value
-		
 		if (root.action == null) root = root.service; // This makes parantheses not followed by an action work TODO: This is not elegant!
 
 		hl.log("parseLine: ", root, "---", stack);
@@ -293,7 +291,7 @@ hl.scope = (function() {
 
 hl.getServiceType = function(service) {
 	if (service == undefined || service == null)
-		return null;
+		throw new Error("service does not have a value: " + service);
 	
 	if (service instanceof Array)
 		return "Array";
@@ -311,6 +309,8 @@ hl.getServiceType = function(service) {
 
 hl.doAction = function(service, action, args, returnLast) {
 	var serviceType = hl.getServiceType(service);
+
+	if (args == null || args == undefined) args = []; // Missing argument is the same as empty list
 	
 	hl.log("");
 	hl.log("--- doAction:", service, action, args, "(serviceType=" + serviceType + ", returnLast=" + returnLast + ", scopeIndex="+hl.scope.index+")");
@@ -365,7 +365,7 @@ hl.doAction = function(service, action, args, returnLast) {
 				hl.evaluate(args, returnLast);
 			}
 		} else if (action == "push") {
-			var args = hl.evaluate(args, returnLast);
+			var args = hl.evaluate(args, false); // False because argument can be list that is pushed as a whole
 			service.push(args);
 			returnValue = service;
 		} else if (action == ",") {
