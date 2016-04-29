@@ -31,7 +31,7 @@
             "args": "myEmptyList"
         },
         "action": "=",
-        "args": []
+        "args": null
     },
     {
         "service": {

@@ -5,7 +5,7 @@
 	"bar", 2
 @ var myMap1 = (Map of (@.tuples1))
 		
-@ var myMap2 = (Map of _) with 
+@ var myMap2 = (Map of) with 
 	"foo", 11
 	"bar", 22
 
