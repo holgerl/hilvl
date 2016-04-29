@@ -5,7 +5,7 @@
 			@.todoList
 	@ var add := 
 		@ var handleRequest :
-			@.todoList push (@.argument)
+			@.todoList push (@.argument get "value")
 			"Success"
 
 @ var Todo :=

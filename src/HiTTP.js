@@ -26,6 +26,7 @@ HiTTP.startServer = function(fileName) {
 	if (!fileName) throw Error("No args given: webapp filename");
 	
 	var fileContents = fs.readFileSync(fileName, "utf8");
+	hl.loadStandardLibraries();
 	var result = hl.execute(fileContents);
 	
 	server = http.createServer(function (request, response) {
@@ -41,8 +42,6 @@ HiTTP.startServer = function(fileName) {
 			var query = url.parse(request.url, true).query;
 			
 			console.log(request.url, JSON.stringify(url.parse(request.url, true)));
-			
-			query = query.value; // TODO: When maps are supported in hilvl, use the entire query object as argument to the webservice code
 						
 			if (filePath == null) {
 				response.writeHead(404);
@@ -76,7 +75,12 @@ HiTTP.startServer = function(fileName) {
 				result = "Could not find " + serviceName + " in scope";
 				var returnCode = 404;
 			} else {
-				var result = hl.evaluate({service:serviceName, action:"handleRequest", args: "\""+query+"\""}, true, false);
+				var script = "@ var queryMap = (Map of) with\n\t\n";
+				for (var key in query) {
+					script += "@.queryMap put (\"" + key + "\" , \"" + query[key] + "\")\n";
+				}
+				script += serviceName + " handleRequest (@.queryMap)";
+				var result = hl.execute(script);
 				var returnCode = 200;
 			}
 		} catch (e) {

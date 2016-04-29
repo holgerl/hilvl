@@ -12,7 +12,7 @@
 
 @ var MyWebApp2 := 
 	@ var handleRequest :
-		"The other webapp got argument " + (@.argument)
+		"The other webapp got arguments " + (@.argument get "inputOne") + " and " + (@.argument get "inputTwo")
 
 // This webapp will generate the following responses:
 /*responses
@@ -25,11 +25,8 @@ My value is now 2
 http://127.0.0.1:8080/MyWebApp
 My value is now 3
 
-http://127.0.0.1:8080/MyWebApp2?value=hello
-The other webapp got argument hello
-
-http://127.0.0.1:8080/MyWebApp2?value=foobar
-The other webapp got argument foobar
+http://127.0.0.1:8080/MyWebApp2?inputOne=foo&inputTwo=bar
+The other webapp got arguments foo and bar
 
 http://127.0.0.1:8080/MyWebApp/myPage
 The magic number is 42
