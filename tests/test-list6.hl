@@ -1,0 +1,26 @@
+@ var MyService := 
+	@ var myList =
+	@ var setList :
+		@ set myList = (@.argument)
+		@.MyService
+	@ var getList :
+		@.myList
+		
+MyService setList 
+
+@ var foo =
+	(MyService getList)
+	MyService getList
+	(MyService setList) getList
+	MyService setList (MyService getList) getList
+	(MyService setList (1,2,3)) getList
+	
+/*result
+[
+    [],
+    [],
+    [],
+    [],
+    [1,2,3]
+]
+*/
