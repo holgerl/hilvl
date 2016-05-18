@@ -160,16 +160,17 @@ If the argument is ommitted entirely, it is interpreted as an empty list:
 ```javascript
 // This is an empty list:
 @ var emptyList =
- )
+
 // The same applies inside parantheses:
 (MyService setValue) doSomething 42
 ```
 
 ### Syntactic sugar
 
-To make the code more readable, a special shortcut is supported in the syntax:
+To make the code more readable, a very simple shortcut is supported in the syntax:
 
 `foo.bar` is the same as `foo. bar` is the same as `foo . bar`
+
 `foo,bar` is the same as `foo, bar` is the same as `foo , bar`
 
 This means that the `.` and `,` are action names even though there are no space around them. This is only for these actions. All other services, actions and arguments must have spaces between them. This is because they can be called anything except the reserved symbols, and this in turn is why hilvl is very versatile and can used for implementing domain specific languages.
