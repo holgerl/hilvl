@@ -12,6 +12,11 @@
 @ . myList loop
 	@ set foo = (@ . foo + (@ . element))
 
+@ var myMap =
+	Map of
+		"firstname" , "Ola"
+		"lastname" , "Nordmann"
+
 @ var MyService := 
 	@ var myAction :
 		@ . argument + 10

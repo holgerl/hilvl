@@ -4,7 +4,7 @@ Hilvl is a programming language that is versatile but with a very small syntax. 
 
 Services are the fundamental building blocks of a hilvl program. And the name hilvl reflects how this is a higher level of abstraction than objects and functions.
 
-Try the [online evaluator](http://holgerl.github.io/hilvl/)
+[Try it online (REPL)](http://holgerl.github.io/hilvl/)
 
 ### Example of hilvl
 
@@ -25,6 +25,11 @@ Try the [online evaluator](http://holgerl.github.io/hilvl/)
 	
 @ . myList loop
 	@ set foo = (@ . foo + (@ . element))
+
+@ var myMap =
+	Map of
+		"firstname" , "Ola"
+		"lastname" , "Nordmann"
 
 @ var MyService := 
 	@ var myAction :
@@ -148,13 +153,26 @@ KeyboardService onEvent
 
 Here, the implementation of `onEvent` may decide itself when to evaluate the statements in the argument.
 
+##### Empty lists
+
+If the argument is ommitted entirely, it is interpreted as an empty list:
+
+```javascript
+// This is an empty list:
+@ var emptyList =
+ )
+// The same applies inside parantheses:
+(MyService setValue) doSomething 42
+```
+
 ### Syntactic sugar
 
 To make the code more readable, a special shortcut is supported in the syntax:
 
-`foo.bar` is the same as  `foo . bar`
+`foo.bar` is the same as `foo. bar` is the same as `foo . bar`
+`foo,bar` is the same as `foo, bar` is the same as `foo , bar`
 
-This means that the `.` is an action name even though there is no space around it. This is only for the `.` action. All other services, actions and arguments must have spaces between them. This is because they can be called anything except the reserved symbols, and this in turn is why hilvl is very versatile and can used for implementing domain specific languages.
+This means that the `.` and `,` are action names even though there are no space around them. This is only for these actions. All other services, actions and arguments must have spaces between them. This is because they can be called anything except the reserved symbols, and this in turn is why hilvl is very versatile and can used for implementing domain specific languages.
 
 ### Variables, scope and evaluation
 
@@ -210,7 +228,7 @@ It is done with the action `:`:
 	
 @ var barBefore = (@.bar)
 	
-@ foo _ // this invokes the foo action, and the code is evaluated
+@ foo // this invokes the foo action with an empty argument, and the code is evaluated
 
 @ var barAfter = (@.bar)
 
@@ -221,11 +239,26 @@ It is done with the action `:`:
 //result: [1, 2]
 ```
 
-Notice how `_` is used as argument for `foo`. This is because `foo` does not use its argument. So any argument would be ignored anyway. 
-
 If a list of statements is executed, the value of the *last* statement is returned from the action. All hilvl code are lists of statements, so this is why the last value is always the result in the examples. 
 
 ## Advanced examples of hilvl
+
+#### Recursion
+
+<!-- test-recursive1.hl -->
+```javascript
+@ var counter = 0
+	
+@ var recursiveAction :
+	@.counter < 5 then
+		@ set counter = (@.counter + 1)
+		@ recursiveAction
+	@.counter
+	
+@ recursiveAction
+
+//result: 5
+```
 
 #### Scope and higher-order programming
 
@@ -237,7 +270,7 @@ If a list of statements is executed, the value of the *last* statement is return
 	@ var myAction :
 		@ set foo = 42 // Variable in inner scope
 		@ var myFunction : (@.argument) // Saving argument without evaluating it
-		@ myFunction _ // Invoking the argument as an action
+		@ myFunction // Invoking the argument as an action
 		
 @ var bar = 
 	MyService myAction (@.foo + 2) // Argument is evaluated before action is invocated

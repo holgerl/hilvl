@@ -4,7 +4,7 @@
 	@ var myAction :
 		@ set foo = 42 // Variable in inner scope
 		@ var myFunction : (@.argument) // Saving argument without evaluating it
-		@ myFunction _ // Invoking the argument as an action
+		@ myFunction // Invoking the argument as an action
 		
 @ var bar = 
 	MyService myAction (@.foo + 2) // Argument is evaluated before action is invocated

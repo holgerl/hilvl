@@ -1,13 +1,11 @@
-@ var globalVar = 0
+@ var counter = 0
 	
-@ var recurFun :
-	@.globalVar < 5 then
-		@ set globalVar = (@.globalVar + 1)
-		@ recurFun _
-	@.globalVar
+@ var recursiveAction :
+	@.counter < 5 then
+		@ set counter = (@.counter + 1)
+		@ recursiveAction
+	@.counter
 	
-@ recurFun _
+@ recursiveAction
 
-/*result
-5
-*/
+//result: 5

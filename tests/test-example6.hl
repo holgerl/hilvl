@@ -5,7 +5,7 @@
 	
 @ var barBefore = (@.bar)
 	
-@ foo _ // this invokes the foo action, and the code is evaluated (_ means no argument)
+@ foo // this invokes the foo action with an empty argument, and the code is evaluated
 
 @ var barAfter = (@.bar)
 
