@@ -1,0 +1,54 @@
+// Testing that list with a single element is equivalent with the element alone
+
+@ var myValue1a = 42
+@ var myValue2a = "string"
+@ var myValue3a = true
+
+@ var myValue1b =
+	42
+
+@ var myValue2b =
+	"string"
+
+@ var myValue3b =
+	true
+
+@ var myValueX = 
+@.myValueX push 123
+
+@ var myValueY = 
+	@.myValueX
+
+@ var _ = 
+	@.myValue1a == (@.myValue1b)
+	@.myValue2a == (@.myValue2b)
+	@.myValue3a == (@.myValue3b)
+	@.myValue1b == 42
+	@.myValue2b == "string"
+	@.myValue3b == true
+	@.myValue1a ==
+		42
+	@.myValue2a ==
+		"string"
+	@.myValue3a ==
+		true
+	// TODO: Inconsistency: single-element list as arguments are treated as the element itself, 
+	// but single-element lists as service are treated as a list. But maybe that is OK?
+	//@.myValueX == 123
+	//@.myValueY == 123
+	//@.myValueX == 
+	//	123
+
+/*result
+[
+	true,
+	true,
+	true,
+	true,
+	true,
+	true,
+	true,
+	true,
+	true
+]
+*/
