@@ -317,7 +317,7 @@ hl.doAction = function(service, action, args, returnLast) {
 	hl.log("--- doAction:", service, action, args, "(serviceType=" + serviceType + ", returnLast=" + returnLast + ", scopeIndex="+hl.scope.index+")");
 	hl.scope.print();
 
-	actionStack.push(serviceType + " " + action);
+	actionStack.push(JSON.stringify(serviceType) + " " + action);
 	
 	var returnValue;
 
