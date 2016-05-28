@@ -1,0 +1,69 @@
+// Definition of the DSL:
+
+@ var Age :=
+	@ var below :
+		@ var AgeInstance :=
+			@ var operand = (@.argument)
+			@ var -> :
+				@ var rule =
+					@.AgeInstance
+					Map of (@.argument)
+				@.rule
+			@ var matches :
+				@.argument < (@.operand)
+		@.AgeInstance
+	@ var = :
+		@.argument
+
+@ var Else :=
+	@ var -> :
+		@ var rule =
+			@.Else
+			Map of (@.argument)
+		@.rule
+	@ var matches :
+		true
+
+@ var CarInsurance :=
+	@ var rules =
+	@ var : :
+		@ set rules = (@.argument)
+	@ var evaluate :
+		@ var args = (@.argument)
+		@ var noMatch = true
+		@ var matchingRule =
+		@.rules loop
+			@ var rule = (@ element)
+			@.element get 0 matches (@.args) then
+				@.noMatch then
+					@ set matchingRule = (@.element get 1)
+					@ set noMatch = false
+		@.matchingRule
+
+// Usage of the DSL:
+
+CarInsurance :
+	Age below 25 ->
+		"monthly", 120
+		"coverage", 65
+	Age below 35 ->
+		"monthly", 110
+		"coverage", 70
+	Else ->
+		"monthly", 70
+		"coverage", 90
+
+@ var result =
+	CarInsurance evaluate (Age = 20) get "monthly"
+	CarInsurance evaluate (Age = 20) get "coverage"
+	CarInsurance evaluate (Age = 30) get "monthly"
+	CarInsurance evaluate (Age = 40) get "monthly"
+		
+/*result
+[
+	120,
+	65,
+	110,
+	70
+]
+*/
