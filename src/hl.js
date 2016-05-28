@@ -270,7 +270,7 @@ hl.scope = (function() {
 			throw new Error("Not found in scope: " + JSON.stringify(key));
 		},
 
-		print: function() {
+		print: function(logLevel) {
 			function replaceCode(obj) {
 				for (var i in obj) {
 					var field = obj[i];
@@ -279,11 +279,12 @@ hl.scope = (function() {
 					}
 				}
 			}
-			hl.log("Print scopes (scopeIndex:" + this.index + ")");
+			logLevel = logLevel || "info";
+			hl.log(logLevel, "Print scopes (scopeIndex:" + this.index + ")");
 			for (var i in scopes) {
 				var scope = util.clone(scopes[i]);
 				replaceCode(scope)
-				hl.log("\t" + i + ": " + JSON.stringify(scope));
+				hl.log(logLevel, "\t" + i + ": " + JSON.stringify(scope));
 			}
 		}
 	}
@@ -461,14 +462,16 @@ hl.doAction = function(service, action, args, returnLast) {
 
 	// Scope related services:
 	} else if (serviceType == "@") {
-		var args = hl.evaluate(args, returnLast);
 		if (action == "var") {
+			var args = hl.evaluate(args, returnLast);
 			hl.scope.saveToCurrent(args, null);
 			returnValue = {type: "Variable", name: args};
 		} else if (action == "set") {
+			var args = hl.evaluate(args, returnLast);
 			var currentValue = hl.scope.search(args);
 			returnValue = {type: "Variable", name: args, currentValue: currentValue};
 		} else if (action == ".") {
+			var args = hl.evaluate(args, returnLast);
 			returnValue = hl.scope.search(args);
 		} else if (action == "connect") {
 			var args = hl.evaluate(args, returnLast);
@@ -504,7 +507,7 @@ hl.doAction = function(service, action, args, returnLast) {
 		} else if (action == ":=") {
 			var nextScopeIndex = hl.scope.generateNewIndex();
 			var args = hl.evaluate(args, false, true);
-			hl.scope.changeInCurrent(service.name, {type: "ScopeReference", scope: nextScopeIndex});
+			hl.scope.changeInCurrent(service.name, {type: "ScopeReference", scope: nextScopeIndex, name: service.name});
 		} else if (action == ".") {
 			returnValue = service[args];
 		} else fail();
@@ -619,7 +622,9 @@ hl.execute = function(script) {
 		var result = hl.evaluate(trees);
 		return result;
 	} catch (error) {
-		hl.log("error", "#################");
+		hl.log("error", "\n####### Evaluation failed ########");
+		hl.log("error", "Scope:");
+		hl.scope.print("error");
 		hl.log("error", "Action stacktrace:");
 		for (var action of actionStack) hl.log("error", "\t" + action);
 		throw error;
