@@ -244,6 +244,98 @@ It is done with the action `:`:
 
 If a list of statements is executed, the value of the *last* statement is returned from the action. All hilvl code are lists of statements, so this is why the last value is always the result in the examples. 
 
+## Services and actions provided out-of-the-box
+
+The hilvl runtime provides several useful services in addition to the scope service. These are called system services because their functionality can not be made in hilvl by itself. Hilvl also comes with a standard library implemented in the language itself, providing some useful services.
+
+### String
+
+```javascript
+"foo" + "bar" == "foobar"
+"Hello!" length _ == 6
+"Hello!" at 1 substringTo 4 == "ell"
+"Hello !" at 6 insert "World" == "Hello World!"
+"foo" == "bar" == false
+```
+
+### Number
+
+```javascript
+	1 + 2 - 3 == 0
+	10 > 4 == true == (4 < 10)
+	123 as string == "123"
+
+	@ var n = 0
+	10 until
+		@ set n = (@.n + 1) // This will run 10 times
+```
+
+### Boolean
+
+```javascript
+	1 < 2 == true
+	false != true
+	
+	@.n < 10 then
+		MyService myAction // This will run if n is lower than 10
+```
+
+### List
+
+```javascript
+@ var myList = 
+	40
+	41
+	42
+@.myList get 1 == 41
+
+@ var emptyList = 
+	
+@.myList loop
+	@.emptyList push (@.element) // This will run once for every element in myList
+```
+
+#### The `,` action
+
+There is a convenient action ',' on strings, numbers and booleans. It returns a list containing the value and the argument:
+
+```javascript
+1, 2 // This is the list [1,2]
+"one", "two" // This is the list ["one","two"]
+true, false // This is the list [true,false]
+```
+
+A clever trick is that the List service also has a `,` action that returns a new list with the argument added. So this is possible:
+
+```javascript
+@ var myList = ("foo", "bar", "baz")
+```
+
+### Map
+
+```javascript
+@ var myPlayer = 
+	Map of  
+		"name", "Holger"
+		"score", 120
+		"alive", true
+
+myPlayer put ("score", 121)
+myPlayer get "name"
+
+@ var emptyMap = (Map of)
+```
+
+### IO 
+
+The `IO` service handles input and output to and from systems outside the hilvl runtime environment.
+
+```javascript
+IO print "This will be printed in the console"
+
+@ var fileContents = (IO readFile "myfolder/myfile.txt")
+```
+
 ## Advanced examples of hilvl
 
 #### Recursion
