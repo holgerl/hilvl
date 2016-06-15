@@ -5,7 +5,7 @@
 			@ var get :
 				@ var result = _
 				@ var key = (@.argument)
-				@.tuples loop
+				@.tuples loop // TODO: Make a hash map version that has better performance
 					@.element get 0 == (@.key) then
 						@ set result = (@.element get 1)
 				@.result
