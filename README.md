@@ -261,23 +261,23 @@ The hilvl runtime provides several useful services in addition to the scope serv
 ### Number
 
 ```javascript
-	1 + 2 - 3 == 0
-	10 > 4 == true == (4 < 10)
-	123 as string == "123"
+1 + 2 - 3 == 0
+10 > 4 == true == (4 < 10)
+123 as string == "123"
 
-	@ var n = 0
-	10 until
-		@ set n = (@.n + 1) // This will run 10 times
+@ var n = 0
+10 until
+	@ set n = (@.n + 1) // This will run 10 times
 ```
 
 ### Boolean
 
 ```javascript
-	1 < 2 == true
-	false != true
-	
-	@.n < 10 then
-		MyService myAction // This will run if n is lower than 10
+1 < 2 == true
+false != true
+
+@.n < 10 then
+	MyService myAction // This will run if n is lower than 10
 ```
 
 ### List
