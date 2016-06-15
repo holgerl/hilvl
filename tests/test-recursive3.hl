@@ -1,12 +1,12 @@
-@ var fib :
+@ var fibonacci :
 	@ var scope : // A new scope is needed. Or else, the result variable is shared between the recursive calls
 		@ var result = (@.argument)
 		@.argument > 1 then
 			@ set result = 
-				@ fib (@.result - 1) + (@ fib (@.result - 2))
+				@ fibonacci (@.result - 1) + (@ fibonacci (@.result - 2))
 		@.result
 	@ scope (@.argument)
 	
-@ fib 7
+@ fibonacci 7
 
 //result: 13
