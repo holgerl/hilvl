@@ -19,7 +19,7 @@ To run a single test, you can run `node tests\run-all-tests.js [FILENAME]`. That
 - Syntactic sugar is considered evil. Avoid adding more to the language
 - All features should have accompanying tests
 - Avoid making the implementation tightly bound to node.js, Javascript or any other platform
-- Use a coding style similar to what is already used (naming, formatting, etc)
+- Use a coding style similar to what is already used (naming, formatting, verbosity, etc)
 - Use English for all text
 
 *note: The language level for the JavaScript is ES6*
