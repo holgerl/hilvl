@@ -9,6 +9,8 @@
 		"bar", 22
 
 @.myMap2 put ("baz", 33)
+
+@.myMap2 put ("foo", 44)
 	
 @ var foo =
 	myMap1 get "foo"
@@ -21,7 +23,7 @@
 [
 	1,
 	2,
-	11,
+	44,
 	22,
 	33
 ]
