@@ -16,12 +16,14 @@
 
 @ var _ = 
 	"Hello!" length _
+	("Hello!" length)
 	"Hello!" at 1 substringTo 4
 	Util on "Hello!" at 4 insert " n"
 	Util on "Hello!" at 1 removeTo 4
 	
 /*result
 [
+	6,
 	6,
 	"\"ell\"",
 	"\"Hell no!\"",

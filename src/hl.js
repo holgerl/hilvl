@@ -388,7 +388,7 @@ hl.doAction = function(service, action, args, returnLast) {
 
 		var a = util.removeQuotes(value);
 
-		var argsIsString = args[0] == "\"";
+		var argsIsString = args != undefined && args[0] == "\"";
 
 		var b = util.removeQuotes(args);
 		
