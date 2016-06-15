@@ -297,7 +297,7 @@ false != true
 
 #### The `,` action
 
-There is a convenient action ',' on strings, numbers and booleans. It returns a list containing the value and the argument:
+There is a convenient action `,` on strings, numbers and booleans. It returns a list containing the value and the argument:
 
 ```javascript
 1, 2 // This is the list [1,2]
@@ -312,6 +312,8 @@ A clever trick is that the List service also has a `,` action that returns a new
 ```
 
 ### Map
+
+This is a simple key-value map
 
 ```javascript
 @ var myPlayer = 
@@ -340,19 +342,20 @@ IO print "This will be printed in the console"
 
 #### Recursion
 
-<!-- test-recursive1.hl -->
+<!-- test-recursive3.hl -->
 ```javascript
-@ var counter = 0
+@ var fibonacci :
+	@ var scope : // A new scope is needed. Or else, the result variable is shared between the recursive calls
+		@ var result = (@.argument)
+		@.argument > 1 then
+			@ set result = 
+				@ fibonacci (@.result - 1) + (@ fibonacci (@.result - 2))
+		@.result
+	@ scope (@.argument)
 	
-@ var recursiveAction :
-	@.counter < 5 then
-		@ set counter = (@.counter + 1)
-		@ recursiveAction
-	@.counter
-	
-@ recursiveAction
+@ fibonacci 7
 
-//result: 5
+//result: 13
 ```
 
 #### Scope and higher-order programming
