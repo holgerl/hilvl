@@ -371,7 +371,7 @@ hl.doAction = function(service, action, args, returnLast) {
 			returnValue = service;
 		} else if (action == ",") {
 			var args = hl.evaluate(args, returnLast);
-			var newArray = service.slice();
+			var newArray = service.slice(); // Because this action is not pushing in place
 			newArray.push(args)
 			returnValue = newArray;
 		} else if (action == "get") {
