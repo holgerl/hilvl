@@ -313,7 +313,7 @@ A clever trick is that the List service also has a `,` action that returns a new
 
 ### Map
 
-This is a simple key-value map
+This is a simple key-value map.
 
 ```javascript
 @ var myPlayer = 
