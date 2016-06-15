@@ -295,7 +295,7 @@ hl.getServiceType = function(service) {
 		throw new Error("service does not have a value: " + service);
 	
 	if (service instanceof Array)
-		return "Array";
+		return "List";
 	else if (service[0] == "\"" || service.type == "String")
 		return "String";
 	else if (!isNaN(parseFloat(service)))
@@ -359,7 +359,7 @@ hl.doAction = function(service, action, args, returnLast) {
 	}
 	
 	// Simple system services:
-	else if (serviceType == "Array") {
+	else if (serviceType == "List") {
 		if (action == "loop") {
 			for (var i in service) {
 				hl.scope.saveToCurrent("element", service[i]);
@@ -592,7 +592,7 @@ hl.evaluate = function(trees, returnLast, makeNewScope) {
 			var evaluatedService = hl.evaluate(tree.service, returnLast);
 			var args = tree.args;
 			if (!(tree.args instanceof Array)) {
-				var args = hl.evaluate(tree.args, returnLast); // If argument is a list, it should be possible for the action implementation to choose to evaluate or not. If the argument is not array, we must evaluate it NOW before the scope is changed. Or else @.argument and other values that only exist in THIS scope can not be used as args in function calls.
+				var args = hl.evaluate(tree.args, returnLast); // If argument is a list, it should be possible for the action implementation to choose to evaluate or not. If the argument is not list, we must evaluate it NOW before the scope is changed. Or else @.argument and other values that only exist in THIS scope can not be used as args in function calls.
 			}
 			result.push(hl.doAction(evaluatedService, tree.action, args, returnLast));
 		} else {
