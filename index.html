@@ -37,7 +37,7 @@
 		var main = function() {
 			hl.ioPrintTarget = function() {
 				console.log.apply(console, arguments);
-				
+
 				var element = document.getElementById("console");
 				element.innerText += element.innerText.trim().length > 0 ? "\n" : "";
 				element.innerText += JSON.stringify(arguments[0]);
@@ -115,12 +115,12 @@
 			<textarea class="form-control" id="evaluateCode">
 // Edit this code!
 
-@ var foo = 
-	1, 2, 3
+@ var foo = (1, 2, 3)
 
 @ var bar = 0
 
 @.foo loop
+	IO print ("Current element is " + (@.element as string))
 	@ set bar = (@.bar + (@.element))
 
 @.bar
