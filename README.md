@@ -305,10 +305,10 @@ There is a convenient action `,` on strings, numbers and booleans. It returns a 
 true, false // This is the list [true,false]
 ```
 
-A clever trick is that the List service also has a `,` action that returns a new list with the argument added. So this is possible:
+A clever trick is that the List service also has a `,` action that returns a new list with the argument added. So it is possible to chain this with several elements:
 
 ```javascript
-@ var myList = ("foo", "bar", "baz")
+@ var myList = ("foo", "bar", "baz", "hello")
 ```
 
 ### Map
