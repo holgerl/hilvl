@@ -177,73 +177,6 @@ This means that the `.` and `,` are action names even though there are no space 
 
 Syntactic sugar is considered to be evil, so this is the only sugar in hilvl.
 
-### Variables, scope and evaluation
-
-The `Service action argument` structure and indentation based lists are combined with the scope system for great flexibility for the programmer.
-
-Variables are created, changed and read by using the scope service `@`:
-
-<!-- test-example4.hl -->
-```javascript
-@ var myVar // variable "myVar" is declared
-@ set myVar = 42 // myVar is given a value
-@ var myOtherVar = 10 // the variable service also has an = action for more consise code
-@.myVar + (@.myOtherVar) // the values of myVar and myOtherVar are read and added together
-
-//result: 52
-```
-
-All variables are saved in the same scope. But to add a new nested scope, there is an action named `:=` on the variable service:
-
-<!-- test-example5.hl -->
-```javascript
-@ var myVar1 = 1
-@ var myVar2 = 2
-
-@ var myScope := // the two statements in the argument are now evaluated in a new scope:
-	@ var myVar1 = 10
-	@ set myVar2 = 20
-	
-// we place the variables in a list that is returned as the result:
-@ var myList =
-	@.myVar1
-	@.myVar2
-
-//result: [1, 20]
-```
-
-Notice how `myVar1` kept its value because the change to `10` was done on a new variable with the same name in the inner scope. `myVar2` on the other hand, was not redeclared in the inner scope, and its value was thus changed to `20`. 
-
-The scopes are nested, which means that if a variable is used, its value will be searched for upwards in all parent scopes.
-
-After adding a new scope, the `:=` action acts exactly like the `=` action, and evalates the argument list. This means that any statements in the argument gets executed. And in the example above, this meant that the variables where changed.
-
-But it is possible to set a value to a variable *without* evaluating the arguments. This is useful when we want to execute a block of code at a later time, or many times over. This is also the key mechanism for structuring code as services and actions. 
-
-It is done with the action `:`:
-
-<!-- test-example6.hl -->
-```javascript
-@ var bar = 1
-	
-@ var foo : // the statement in the argument is not evaluated yet
-	@ set bar = 2
-	
-@ var barBefore = (@.bar)
-	
-@ foo // this invokes the foo action with an empty argument, and the code is evaluated
-
-@ var barAfter = (@.bar)
-
-@ var results =
-	@.barBefore
-	@.barAfter
-
-//result: [1, 2]
-```
-
-If a list of statements is executed, the value of the *last* statement is returned from the action. All hilvl code are lists of statements, so this is why the last value is always the result in the examples. 
-
 ## Services and actions provided out-of-the-box
 
 The hilvl runtime provides several useful services in addition to the scope service. These are called system services because their functionality can not be made in hilvl by itself. Hilvl also comes with a standard library implemented in the language itself, providing some useful services.
@@ -337,6 +270,73 @@ IO print "This will be printed in the console"
 
 @ var fileContents = (IO readFile "myfolder/myfile.txt")
 ```
+
+### Variables, scope and evaluation
+
+The `Service action argument` structure and indentation based lists are combined with the scope system for great flexibility for the programmer.
+
+Variables are created, changed and read by using the scope service `@`:
+
+<!-- test-example4.hl -->
+```javascript
+@ var myVar // variable "myVar" is declared
+@ set myVar = 42 // myVar is given a value
+@ var myOtherVar = 10 // the variable service also has an = action for more consise code
+@.myVar + (@.myOtherVar) // the values of myVar and myOtherVar are read and added together
+
+//result: 52
+```
+
+All variables are saved in the same scope. But to add a new nested scope, there is an action named `:=` on the variable service:
+
+<!-- test-example5.hl -->
+```javascript
+@ var myVar1 = 1
+@ var myVar2 = 2
+
+@ var myScope := // the two statements in the argument are now evaluated in a new scope:
+	@ var myVar1 = 10
+	@ set myVar2 = 20
+	
+// we place the variables in a list that is returned as the result:
+@ var myList =
+	@.myVar1
+	@.myVar2
+
+//result: [1, 20]
+```
+
+Notice how `myVar1` kept its value because the change to `10` was done on a new variable with the same name in the inner scope. `myVar2` on the other hand, was not redeclared in the inner scope, and its value was thus changed to `20`. 
+
+The scopes are nested, which means that if a variable is used, its value will be searched for upwards in all parent scopes.
+
+After adding a new scope, the `:=` action acts exactly like the `=` action, and evalates the argument list. This means that any statements in the argument gets executed. And in the example above, this meant that the variables where changed.
+
+But it is possible to set a value to a variable *without* evaluating the arguments. This is useful when we want to execute a block of code at a later time, or many times over. This is also the key mechanism for structuring code as services and actions. 
+
+It is done with the action `:`:
+
+<!-- test-example6.hl -->
+```javascript
+@ var bar = 1
+	
+@ var foo : // the statement in the argument is not evaluated yet
+	@ set bar = 2
+	
+@ var barBefore = (@.bar)
+	
+@ foo // this invokes the foo action with an empty argument, and the code is evaluated
+
+@ var barAfter = (@.bar)
+
+@ var results =
+	@.barBefore
+	@.barAfter
+
+//result: [1, 2]
+```
+
+If a list of statements is executed, the value of the *last* statement is returned from the action. All hilvl code are lists of statements, so this is why the last value is always the result in the examples. 
 
 ## Advanced examples of hilvl
 
