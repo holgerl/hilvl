@@ -18,7 +18,7 @@
 			background-color: #fafafa;
 			height: 20em;
 		}
-		#output {
+		#output, #console {
 			tab-size : 4;
 			font-size: 12px;
 			padding: 0.5em;
@@ -26,6 +26,7 @@
 			height: 20em;
 			white-space: pre;
 			font-family: monospace;
+			overflow-y: scroll;
 		}
 		#evaluate {
 			margin-top: 0.5em;
@@ -34,6 +35,16 @@
 
 	<script type="text/javascript">
 		var main = function() {
+			hl.ioPrintTarget = function() {
+				console.log.apply(console, arguments);
+				
+				var element = document.getElementById("console");
+				element.innerText += element.innerText.trim().length > 0 ? "\n" : "";
+				element.innerText += JSON.stringify(arguments[0]);
+
+				element.scrollTop = element.scrollHeight - element.clientHeight;
+			}
+
 			document.getElementById("evaluateForm").addEventListener("submit", submitHandler);
 
 			document.getElementById("evaluateCode").addEventListener("keydown", handleKey);
@@ -98,7 +109,7 @@
 		<p><em>Check it out on <a href="https://github.com/holgerl/hilvl">GitHub</a></em></p>
 	</div>
 
-	<div class="col-xs-8">
+	<div class="col-xs-6">
 		<h4>Code:</h4>
 		<form id="evaluateForm">
 			<textarea class="form-control" id="evaluateCode">
@@ -118,9 +129,14 @@
 		</form>
 	</div>
 
-	<div class="col-xs-4">
+	<div class="col-xs-3">
 		<h4>Output:</h4>			
 		<div id="output"> </div>
+	</div>
+
+	<div class="col-xs-3">
+		<h4>Console:</h4>			
+		<div id="console"></div>
 	</div>
 
 	<div id="readme" class="col-xs-12"> </div>
