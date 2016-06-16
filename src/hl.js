@@ -8,6 +8,8 @@ var hl = {};
 var connectedServices = {};
 var actionStack = [];
 
+hl.ioPrintTarget = console.log;
+
 hl.logLevel = "warning";
 //hl.logLevel = "debug";
 
@@ -544,7 +546,7 @@ hl.doAction = function(service, action, args, returnLast) {
 				args = util.removeQuotes(args);
 			if (typeof args == "object")
 				args = JSON.stringify(args)
-			console.log(args);
+			hl.ioPrintTarget(args);
 		} else if (action == "readFile") {
 			args = util.removeQuotes(args);
 			var filePath = process.cwd() + "\\" + args;
