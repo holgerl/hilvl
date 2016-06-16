@@ -634,15 +634,20 @@ hl.execute = function(script) {
 }
 
 hl.loadStandardLibraries = function() {
-	var libraries = ["stdlib/Variable.hl", "stdlib/String.hl", "stdlib/Map.hl"];
+	var libraries = ["Variable.hl", "String.hl", "Map.hl"];
 	for (var i in libraries) {
 		var fileName = libraries[i];
-		var fileContents = fs.readFileSync(fileName, "utf8");
+
+		var isInBrowser = typeof window != "undefined";
+		var fileContents = isInBrowser 
+			? document.getElementById(fileName).import.body.innerText
+			: fs.readFileSync("stdlib/" + fileName, "utf8");
+		
 		var result = hl.execute(fileContents);
 	}
 }
 
-if (!global.isBrowser) hl.loadStandardLibraries();
+hl.loadStandardLibraries();
 
 if (require.main === module && process.argv[2]) {
 	var fileName = process.argv[2];
