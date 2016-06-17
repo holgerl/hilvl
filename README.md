@@ -104,7 +104,7 @@ Since everything is a service. It is easy to make your own. The last statement o
 // Creating a new service with an action:
 @ var MyService := 
 	@ var myAction :
-		@ var myVariable = (42 + (@.argument))
+		@ var myVariable = (42 + (@ . argument))
 		@.myVariable // This is the return value
 		
 MyService myAction 1 // Using the service
@@ -200,7 +200,9 @@ The hilvl runtime provides several useful services in addition to the scope serv
 
 @ var n = 0
 10 until
-	@ set n = (@.n + 1) // This will run 10 times
+	// This will loop until n is 10
+	@ set n = (@.n + 1)
+	@.n
 ```
 
 ### Boolean
@@ -210,7 +212,8 @@ The hilvl runtime provides several useful services in addition to the scope serv
 false != true
 
 @.n < 10 then
-	MyService myAction // This will run if n is lower than 10
+	// This will run if n is lower than 10
+	MyService myAction 
 ```
 
 ### List
@@ -225,10 +228,11 @@ false != true
 @ var emptyList = 
 	
 @.myList loop
-	@.emptyList push (@.element) // This will run once for every element in myList
+	// This will loop through every element in myList
+	@.emptyList push (@.element) 
 ```
 
-#### The `,` action
+##### The `,` action
 
 There is a convenient action `,` on strings, numbers and booleans. It returns a list containing the value and the argument:
 
