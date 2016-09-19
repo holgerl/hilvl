@@ -410,6 +410,6 @@ Please add 42 and 50 andThen 100
 
 To run a file with hilvl code: `node src/hl.js myFile.hl`
 	
-To run all tests: `node test/run-all-tests.js`
+To run all tests: `node tests/run-all-tests.js`
 
 To run HiTTP web framework: `node src/HiTTP.js examples/todo-webapp/backend.hl`
