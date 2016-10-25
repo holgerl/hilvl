@@ -1,0 +1,47 @@
+// Testing that the last value in an action is always returned
+
+@ var Service1 :=
+	@ var valueA = 42 
+	@ var actionA :
+		@.argument > (@.valueA)
+	@ var actionB :
+		@.argument > (@.valueA) then
+			123
+	@ var actionC :
+		@.argument loop
+			@.element
+	@ var actionD :
+		@ var fun = (@.argument)
+		@ fun _ 
+	@ var actionE :
+		@ argument 10
+
+@ var ServiceA := 
+	@ var actionA :
+		ServiceB actionB (@.argument)
+		
+@ var _ =
+	Service1 actionA 43
+	Service1 actionB 43
+	Service1 actionB 41
+	Service1 actionC (41, 42, 43)
+	Service1 actionD 
+		100 + 10
+	Service1 actionD 
+		@ var temp = 1
+		@.temp
+	Service1 actionE
+		@ var result = (@.argument + 1)
+		@.result + 1 
+
+/*result
+[
+	true,
+	123,
+	undefined,
+	43,
+	110,
+	1,
+	12
+]
+*/

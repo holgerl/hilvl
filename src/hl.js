@@ -365,7 +365,7 @@ hl.doAction = function(service, action, args, returnLast) {
 		if (action == "loop") {
 			for (var i in service) {
 				hl.scope.saveToCurrent("element", service[i]);
-				hl.evaluate(args, returnLast);
+				returnValue = hl.evaluate(args, returnLast);
 			}
 		} else if (action == "push") {
 			var args = hl.evaluate(args, false); // False because argument can be list that is pushed as a whole
@@ -455,7 +455,7 @@ hl.doAction = function(service, action, args, returnLast) {
 			var args = hl.evaluate(args, returnLast);
 			returnValue = (service == "true") !== (args == "true");
 		} else if (action == "then") {
-			if (service === true || service === "true") hl.evaluate(args, returnLast);
+			if (service === true || service === "true") returnValue = hl.evaluate(args, returnLast);
 		} else if (action == ",") {
 			var args = hl.evaluate(args, returnLast);
 			returnValue = [service, args];
