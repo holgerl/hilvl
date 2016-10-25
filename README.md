@@ -97,7 +97,7 @@ Here, `@` is the service, `set` is the action and `myVariableName` is the argume
 
 #### Creating a service
 
-Since everything is a service. It is easy to make your own. The last statement of an action is the return value:
+Since everything is a service, it is easy to make your own. The last statement of an action is its return value:
 
 <!-- test-example7.hl -->
 ```javascript
@@ -123,7 +123,7 @@ There is no precedence in hilvl. This means that parantheses may be necessary to
 This is wrong because the action named `=` will take `2` as its argument, but the resulting service will not have an action named `+`. The correct way is to group `2 + 40` to a single argument for the `=` action:
 
 ```javascript
-@ set myVar = (2 + 40)
+@ set myVar = (2 + 40)    // This is correct
 ```
 
 #### Intendation and lists
