@@ -1,0 +1,34 @@
+// The Takeuchi function
+// https://web.archive.org/web/19970607012444/http://www.lib.uchicago.edu/keith/crisis/benchmarks/tak/
+
+@ var tak :
+	@ var scope :
+		@ var x = (@.argument get 0)
+		@ var y = (@.argument get 1)
+		@ var z = (@.argument get 2)
+
+		@ var condition = (@.y < (@.x))
+
+		@.condition then
+			// Must use intermediate variables because arguments that are lists are evaluated lazily (and in a different scope where x, y and z have different values)
+			@ var arg1 = (@.x - 1, (@.y), (@.z))
+			@ var arg2 = (@.y - 1, (@.z), (@.x))
+			@ var arg3 = (@.z - 1, (@.x), (@.y))
+			
+			@ var arg0 = 
+				@ tak (@.arg1)
+				@ tak (@.arg2)
+				@ tak (@.arg3)
+
+			@ tak (@.arg0)
+
+		@.condition == false then	
+			@.z
+
+	@ scope (@.argument)
+	
+//@ tak (18, 12, 6) // 7 (but is too slow)
+
+@ tak (5, 3, 6) // 6 (41 recursive calls)
+
+//result: 6
