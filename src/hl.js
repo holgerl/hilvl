@@ -381,6 +381,11 @@ hl.doAction = function(service, action, args, returnLast) {
 			var element = service[args];
 			if (element == undefined) throw new Error("List index " + args + " does not exist");
 			returnValue = element;
+		} else if (action == "as") {
+			if (args == "string")
+				returnValue = "\"" + JSON.stringify(service) + "\"";
+			else 
+				throw new Error("Can not convert " + serviceType + " to " + args);
 		} else fail();
 	} else if (serviceType == "String") {
 		var args = hl.evaluate(args, returnLast);
@@ -459,6 +464,12 @@ hl.doAction = function(service, action, args, returnLast) {
 		} else if (action == ",") {
 			var args = hl.evaluate(args, returnLast);
 			returnValue = [service, args];
+		} else if (action == "as") {
+			if (args == "string")
+				returnValue = "\"" + service + "\"";
+			else 
+				throw new Error("Can not convert " + serviceType + " to " + args);
+		
 		} else fail();
 
 
