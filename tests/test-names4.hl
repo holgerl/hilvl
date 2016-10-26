@@ -16,12 +16,14 @@
 	myService "varname2" _
 	@.42
 	myService 42 _
+	myService 42
 	
 /*result
 [
 "\"foo\"",
 "\"hello\"",
 "\"bar\"",
+"\"world\"",
 "\"world\""
 ]
 */
