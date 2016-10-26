@@ -1,0 +1,12 @@
+@ var contents = (IO readFile "tests/test-io2.hl")
+
+@ var _ =
+	@.contents at 0 substringTo 10
+	@.contents length _
+
+/*result
+[
+	"\"@ var cont\"",
+	168
+]
+*/
