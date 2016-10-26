@@ -342,6 +342,78 @@ It is done with the action `:`:
 
 If a list of statements is executed, the value of the *last* statement is returned from the action. All hilvl code are lists of statements, so this is why the last value is always the result in the examples. 
 
+## Connecting services
+
+All services talk to each other via HTTP. To access services running on a machine, use the `connect` action on `@`:
+
+```javascript
+// Make all services on localhost:8080 available in the namespace of this hl program
+@ connect "http://localhost:8080"
+```
+
+This applies even for services running on the same machine! It is up to the infrastructure to optimize when connecting to services on the same networked machine.
+
+TODO: The "handleRequest" action is awkward. Can't all actions be exposed directly?
+
+#### Exposing services on the network
+
+Hilvl ships with a util called `HiTTP` that will expose all services in a hl file: 
+
+```shell
+# Make it possible to connect to all services is myFile.hl
+node src/HiTTP.js myFile.hl
+```
+
+Allthough all services are exposed, only one action can be invoked: `handleRequest`. 
+
+```javascript
+@ var MyBackend := 
+	@ var myAction := 
+		@ var handleRequest :
+			"my return value"
+```
+
+```javascript
+@ connect "localhost:8080"
+
+MyBackend myAction _
+```
+
+### Running examples
+
+To see this working in practice, check out the [examples](https://github.com/holgerl/hilvl/tree/master/examples)
+
+#### Simple web service example
+
+In the [simple-webservice example](https://github.com/holgerl/hilvl/tree/master/examples/simple-webservice) a simple stateful hilvl backend set up.
+
+Start the backend with HiTTP:
+
+```shell
+node src/HiTTP.js examples/simple-webservice/simple-webservice.hl
+```
+
+Now try to open these urls:
+- http://127.0.0.1:8080/MyWebApp
+- http://127.0.0.1:8080/MyWebApp/myPage
+- http://127.0.0.1:8080/MyWebApp2?inputOne=foo&inputTwo=bar
+
+#### Frontend talking to backend example
+
+In the [todo-webapp example](https://github.com/holgerl/hilvl/tree/master/examples/todo-webapp) hilvl code running in the browser talks to a hilvl backend.
+
+Start the backend with HiTTP:
+
+```shell
+node src/HiTTP.js examples/todo-webapp/backend.hl
+```
+
+The backend will serve the frontend when opening this url: [http://localhost:8080/Todo]
+
+Now observe the HTTP requests sent to the backend when adding todo items in the webapp. 
+
+Also notice how the frontend is controlled by the hlvl code at  `http://localhost:8080/Todo/frontend`. This is the code that is connected to services on the backend.
+
 ## Advanced examples of hilvl
 
 #### Recursion
