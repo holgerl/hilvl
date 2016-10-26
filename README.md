@@ -162,7 +162,7 @@ If the argument is ommitted entirely, it is interpreted as an empty list:
 @ var emptyList =
 
 // The same applies inside parantheses:
-(MyService setValue) doSomething 42
+(MyService getValue) doSomething 42
 ```
 
 ### Syntactic sugar
