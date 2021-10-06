@@ -344,6 +344,29 @@ If a list of statements is executed, the value of the *last* statement is return
 
 ## Advanced examples of hilvl
 
+#### Services as records
+
+```javascript
+@ var User1 := 
+    @ var age : 34
+    @ var name : "Bob"
+
+@ var User2 := 
+    @ var age : 36
+    @ var name : "Alice"
+
+@ var users =
+    @.User1
+    @.User2
+
+@.users loop
+    IO print (@.element name _ + " " + (@.element age _ as string))
+	
+// Prints:
+// "Bob 34"
+// "Alice 36"
+```
+
 #### Recursion
 
 <!-- test-recursive3.hl -->
