@@ -1,4 +1,4 @@
-# The hilvl programming language
+# A hilvl programming language
 
 Hilvl is a programming language that is versatile but with a very small syntax. All code in hilvl are **single-argument** invocations of **actions** that belong to **services**.
 
